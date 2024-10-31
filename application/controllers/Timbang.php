@@ -45,7 +45,8 @@ class Timbang extends CI_Controller
                     {
                         "itemAdjustmentType":"ADJUSTMENT_OUT",
                         "itemNo":"' . $itemNo . '",
-                        "quantity":"' . $qty . '"
+                        "quantity":"' . $qty . '",
+                        "detailNotes":"' . $no_batch . '"
                     }
                 ],
                 "transDate": "' . date('d/m/Y') . '"
