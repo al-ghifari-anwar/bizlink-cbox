@@ -49,7 +49,8 @@ class Timbang extends CI_Controller
                         "detailNotes":"' . $no_batch . '"
                     }
                 ],
-                "transDate": "' . date('d/m/Y') . '"
+                "transDate": "' . date('d/m/Y') . '",
+                "description":"' . $no_batch . '"
             }',
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer ' . $token,
