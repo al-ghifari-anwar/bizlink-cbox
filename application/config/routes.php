@@ -58,5 +58,7 @@ $route['api/token'] = 'Token/get';
 $route['api/session'] = 'Sessionid/get';
 // Item
 $route['api/item'] = 'Item/get';
-// TImbang
+// Timbang
 $route['api/timbang'] = 'Timbang/get';
+// Equipment Status
+$route['api/equipment-status'] = 'Equipmentstatus/get';
