@@ -99,8 +99,8 @@ class Batch extends CI_Controller
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
-                    'data' => $rekapEquipment,
-                    'result' => $getTimbang
+                    'dataEquipment' => $rekapEquipment,
+                    'dataTimbang' => $getTimbang
                 ];
 
                 $this->output->set_output(json_encode($response));
