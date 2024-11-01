@@ -1,6 +1,6 @@
 <?php
 
-class Equipmentstatus extends CI_Controller
+class Batch extends CI_Controller
 {
     public function __construct()
     {
