@@ -68,7 +68,7 @@ class Batch extends CI_Controller
 
                     $dataEquipment = [
                         'no_batch' => $equipment['no_batch'],
-                        'name_equipment' => $equipment['name_eqipment'],
+                        'name_equipment' => $equipment['name_equipment'],
                         'time_on' => $timeOn,
                         'time_off' => $timeOff,
                         'time_elapsed' => $interval
