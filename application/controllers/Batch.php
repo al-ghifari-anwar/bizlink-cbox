@@ -50,6 +50,8 @@ class Batch extends CI_Controller
 
                 $resultEquipment = $this->MEquipmentStatus->getEquipmentByBatch($no_batch);
 
+                $getTimbang = $this->MTimbang->getByBatch($no_batch);
+
                 $rekapEquipment = array();
 
                 foreach ($resultEquipment as $equipment) {
@@ -59,7 +61,6 @@ class Batch extends CI_Controller
                     $getEquipmentOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
                     $timeOn = $getEquipmentOn['date_equipment'] . " " . $getEquipmentOn['time_equipment'];
 
-                    $getTimbang = $this->MTimbang->getByBatch($no_batch);
 
                     if ($getEquipmentOff != null) {
                         $timeOff = $getEquipmentOff['date_equipment'] . " " . $getEquipmentOff['time_equipment'];
@@ -76,8 +77,7 @@ class Batch extends CI_Controller
                             'time_on' => $timeOn,
                             'time_off' => $timeOff,
                             'time_elapsed' => $interval,
-                            'desc' => 'finished',
-                            'hasil_timbang' => $getTimbang
+                            'desc' => 'finished'
                         ];
 
                         $rekapEquipment[] = $dataEquipment;
@@ -88,8 +88,7 @@ class Batch extends CI_Controller
                             'time_on' => $timeOn,
                             'time_off' => "0",
                             'time_elapsed' => "0",
-                            'desc' => 'running',
-                            'hasil_timbang' => $getTimbang
+                            'desc' => 'running'
                         ];
 
                         $rekapEquipment[] = $dataEquipment;
@@ -100,7 +99,8 @@ class Batch extends CI_Controller
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
-                    'data' => $rekapEquipment
+                    'data' => $rekapEquipment,
+                    'result' => $getTimbang
                 ];
 
                 $this->output->set_output(json_encode($response));
