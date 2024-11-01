@@ -7,6 +7,7 @@ class Batch extends CI_Controller
         parent::__construct();
         $this->load->model('MAccurate');
         $this->load->model('MEquipmentStatus');
+        $this->load->model('MTimbang');
     }
 
     public function get()
@@ -58,6 +59,8 @@ class Batch extends CI_Controller
                     $getEquipmentOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
                     $timeOn = $getEquipmentOn['date_equipment'] . " " . $getEquipmentOn['time_equipment'];
 
+                    $getTimbang = $this->MTimbang->getByBatch($no_batch);
+
                     if ($getEquipmentOff != null) {
                         $timeOff = $getEquipmentOff['date_equipment'] . " " . $getEquipmentOff['time_equipment'];
 
@@ -73,7 +76,8 @@ class Batch extends CI_Controller
                             'time_on' => $timeOn,
                             'time_off' => $timeOff,
                             'time_elapsed' => $interval,
-                            'desc' => 'finished'
+                            'desc' => 'finished',
+                            'hasil_timbang' => $getTimbang
                         ];
 
                         $rekapEquipment[] = $dataEquipment;
@@ -84,7 +88,8 @@ class Batch extends CI_Controller
                             'time_on' => $timeOn,
                             'time_off' => "0",
                             'time_elapsed' => "0",
-                            'desc' => 'running'
+                            'desc' => 'running',
+                            'hasil_timbang' => $getTimbang
                         ];
 
                         $rekapEquipment[] = $dataEquipment;
