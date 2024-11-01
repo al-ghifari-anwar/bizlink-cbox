@@ -56,25 +56,39 @@ class Batch extends CI_Controller
 
                     $getEquipmentOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
                     $getEquipmentOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
-
                     $timeOn = $getEquipmentOn['date_equipment'] . " " . $getEquipmentOn['time_equipment'];
-                    $timeOff = $getEquipmentOff['date_equipment'] . " " . $getEquipmentOff['time_equipment'];
 
-                    $date1 = new DateTime($timeOn);
-                    $date2 = new DateTime($timeOff);
-                    $diference  = $date2->diff($date1);
+                    if ($getEquipmentOff != null) {
+                        $timeOff = $getEquipmentOff['date_equipment'] . " " . $getEquipmentOff['time_equipment'];
 
-                    $interval = $this->format_interval($diference);
+                        $date1 = new DateTime($timeOn);
+                        $date2 = new DateTime($timeOff);
+                        $diference  = $date2->diff($date1);
 
-                    $dataEquipment = [
-                        'no_batch' => $equipment['no_batch'],
-                        'name_equipment' => $equipment['name_equipment'],
-                        'time_on' => $timeOn,
-                        'time_off' => $timeOff,
-                        'time_elapsed' => $interval
-                    ];
+                        $interval = $this->format_interval($diference);
 
-                    $rekapEquipment[] = $dataEquipment;
+                        $dataEquipment = [
+                            'no_batch' => $equipment['no_batch'],
+                            'name_equipment' => $equipment['name_equipment'],
+                            'time_on' => $timeOn,
+                            'time_off' => $timeOff,
+                            'time_elapsed' => $interval,
+                            'desc' => 'finished'
+                        ];
+
+                        $rekapEquipment[] = $dataEquipment;
+                    } else {
+                        $dataEquipment = [
+                            'no_batch' => $equipment['no_batch'],
+                            'name_equipment' => $equipment['name_equipment'],
+                            'time_on' => $timeOn,
+                            'time_off' => "0",
+                            'time_elapsed' => "0",
+                            'desc' => 'running'
+                        ];
+
+                        $rekapEquipment[] = $dataEquipment;
+                    }
                 }
 
                 $response = [
