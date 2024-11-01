@@ -62,3 +62,5 @@ $route['api/item'] = 'Item/get';
 $route['api/timbang'] = 'Timbang/get';
 // Equipment Status
 $route['api/equipment-status'] = 'Equipmentstatus/get';
+// Batch
+$route['api/batch'] = 'Batch/get';
