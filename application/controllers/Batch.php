@@ -129,22 +129,22 @@ class Batch extends CI_Controller
     {
         $result = "";
         if ($interval->y) {
-            $result .= $interval->format("%y years ");
+            $result .= $interval->format("%y yr ");
         }
         if ($interval->m) {
-            $result .= $interval->format("%m months ");
+            $result .= $interval->format("%m mnth ");
         }
         if ($interval->d) {
             $result .= $interval->format("%d days ");
         }
         if ($interval->h) {
-            $result .= $interval->format("%h hours ");
+            $result .= $interval->format("%h hrs ");
         }
         if ($interval->i) {
-            $result .= $interval->format("%i minutes ");
+            $result .= $interval->format("%i mnt ");
         }
         if ($interval->s) {
-            $result .= $interval->format("%s seconds ");
+            $result .= $interval->format("%s scnd ");
         }
 
         return $result;
