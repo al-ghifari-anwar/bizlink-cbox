@@ -73,7 +73,7 @@ class Product extends CI_Controller
             ];
 
             $this->output->set_output(json_encode($response));
-        } else if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+        } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $result = $this->MProduct->update($id);
 
             if ($result) {

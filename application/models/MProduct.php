@@ -45,7 +45,7 @@ class MProduct extends CI_Model
         $this->name_product = $post['name_product'];
         $this->updated_at = date("Y-m-d H:i:s");
 
-        $query = $this->db->update('tb_product', $this, ['id_product' => $id]);
+        $query = $this->db->update('tb_product', $this, ['id_produt' => $id]);
 
         if ($query) {
             return true;
