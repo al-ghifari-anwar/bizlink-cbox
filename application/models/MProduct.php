@@ -56,7 +56,7 @@ class MProduct extends CI_Model
 
     public function destroy($id)
     {
-        $query = $this->db->delete('tb_product', ['id_producr' => $id]);
+        $query = $this->db->delete('tb_product', ['id_product' => $id]);
 
         if ($query) {
             return true;
