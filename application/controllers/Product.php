@@ -13,6 +13,8 @@ class Product extends CI_Controller
 
     public function api()
     {
+        $this->output->set_content_type('application/json');
+
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $result = $this->MProduct->get();
 
@@ -58,6 +60,8 @@ class Product extends CI_Controller
 
     public function api_by_id($id)
     {
+        $this->output->set_content_type('application/json');
+
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $result = $this->MProduct->getById($id);
 
