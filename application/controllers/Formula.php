@@ -1,6 +1,6 @@
 <?php
 
-class Product extends CI_Controller
+class Formula extends CI_Controller
 {
     public function __construct()
     {
