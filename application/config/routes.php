@@ -68,3 +68,5 @@ $route['api/batch/detail/(:any)'] = 'Batch/detail/$1';
 // Product
 $route['api/product'] = 'Product/api';
 $route['api/product/(:num)'] = 'Product/api_by_id/$1';
+// Formula
+$route['api/formula'] = 'Formila/api';
