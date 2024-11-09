@@ -46,7 +46,8 @@ class Timbang extends CI_Controller
                 $notifMessage = "Penimbangan untuk material " . $itemNo . " kurang dari batas fine. Total penimbangan adalah " . $qty . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target seharusnya adalah " . $target_formula . "KG.";
             }
 
-            $nomor_hp = "6281808152028";
+            // $nomor_hp = "6281808152028";
+            $nomor_hp = "6285546112267";
             $nama = "Pak Hartawan";
             $template_id = "85f17083-255d-4340-af32-5dd22f483960";
             $integration_id = $qontak['integration_id'];
@@ -99,11 +100,11 @@ class Timbang extends CI_Controller
                 ),
             ));
 
-            $response = curl_exec($curl);
+            $responseQontak = curl_exec($curl);
 
             curl_close($curl);
 
-            $res = json_decode($response, true);
+            $res = json_decode($responseQontak, true);
         }
 
 
