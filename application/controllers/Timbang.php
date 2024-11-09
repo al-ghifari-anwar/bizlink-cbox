@@ -34,6 +34,7 @@ class Timbang extends CI_Controller
         $min_formula = $target_formula - $fine_formula;
 
         $notifMessage = "";
+        $res = array();
         if ($qty <= $max_formula || $qty >= $min_formula) {
             // Nothing
         } else {
@@ -156,7 +157,8 @@ class Timbang extends CI_Controller
             'code' => 200,
             'status' => 'ok',
             'msg' => 'Data found',
-            'detail' => json_decode($response, true)
+            'detail' => json_decode($response, true),
+            'qontak' => $res
         ];
 
         $this->output->set_output(json_encode($result));
