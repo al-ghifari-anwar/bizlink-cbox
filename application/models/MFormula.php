@@ -30,6 +30,13 @@ class MFormula extends CI_Model
         return $result;
     }
 
+    public function getByProductIdAndMaterial($id_product, $kode_material)
+    {
+        $result = $this->db->get_where('tb_formula', ['id_product' => $id_product, 'kode_material' => $kode_material])->row_array();
+
+        return $result;
+    }
+
     public function create()
     {
         $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();

@@ -13,6 +13,13 @@ class MProduct extends CI_Model
         return $result;
     }
 
+    public function getByKode($kode_product)
+    {
+        $result = $this->db->get('tb_product', ['kode_product' => $kode_product])->row_array();
+
+        return $result;
+    }
+
     public function getById($id)
     {
         $result = $this->db->get('tb_product', ['id_product' => $id])->row_array();
