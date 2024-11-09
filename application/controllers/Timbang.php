@@ -35,38 +35,36 @@ class Timbang extends CI_Controller
 
         $notifMessage = "";
         $res = array();
-        if ($qty <= $max_formula || $qty >= $min_formula) {
-            // Nothing
-        } else {
-            if ($qty >= $max_formula) {
-                $difference = $qty - $target_formula;
-                $notifMessage = "Penimbangan untuk material " . $itemNo . " melebihi batas fine. Total penimbangan adalah " . $qty . "KG. Melebihi target timbang sebesar " . $difference . "KG. Target seharusnya adalah " . $target_formula . "KG.";
-            } else if ($qty <= $min_formula) {
-                $difference = $target_formula - $qty;
-                $notifMessage = "Penimbangan untuk material " . $itemNo . " kurang dari batas fine. Total penimbangan adalah " . $qty . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target seharusnya adalah " . $target_formula . "KG.";
-            }
 
-            // $nomor_hp = "6281808152028";
-            $nomor_hp = "6285546112267";
-            $nama = "Pak Hartawan";
-            $template_id = "85f17083-255d-4340-af32-5dd22f483960";
-            $integration_id = $qontak['integration_id'];
-            $message = $notifMessage;
-            $full_name = "Miraswift";
-            $wa_token = $qontak['token'];
+        if ($qty >= $max_formula) {
+            $difference = $qty - $target_formula;
+            $notifMessage = "Penimbangan untuk material " . $itemNo . " melebihi batas fine. Total penimbangan adalah " . $qty . "KG. Melebihi target timbang sebesar " . $difference . "KG. Target seharusnya adalah " . $target_formula . "KG.";
+        } else if ($qty <= $min_formula) {
+            $difference = $target_formula - $qty;
+            $notifMessage = "Penimbangan untuk material " . $itemNo . " kurang dari batas fine. Total penimbangan adalah " . $qty . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target seharusnya adalah " . $target_formula . "KG.";
+        }
 
-            $curl = curl_init();
+        // $nomor_hp = "6281808152028";
+        $nomor_hp = "6285546112267";
+        $nama = "Pak Hartawan";
+        $template_id = "85f17083-255d-4340-af32-5dd22f483960";
+        $integration_id = $qontak['integration_id'];
+        $message = $notifMessage;
+        $full_name = "Miraswift";
+        $wa_token = $qontak['token'];
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://service-chat.qontak.com/api/open/v1/broadcasts/whatsapp/direct',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => '{
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://service-chat.qontak.com/api/open/v1/broadcasts/whatsapp/direct',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
                         "to_number": "' . $nomor_hp . '",
                         "to_name": "' . $nama . '",
                         "message_template_id": "' . $template_id . '",
@@ -94,18 +92,17 @@ class Timbang extends CI_Controller
                             ]
                         }
                         }',
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer ' . $wa_token,
-                    'Content-Type: application/json'
-                ),
-            ));
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer ' . $wa_token,
+                'Content-Type: application/json'
+            ),
+        ));
 
-            $responseQontak = curl_exec($curl);
+        $responseQontak = curl_exec($curl);
 
-            curl_close($curl);
+        curl_close($curl);
 
-            $res = json_decode($responseQontak, true);
-        }
+        $res = json_decode($responseQontak, true);
 
 
 
