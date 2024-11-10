@@ -20,7 +20,7 @@ class MEquipmentStatus extends CI_Model
 
     public function getAllBatch()
     {
-        $this->db->select('no_batch');
+        $this->db->select('no_batch, MAX(Tgl)');
         $this->db->group_by('tb_equipment_status.no_batch');
         $this->db->order_by('tb_equipment_status.created_at', 'DESC');
         $result = $this->db->get('tb_equipment_status')->result_array();
