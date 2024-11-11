@@ -70,3 +70,4 @@ $route['api/product'] = 'Product/api';
 $route['api/product/(:num)'] = 'Product/api_by_id/$1';
 // Formula
 $route['api/formula'] = 'Formula/api';
+$route['api/formula/(:num)'] = 'Formula/api_by_id/$1';
