@@ -57,8 +57,8 @@ class Notif extends CI_Controller
 
                 if ($errorMsg == "") {
                     $result = [
-                        'code' => 401,
-                        'status' => 'failed',
+                        'code' => 200,
+                        'status' => 'ok',
                         'msg' => 'Batch OK'
                     ];
 
@@ -124,6 +124,15 @@ class Notif extends CI_Controller
                     curl_close($curl);
 
                     $res = json_decode($responseQontak, true);
+
+                    $result = [
+                        'code' => 200,
+                        'status' => 'failed',
+                        'msg' => 'Notif OK',
+                        'qontak' => $res
+                    ];
+
+                    $this->output->set_output(json_encode($result));
                 }
             } else {
                 $result = [
