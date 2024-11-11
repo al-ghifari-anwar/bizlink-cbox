@@ -68,7 +68,8 @@ class Notif extends CI_Controller
                     // $nomor_hp = "6281808152028";
                     $nomor_hp = "6285546112267";
                     $nama = "Pak Hartawan";
-                    $template_id = "85f17083-255d-4340-af32-5dd22f483960";
+                    // $template_id = "85f17083-255d-4340-af32-5dd22f483960";
+                    $template_id = "c80d503f-bc62-450e-87e2-b7e794855145";
                     $integration_id = $qontak['integration_id'];
                     $message = $introMsg . $errorMsg;
                     $full_name = "Miraswift";
