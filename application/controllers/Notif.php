@@ -35,7 +35,7 @@ class Notif extends CI_Controller
 
                 foreach ($getHasilTimbang as $hasilTimbang) {
                     $kode_material = $hasilTimbang['kode_bahan'];
-                    $name_material = $hasilTimbang['name_material'];
+                    $name_material = $hasilTimbang['name_bahan'];
                     $actual_timbang = $hasilTimbang['actual_timbang'];
 
                     $getFormula = $this->MFormula->getByProductIdAndMaterial($product['id_product'], $kode_material);
