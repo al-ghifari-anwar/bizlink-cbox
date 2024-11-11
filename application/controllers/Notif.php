@@ -28,7 +28,7 @@ class Notif extends CI_Controller
 
             if ($jmlFormula == $jmlTimbang) {
                 // Kalkulasi
-                $introMsg = "Penimbangan batch *" . $no_batch . "* mengalami masalah berikut:%0a";
+                $introMsg = "Penimbangan batch *" . $no_batch . "* mengalami masalah berikut:\\n";
                 $errorMsg = "";
 
                 $getHasilTimbang = $this->MTimbang->getByKodeProductAndBatch($product['kode_product'], $no_batch);
@@ -48,10 +48,10 @@ class Notif extends CI_Controller
 
                     if ($actual_timbang > $max_formula) {
                         $difference = $actual_timbang - $target_formula;
-                        $errorMsg .= "- Material " . $name_material . " melebihi batas fine. Total penimbangan: " . $actual_timbang . "KG. Melebihi target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.%0a";
+                        $errorMsg .= "- Material " . $name_material . " melebihi batas fine. Total penimbangan: " . $actual_timbang . "KG. Melebihi target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.\\n";
                     } else if ($actual_timbang < $min_formula) {
                         $difference = $target_formula - $actual_timbang;
-                        $errorMsg .= "- Material " . $name_material . " kurang dari batas fine. Total penimbangan: " . $actual_timbang . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.%0a";
+                        $errorMsg .= "- Material " . $name_material . " kurang dari batas fine. Total penimbangan: " . $actual_timbang . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.\\n";
                     }
                 }
 
