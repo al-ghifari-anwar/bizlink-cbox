@@ -28,7 +28,7 @@ class Notif extends CI_Controller
 
             if ($jmlFormula == $jmlTimbang) {
                 // Kalkulasi
-                $introMsg = "Penimbangan batch *" . $no_batch . "* mengalami masalah berikut:";
+                $introMsg = "Penimbangan batch *" . $no_batch . "* mengalami masalah berikut:\n";
                 $errorMsg = "";
 
                 $getHasilTimbang = $this->MTimbang->getByKodeProductAndBatch($product['kode_product'], $no_batch);
@@ -115,6 +115,7 @@ class Notif extends CI_Controller
                                     }
                                     }',
                         CURLOPT_HTTPHEADER => array(
+                            'accept' => 'application/json',
                             'Authorization: Bearer ' . $wa_token,
                             'Content-Type: application/json'
                         ),
