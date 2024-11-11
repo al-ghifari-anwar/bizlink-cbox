@@ -31,7 +31,7 @@ class Notif extends CI_Controller
                 $introMsg = "Penimbangan batch *" . $no_batch . "* mengalami masalah berikut:\n";
                 $errorMsg = "";
 
-                $getHasilTimbang = $this->MTimbang->getByKodeProduct($product['kode_product'], $no_batch);
+                $getHasilTimbang = $this->MTimbang->getByKodeProductAndBatch($product['kode_product'], $no_batch);
 
                 foreach ($getHasilTimbang as $hasilTimbang) {
                     $kode_material = $hasilTimbang['kode_bahan'];
