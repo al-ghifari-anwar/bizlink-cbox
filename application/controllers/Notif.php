@@ -46,12 +46,12 @@ class Notif extends CI_Controller
                     $max_formula = $target_formula + $fine_formula;
                     $min_formula = $target_formula - $fine_formula;
 
-                    if ($actual_timbang >= $max_formula) {
+                    if ($actual_timbang > $max_formula) {
                         $difference = $actual_timbang - $target_formula;
-                        $errorMsg = "- Material " . $name_material . " melebihi batas fine. Total penimbangan: " . $actual_timbang . "KG. Melebihi target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.";
-                    } else if ($actual_timbang <= $min_formula) {
+                        $errorMsg .= "- Material " . $name_material . " melebihi batas fine. Total penimbangan: " . $actual_timbang . "KG. Melebihi target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.\n";
+                    } else if ($actual_timbang < $min_formula) {
                         $difference = $target_formula - $actual_timbang;
-                        $errorMsg = "- Material " . $name_material . " kurang dari batas fine. Total penimbangan: " . $actual_timbang . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.";
+                        $errorMsg .= "- Material " . $name_material . " kurang dari batas fine. Total penimbangan: " . $actual_timbang . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.\n";
                     }
                 }
 
@@ -70,7 +70,7 @@ class Notif extends CI_Controller
                     $nama = "Pak Hartawan";
                     $template_id = "85f17083-255d-4340-af32-5dd22f483960";
                     $integration_id = $qontak['integration_id'];
-                    $message = $notifMessage;
+                    $message = $introMsg . $errorMsg;
                     $full_name = "Miraswift";
                     $wa_token = $qontak['token'];
 
