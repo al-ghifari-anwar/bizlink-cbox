@@ -23,6 +23,13 @@ class MFormula extends CI_Model
         return $result;
     }
 
+    public function getJmlByProductId($id_product)
+    {
+        $result = $this->db->get_where('tb_formula', ['id_product' => $id_product])->num_rows();
+
+        return $result;
+    }
+
     public function getByProductId($id_product)
     {
         $result = $this->db->get_where('tb_formula', ['id_product' => $id_product])->result_array();
