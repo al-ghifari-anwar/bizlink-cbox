@@ -4,7 +4,7 @@ class MTimbang extends CI_Model
 {
     public function getJmlMatByKodeProduct($kode_product)
     {
-        $this->db->group_by('tb_timbang.kode_material');
+        $this->db->group_by('tb_timbang.kode_bahan');
         $result = $this->db->get_where('tb_timbang', ['kode_product' => $kode_product])->num_rows();
 
         return $result;
