@@ -65,8 +65,8 @@ class Notif extends CI_Controller
                     $this->output->set_output(json_encode($result));
                 } else {
                     // Send WA
-                    $nomor_hp = "6281808152028";
-                    // $nomor_hp = "6285546112267";
+                    // $nomor_hp = "6281808152028";
+                    $nomor_hp = "6285546112267";
                     $nama = "Pak Hartawan";
                     // $template_id = "85f17083-255d-4340-af32-5dd22f483960";
                     $template_id = "c80d503f-bc62-450e-87e2-b7e794855145";
