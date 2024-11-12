@@ -2,10 +2,10 @@
 
 class MTimbang extends CI_Model
 {
-    public function getJmlMatByKodeProduct($kode_product)
+    public function getJmlMatByKodeProductAndBatch($kode_product, $no_batch)
     {
         $this->db->group_by('tb_timbang.kode_bahan');
-        $result = $this->db->get_where('tb_timbang', ['kode_product' => $kode_product])->num_rows();
+        $result = $this->db->get_where('tb_timbang', ['kode_product' => $kode_product, 'no_batch' => $no_batch])->num_rows();
 
         return $result;
     }

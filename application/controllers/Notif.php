@@ -24,7 +24,7 @@ class Notif extends CI_Controller
 
             $product = $this->MProduct->getByKode($kode_product);
             $jmlFormula = $this->MFormula->getJmlByProductId($product['id_product']);
-            $jmlTimbang = $this->MTimbang->getJmlMatByKodeProduct($product['kode_product']);
+            $jmlTimbang = $this->MTimbang->getJmlMatByKodeProductAndBatch($product['kode_product'], $no_batch);
 
             if ($jmlFormula == $jmlTimbang) {
                 // Kalkulasi
