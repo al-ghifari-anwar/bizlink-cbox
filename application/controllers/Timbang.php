@@ -63,11 +63,11 @@ class Timbang extends CI_Controller
             ),
         ));
 
-        $response = curl_exec($curl);
+        $responseWebhook = curl_exec($curl);
 
         curl_close($curl);
 
-
+        $resWebhook = json_decode($responseWebhook, true);
 
         $token = $accurate['api_token'];
         $signature_secret = $accurate['signature_secret'];
@@ -118,7 +118,8 @@ class Timbang extends CI_Controller
             'code' => 200,
             'status' => 'ok',
             'msg' => 'Data found',
-            'detail' => json_decode($response, true)
+            'detail' => json_decode($response, true),
+            'webhook' => $resWebhook
         ];
 
         $this->output->set_output(json_encode($result));
