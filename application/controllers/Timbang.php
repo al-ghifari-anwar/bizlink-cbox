@@ -44,65 +44,28 @@ class Timbang extends CI_Controller
             $notifMessage = "Penimbangan untuk material " . $itemNo . " kurang dari batas fine. Total penimbangan adalah " . $qty . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target seharusnya adalah " . $target_formula . "KG.";
         }
 
-        // $nomor_hp = "6281808152028";
-        // $nomor_hp = "6285546112267";
-        // $nama = "Pak Hartawan";
-        // $template_id = "85f17083-255d-4340-af32-5dd22f483960";
-        // $integration_id = $qontak['integration_id'];
-        // $message = $notifMessage;
-        // $full_name = "Miraswift";
-        // $wa_token = $qontak['token'];
+        // Webhook Notif
+        $curl = curl_init();
 
-        // $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://bizlink.topmortarindonesia.com/api//webhook/batch-notif',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => 'no_batch=' . $no_batch . '&kode_product=' . $kode_product,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/x-www-form-urlencoded',
+                'Cookie: ci_session=1m9l9g3qge9u96qf3faps3uj9mhvoepd'
+            ),
+        ));
 
-        // curl_setopt_array($curl, array(
-        //     CURLOPT_URL => 'https://service-chat.qontak.com/api/open/v1/broadcasts/whatsapp/direct',
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => '',
-        //     CURLOPT_MAXREDIRS => 10,
-        //     CURLOPT_TIMEOUT => 0,
-        //     CURLOPT_FOLLOWLOCATION => true,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => 'POST',
-        //     CURLOPT_POSTFIELDS => '{
-        //                 "to_number": "' . $nomor_hp . '",
-        //                 "to_name": "' . $nama . '",
-        //                 "message_template_id": "' . $template_id . '",
-        //                 "channel_integration_id": "' . $integration_id . '",
-        //                 "language": {
-        //                     "code": "id"
-        //                 },
-        //                 "parameters": {
-        //                     "body": [
-        //                     {
-        //                         "key": "1",
-        //                         "value": "nama",
-        //                         "value_text": "' . $nama . '"
-        //                     },
-        //                     {
-        //                         "key": "2",
-        //                         "value": "message",
-        //                         "value_text": "' . $message . '"
-        //                     },
-        //                     {
-        //                         "key": "3",
-        //                         "value": "sales",
-        //                         "value_text": "' . $full_name . '"
-        //                     }
-        //                     ]
-        //                 }
-        //                 }',
-        //     CURLOPT_HTTPHEADER => array(
-        //         'Authorization: Bearer ' . $wa_token,
-        //         'Content-Type: application/json'
-        //     ),
-        // ));
+        $response = curl_exec($curl);
 
-        // $responseQontak = curl_exec($curl);
-
-        // curl_close($curl);
-
-        // $res = json_decode($responseQontak, true);
+        curl_close($curl);
 
 
 
