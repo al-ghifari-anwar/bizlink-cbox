@@ -134,6 +134,63 @@ class Notif extends CI_Controller
                         'qontak' => $res
                     ];
 
+                    // Send WA
+                    $nomor_hp = "628988430185";
+                    // $nomor_hp = "6285546112267";
+                    $nama = "Pak Hendri";
+                    // $template_id = "85f17083-255d-4340-af32-5dd22f483960";
+                    $template_id = "c80d503f-bc62-450e-87e2-b7e794855145";
+                    $integration_id = $qontak['integration_id'];
+                    $message = $introMsg . $errorMsg;
+                    $full_name = "Miraswift";
+                    $wa_token = $qontak['token'];
+
+                    $curl = curl_init();
+
+                    curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://service-chat.qontak.com/api/open/v1/broadcasts/whatsapp/direct',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => '{
+                                    "to_number": "' . $nomor_hp . '",
+                                    "to_name": "' . $nama . '",
+                                    "message_template_id": "' . $template_id . '",
+                                    "channel_integration_id": "' . $integration_id . '",
+                                    "language": {
+                                        "code": "id"
+                                    },
+                                    "parameters": {
+                                        "body": [
+                                        {
+                                            "key": "1",
+                                            "value": "nama",
+                                            "value_text": "' . $nama . '"
+                                        },
+                                        {
+                                            "key": "2",
+                                            "value": "message",
+                                            "value_text": "' . $message . '"
+                                        },
+                                        {
+                                            "key": "3",
+                                            "value": "sales",
+                                            "value_text": "' . $full_name . '"
+                                        }
+                                        ]
+                                    }
+                                    }',
+                        CURLOPT_HTTPHEADER => array(
+                            'accept' => 'application/json',
+                            'Authorization: Bearer ' . $wa_token,
+                            'Content-Type: application/json'
+                        ),
+                    ));
+
                     $this->output->set_output(json_encode($result));
                 }
             } else {
