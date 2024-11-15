@@ -127,13 +127,6 @@ class Notif extends CI_Controller
 
                     $res = json_decode($responseQontak, true);
 
-                    $result = [
-                        'code' => 200,
-                        'status' => 'failed',
-                        'msg' => 'Notif OK',
-                        'qontak' => $res
-                    ];
-
                     // Send WA
                     $nomor_hp = "628988430185";
                     // $nomor_hp = "6285546112267";
@@ -190,6 +183,20 @@ class Notif extends CI_Controller
                             'Content-Type: application/json'
                         ),
                     ));
+
+                    $responseQontakHendri = curl_exec($curl);
+
+                    curl_close($curl);
+
+                    $resHendri = json_decode($responseQontakHendri, true);
+
+                    $result = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Notif OK',
+                        'qontak' => $res,
+                        'qontak_hendri' => $resHendri
+                    ];
 
                     $this->output->set_output(json_encode($result));
                 }
