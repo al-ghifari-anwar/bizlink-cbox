@@ -10,6 +10,7 @@ class Notif extends CI_Controller
         $this->load->model('MProduct');
         $this->load->model('MQontak');
         $this->load->model('MTimbang');
+        $this->load->model('MLogMsg');
     }
 
     public function get()
@@ -127,6 +128,18 @@ class Notif extends CI_Controller
 
                     $res = json_decode($responseQontak, true);
 
+                    // LOG 1
+                    $dataLog1 = [
+                        'to_name' => $nama,
+                        'to_number' => $nomor_hp,
+                        'message' => $message,
+                        'date_msg' => date("Y-m-d H:i:s"),
+                        'status_msg' => $res['status'],
+                        'response_msg' => '',
+                        'updated_at' => date("Y-m-d H:i:s")
+                    ];
+                    $log1 = $this->MLogMsg->createFromArray($dataLog1);
+
                     // Send WA
                     $nomor_hp = "628988430185";
                     // $nomor_hp = "6285546112267";
@@ -189,6 +202,17 @@ class Notif extends CI_Controller
                     curl_close($curl);
 
                     $resHendri = json_decode($responseQontakHendri, true);
+
+                    $dataLog2 = [
+                        'to_name' => $nama,
+                        'to_number' => $nomor_hp,
+                        'message' => $message,
+                        'date_msg' => date("Y-m-d H:i:s"),
+                        'status_msg' => $res['status'],
+                        'response_msg' => '',
+                        'updated_at' => date("Y-m-d H:i:s")
+                    ];
+                    $log2 = $this->MLogMsg->createFromArray($dataLog2);
 
                     $result = [
                         'code' => 200,
