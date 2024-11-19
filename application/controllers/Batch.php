@@ -52,6 +52,11 @@ class Batch extends CI_Controller
 
                 $getTimbang = $this->MTimbang->getByBatch($no_batch);
 
+                $getKodeProduct = $this->MTimbang->getPrdByBatch($no_batch);
+                $kode_product = $getKodeProduct['kode_product'];
+
+                $getProduct = $this->MProduct->getByKode($kode_product);
+
                 $rekapEquipment = array();
 
                 foreach ($resultEquipment as $equipment) {
@@ -100,7 +105,8 @@ class Batch extends CI_Controller
                     'status' => 'ok',
                     'msg' => 'Data fetched',
                     'dataEquipment' => $rekapEquipment,
-                    'dataTimbang' => $getTimbang
+                    'dataTimbang' => $getTimbang,
+                    'dataProduct' => $getProduct,
                 ];
 
                 $this->output->set_output(json_encode($response));
