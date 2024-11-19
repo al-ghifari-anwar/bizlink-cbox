@@ -21,7 +21,7 @@ class MTimbang extends CI_Model
     {
         $this->db->select('MAX(kode_product) AS kode_product');
         $this->db->group_by('tb_timbang.kode_product');
-        $result = $this->db->get_where('tb_timbang', ['no_batch' => $no_batch])->result_array();
+        $result = $this->db->get_where('tb_timbang', ['no_batch' => $no_batch])->row_array();
 
         return $result;
     }
