@@ -134,9 +134,20 @@ class Item extends CI_Controller
 
                 $response = curl_exec($curl);
 
+                $responseArray = json_decode($response, true);
+
                 curl_close($curl);
 
-                echo $response;
+                $items = $responseArray['d'];
+
+                $result = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Data found',
+                    'detail' => $items
+                ];
+
+                $this->output->set_output(json_encode($result));
             }
         }
     }
