@@ -83,7 +83,7 @@ class Item extends CI_Controller
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/detail.do',
+                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/detail.do?no=' . $no,
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -95,7 +95,6 @@ class Item extends CI_Controller
                         'Authorization: Bearer ' . $token,
                         'X-Api-Timestamp: ' . $timestamp,
                         'X-Api-Signature: ' . $hash,
-                        'no: ' . $no,
                         'Content-Type: application/json'
                     ),
                 ));
