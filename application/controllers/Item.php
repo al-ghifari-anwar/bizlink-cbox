@@ -93,6 +93,7 @@ class Item extends CI_Controller
                     'Authorization: Bearer ' . $token,
                     'X-Api-Timestamp: ' . $timestamp,
                     'X-Api-Signature: ' . $hash,
+                    'fields: id, name, no',
                     'Content-Type: application/json'
                 ),
             ));
