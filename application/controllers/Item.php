@@ -70,8 +70,8 @@ class Item extends CI_Controller
 
             $this->output->set_output(json_encode($result));
         } else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            if (isset($_GET['id'])) {
-                $id = $_GET['id'];
+            if (isset($_GET['no'])) {
+                $no = $_GET['no'];
                 $accurate = $this->MAccurate->get();
 
                 $token = $accurate['api_token'];
@@ -95,7 +95,7 @@ class Item extends CI_Controller
                         'Authorization: Bearer ' . $token,
                         'X-Api-Timestamp: ' . $timestamp,
                         'X-Api-Signature: ' . $hash,
-                        'id: ' . $id,
+                        'no: ' . $no,
                         'Content-Type: application/json'
                     ),
                 ));
