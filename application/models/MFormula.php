@@ -6,6 +6,7 @@ class MFormula extends CI_Model
     public $target_formula;
     public $fine_formula;
     public $kode_material;
+    public $name_material;
     public $time_target;
     public $updated_at;
 
@@ -52,6 +53,7 @@ class MFormula extends CI_Model
         $this->target_formula = $post['target_formula'];
         $this->fine_formula = $post['fine_formula'];
         $this->kode_material = $post['kode_material'];
+        $this->name_material = $post['name_material'];
         $this->time_target = $post['time_target'];
         $this->updated_at = date("Y-m-d H:i:s");
 
@@ -72,6 +74,7 @@ class MFormula extends CI_Model
         $this->target_formula = $post['target_formula'];
         $this->fine_formula = $post['fine_formula'];
         $this->kode_material = $post['kode_material'];
+        $this->name_material = $post['name_material'];
         $this->time_target = $post['time_target'];
         $this->updated_at = date("Y-m-d H:i:s");
 
