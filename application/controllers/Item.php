@@ -70,39 +70,76 @@ class Item extends CI_Controller
 
             $this->output->set_output(json_encode($result));
         } else if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $accurate = $this->MAccurate->get();
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+                $accurate = $this->MAccurate->get();
 
-            $token = $accurate['api_token'];
-            $signature_secret = $accurate['signature_secret'];
-            $timestamp = date("d/m/Y H:i:s");
+                $token = $accurate['api_token'];
+                $signature_secret = $accurate['signature_secret'];
+                $timestamp = date("d/m/Y H:i:s");
 
-            $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
+                $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
 
-            $curl = curl_init();
+                $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/list.do',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer ' . $token,
-                    'X-Api-Timestamp: ' . $timestamp,
-                    'X-Api-Signature: ' . $hash,
-                    'fields: id,name,no',
-                    'Content-Type: application/json'
-                ),
-            ));
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/detail.do',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => array(
+                        'Authorization: Bearer ' . $token,
+                        'X-Api-Timestamp: ' . $timestamp,
+                        'X-Api-Signature: ' . $hash,
+                        'id: ' . $id,
+                        'Content-Type: application/json'
+                    ),
+                ));
 
-            $response = curl_exec($curl);
+                $response = curl_exec($curl);
 
-            curl_close($curl);
+                curl_close($curl);
 
-            echo $response;
+                echo $response;
+            } else {
+                $accurate = $this->MAccurate->get();
+
+                $token = $accurate['api_token'];
+                $signature_secret = $accurate['signature_secret'];
+                $timestamp = date("d/m/Y H:i:s");
+
+                $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/list.do',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                    CURLOPT_HTTPHEADER => array(
+                        'Authorization: Bearer ' . $token,
+                        'X-Api-Timestamp: ' . $timestamp,
+                        'X-Api-Signature: ' . $hash,
+                        'fields: id,name,no',
+                        'Content-Type: application/json'
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
+
+                echo $response;
+            }
         }
     }
 }
