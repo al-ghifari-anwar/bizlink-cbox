@@ -60,6 +60,15 @@ class Batch extends CI_Controller
 
                 $rekapEquipment = array();
 
+                $getTimbangWithResep = array();
+                // Inject Resep
+                foreach ($getTimbang as $timbang) {
+                    $kode_material = $timbang['kode_bahan'];
+                    $formulaMaterial = $this->MFormula->getByProductIdAndMaterial($getProduct['id_product'], $kode_material);
+                    $timbang['formula'] = $formulaMaterial;
+                    $getTimbangWithResep[] = $timbang;
+                }
+
                 foreach ($resultEquipment as $equipment) {
                     $name_equipment = $equipment['name_equipment'];
 
@@ -106,7 +115,7 @@ class Batch extends CI_Controller
                     'status' => 'ok',
                     'msg' => 'Data fetched',
                     'dataEquipment' => $rekapEquipment,
-                    'dataTimbang' => $getTimbang,
+                    'dataTimbang' => $getTimbangWithResep,
                     'dataProduct' => $getProduct,
                 ];
 
