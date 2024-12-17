@@ -77,3 +77,6 @@ $route['api/webhook/batch-notif'] = 'Notif/get';
 $route['api/log-msg'] = 'Logmsg/get';
 // Category
 $route['api/category'] = 'Category/get';
+// User
+$route['api/user'] = 'User/api';
+$route['api/user/(:num)'] = 'User/api_by_id/$1';
