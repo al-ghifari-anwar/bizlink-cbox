@@ -35,7 +35,7 @@ class Category extends CI_Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item-category/list.do?fields=id,name,no',
+                CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item-category/list.do?fields=id,name',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -57,13 +57,13 @@ class Category extends CI_Controller
 
             curl_close($curl);
 
-            $items = $responseArray['d'];
+            $categories = $responseArray['d'];
 
             $result = [
                 'code' => 200,
                 'status' => 'ok',
                 'msg' => 'Data found',
-                'detail' => $items
+                'detail' => $categories
             ];
 
             $this->output->set_output(json_encode($result));
