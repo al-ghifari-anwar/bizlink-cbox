@@ -75,3 +75,5 @@ $route['api/formula/(:num)'] = 'Formula/api_by_id/$1';
 $route['api/webhook/batch-notif'] = 'Notif/get';
 // Log
 $route['api/log-msg'] = 'Logmsg/get';
+// Category
+$route['api/category'] = 'Category/get';
