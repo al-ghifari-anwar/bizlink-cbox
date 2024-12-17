@@ -1,6 +1,6 @@
 <?php
 
-class User extends CI_Model
+class MUser extends CI_Model
 {
     public $name_user;
     public $phone_user;
