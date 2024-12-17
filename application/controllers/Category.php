@@ -17,8 +17,7 @@ class Category extends CI_Controller
             $result = [
                 'code' => 400,
                 'status' => 'failed',
-                'msg' => 'Method not found',
-                'detail' => json_decode($response, true)
+                'msg' => 'Method not found'
             ];
 
             $this->output->set_output(json_encode($result));
