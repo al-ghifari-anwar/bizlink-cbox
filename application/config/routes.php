@@ -80,3 +80,5 @@ $route['api/category'] = 'Category/get';
 // User
 $route['api/user'] = 'User/api';
 $route['api/user/(:num)'] = 'User/api_by_id/$1';
+// Finishgood
+$route['api/finishgood'] = 'Finishgood/get';

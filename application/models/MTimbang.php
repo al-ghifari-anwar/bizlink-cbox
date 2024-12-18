@@ -17,6 +17,14 @@ class MTimbang extends CI_Model
         return $result;
     }
 
+    public function getTotalPerBatch($kode_product, $no_batch)
+    {
+        $this->db->select('SUM(actual_timbang) AS actual_timbang, no_batch, kode_product');
+        $result = $this->db->get_where('tb_timbang', ['kode_product' => $kode_product, 'no_batch' => $no_batch])->row_array();
+
+        return $result;
+    }
+
     public function getPrdByBatch($no_batch)
     {
         $this->db->select('MAX(kode_product) AS kode_product');
