@@ -27,67 +27,72 @@ class Timbang extends CI_Controller
         $itemNo = $product['kode_product'];
         $formula = $this->MFormula->getByProductIdAndMaterial($product['id_product'], $itemNo);
 
-        $getTotal = $this->MTimbang->getTotalPerBatch($kode_product, $no_batch);
+        $jmlFormula = $this->MFormula->getJmlByProductId($product['id_product']);
+        $jmlTimbang = $this->MTimbang->getJmlMatByKodeProductAndBatch($product['kode_product'], $no_batch);
 
-        $actual_timbang = $getTotal['actual_timbang'];
+        if ($jmlFormula == $jmlTimbang) {
+            $getTotal = $this->MTimbang->getTotalPerBatch($kode_product, $no_batch);
 
-        $sizePerSak = 40;
-        $actualDivSak = floor($actual_timbang / $sizePerSak);
-        $sisaTimbang = $actual_timbang - $actualDivSak;
+            $actual_timbang = $getTotal['actual_timbang'];
 
-        $token = $accurate['api_token'];
-        $signature_secret = $accurate['signature_secret'];
-        $timestamp = date("d/m/Y H:i:s");
+            $sizePerSak = 40;
+            $actualDivSak = floor($actual_timbang / $sizePerSak);
+            $sisaTimbang = $actual_timbang - $actualDivSak;
+
+            $token = $accurate['api_token'];
+            $signature_secret = $accurate['signature_secret'];
+            $timestamp = date("d/m/Y H:i:s");
 
 
-        $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
+            $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
 
-        $curl = curl_init();
+            $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item-adjustment/save.do',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-                "adjustmentAccountNo":"",
-                "detailItem": [
-                    {
-                        "itemAdjustmentType":"ADJUSTMENT_IN",
-                        "itemNo":"' . $itemNo . '",
-                        "quantity":"' . $actualDivSak . '",
-                        "detailNotes":"' . $no_batch . '"
-                    }
-                ],
-                "transDate": "' . date('d/m/Y') . '",
-                "description":"' . $no_batch . '"
-            }',
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer ' . $token,
-                'X-Api-Timestamp: ' . $timestamp,
-                'X-Api-Signature: ' . $hash,
-                'Content-Type: application/json'
-            ),
-        ));
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item-adjustment/save.do',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+                    "adjustmentAccountNo":"",
+                    "detailItem": [
+                        {
+                            "itemAdjustmentType":"ADJUSTMENT_IN",
+                            "itemNo":"' . $itemNo . '",
+                            "quantity":"' . $actualDivSak . '",
+                            "detailNotes":"' . $no_batch . '"
+                        }
+                    ],
+                    "transDate": "' . date('d/m/Y') . '",
+                    "description":"' . $no_batch . '"
+                }',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer ' . $token,
+                    'X-Api-Timestamp: ' . $timestamp,
+                    'X-Api-Signature: ' . $hash,
+                    'Content-Type: application/json'
+                ),
+            ));
 
-        $response = curl_exec($curl);
+            $response = curl_exec($curl);
 
-        curl_close($curl);
+            curl_close($curl);
 
-        // echo $response;
+            // echo $response;
 
-        $result = [
-            'code' => 200,
-            'status' => 'ok',
-            'msg' => 'Data found',
-            'detail' => json_decode($response, true),
-            'webhook' => $resWebhook
-        ];
+            $result = [
+                'code' => 200,
+                'status' => 'ok',
+                'msg' => 'Data found',
+                'detail' => json_decode($response, true),
+                'webhook' => $resWebhook
+            ];
 
-        $this->output->set_output(json_encode($result));
+            $this->output->set_output(json_encode($result));
+        }
     }
 }
