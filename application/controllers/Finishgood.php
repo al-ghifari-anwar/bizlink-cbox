@@ -1,6 +1,6 @@
 <?php
 
-class Timbang extends CI_Controller
+class Finishgood extends CI_Controller
 {
     public function __construct()
     {
