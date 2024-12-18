@@ -17,6 +17,9 @@ class MProduct extends CI_Model
     {
         $result = $this->db->get('tb_product', ['kode_product' => $kode_product])->row_array();
 
+        echo json_encode($this->db->last_query());
+        die;
+
         return $result;
     }
 

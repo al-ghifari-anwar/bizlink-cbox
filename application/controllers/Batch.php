@@ -58,8 +58,6 @@ class Batch extends CI_Controller
                 $kode_product = $getKodeProduct['kode_product'];
 
                 $getProduct = $this->MProduct->getByKode($kode_product);
-                echo json_encode($getProduct);
-                die;
 
                 $rekapEquipment = array();
 
