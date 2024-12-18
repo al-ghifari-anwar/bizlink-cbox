@@ -57,7 +57,7 @@ class Timbang extends CI_Controller
                 "adjustmentAccountNo":"",
                 "detailItem": [
                     {
-                        "itemAdjustmentType":"ADJUSTMENT_OUT",
+                        "itemAdjustmentType":"ADJUSTMENT_IN",
                         "itemNo":"' . $itemNo . '",
                         "quantity":"' . $actualDivSak . '",
                         "detailNotes":"' . $no_batch . '"
