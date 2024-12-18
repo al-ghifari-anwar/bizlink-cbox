@@ -15,10 +15,10 @@ class MProduct extends CI_Model
 
     public function getByKode($kode_product)
     {
-        $result = $this->db->get('tb_product', ['kode_product' => $kode_product])->row_array();
+        $result = $this->db->get_where('tb_product', ['kode_product' => $kode_product])->row_array();
 
-        echo json_encode($this->db->last_query());
-        die;
+        // echo json_encode($this->db->last_query());
+        // die;
 
         return $result;
     }
