@@ -88,8 +88,7 @@ class Timbang extends CI_Controller
                 'code' => 200,
                 'status' => 'ok',
                 'msg' => 'Data found',
-                'detail' => json_decode($response, true),
-                'webhook' => $resWebhook
+                'detail' => json_decode($response, true)
             ];
 
             $this->output->set_output(json_encode($result));
