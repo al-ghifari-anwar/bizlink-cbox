@@ -45,7 +45,7 @@ class MUser extends CI_Model
         $this->phone_user = $post['phone_user'];
         $this->is_active = $post['is_active'];
 
-        $query = $this->db->update('tb_user', $this, ['id_product' => $id]);
+        $query = $this->db->update('tb_user', $this, ['id_user' => $id]);
 
         if ($query) {
             return true;
@@ -56,7 +56,7 @@ class MUser extends CI_Model
 
     public function destroy($id)
     {
-        $query = $this->db->delete('tb_user', ['id_product' => $id]);
+        $query = $this->db->delete('tb_user', ['id_user' => $id]);
 
         if ($query) {
             return true;
