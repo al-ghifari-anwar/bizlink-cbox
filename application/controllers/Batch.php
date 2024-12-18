@@ -115,6 +115,7 @@ class Batch extends CI_Controller
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
+                    'product' => $kode_product,
                     'dataEquipment' => $rekapEquipment,
                     'dataTimbang' => $getTimbangWithResep,
                     'dataProduct' => $getProduct,
