@@ -57,9 +57,9 @@ class Batch extends CI_Controller
                 $getKodeProduct = $this->MTimbang->getPrdByBatch($no_batch);
                 $kode_product = $getKodeProduct['kode_product'];
 
-                echo json_encode($getKodeProduct);
-                die;
                 $getProduct = $this->MProduct->getByKode($kode_product);
+                echo json_encode($getProduct);
+                die;
 
                 $rekapEquipment = array();
 
