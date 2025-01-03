@@ -120,7 +120,7 @@ class Spk extends CI_Controller
 
         if ($getSpk) {
             $response = [
-                'spk' => $getSpk,
+                'spk' => $getSpk['id_product'],
                 'product' => $getProduct,
                 'formula' => $getFormula
             ];
