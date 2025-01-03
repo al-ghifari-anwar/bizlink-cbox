@@ -115,13 +115,15 @@ class Spk extends CI_Controller
         $getSpk = $this->MSpk->getToday();
 
         $getProduct = $this->MProduct->getById($getSpk['id_product']);
+        $query_p = $this->db->last_query();
 
         $getFormula = $this->MFormula->getByProductId($getSpk['id_product']);
 
         if ($getSpk) {
             $response = [
-                'spk' => $getSpk['id_product'],
+                'spk' => $getSpk,
                 'product' => $getProduct,
+                'q_p' => $query_p,
                 'formula' => $getFormula
             ];
 
