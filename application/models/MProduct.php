@@ -25,7 +25,7 @@ class MProduct extends CI_Model
 
     public function getById($id)
     {
-        $result = $this->db->get('tb_product', ['id_product' => $id])->row_array();
+        $result = $this->db->get_where('tb_product', ['id_product' => $id])->row_array();
 
         return $result;
     }
