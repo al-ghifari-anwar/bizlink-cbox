@@ -10,6 +10,7 @@ class Spk extends CI_Controller
         $this->load->model('MTimbang');
         $this->load->model('MProduct');
         $this->load->model('MSpk');
+        $this->load->model('MFormula');
     }
 
     public function api()
