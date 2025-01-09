@@ -151,14 +151,16 @@ class Spk extends CI_Controller
             $response = [
                 'spk' => $getSpk,
                 'product' => $getProduct,
-                'target_semen' => $target_semen,
-                'fine_semen' => $fine_semen,
-                'target_kapur' => $target_kapur,
-                'fine_kapur' => $fine_kapur,
-                'target_pasir' => $target_pasir,
-                'fine_pasir' => $fine_pasir,
-                'target_additif' => $target_additif,
-                'fine_additif' => $fine_additif
+                'formula' => [
+                    'target_semen' => $target_semen,
+                    'fine_semen' => $fine_semen,
+                    'target_kapur' => $target_kapur,
+                    'fine_kapur' => $fine_kapur,
+                    'target_pasir' => $target_pasir,
+                    'fine_pasir' => $fine_pasir,
+                    'target_additif' => $target_additif,
+                    'fine_additif' => $fine_additif
+                ]
             ];
 
             $this->output->set_output(json_encode($response));
