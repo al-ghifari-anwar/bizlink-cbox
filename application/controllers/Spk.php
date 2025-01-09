@@ -115,15 +115,50 @@ class Spk extends CI_Controller
         $getSpk = $this->MSpk->getToday();
 
         $getProduct = $this->MProduct->getById($getSpk['id_product']);
-        $query_p = $this->db->last_query();
+        // $query_p = $this->db->last_query();
 
         $getFormula = $this->MFormula->getByProductId($getSpk['id_product']);
 
         if ($getSpk) {
+            // Semen
+            $target_semen = 0;
+            $fine_semen = 0;
+            // Kapur
+            $target_kapur = 0;
+            $fine_kapur = 0;
+            // Pasir
+            $target_pasir = 0;
+            $fine_pasir = 0;
+            // Additif
+            $target_additif = 0;
+            $fine_additif = 0;
+            foreach ($getFormula as $formula) {
+                if (str_contains(strtolower($formula['name_material']), 'semen')) {
+                    $target_semen = $formula['target_formula'];
+                    $fine_semen = $formula['fine_formula'];
+                } else if (str_contains(strtolower($formula['name_material']), 'kapur')) {
+                    $target_kapur = $formula['target_formula'];
+                    $fine_kapur = $formula['fine_formula'];
+                } else if (str_contains(strtolower($formula['name_material']), 'pasir')) {
+                    $target_pasir = $formula['target_formula'];
+                    $fine_pasir = $formula['fine_formula'];
+                } else if (str_contains(strtolower($formula['name_material']), 'additif')) {
+                    $target_additif = $formula['target_formula'];
+                    $fine_additif = $formula['fine_formula'];
+                }
+            }
+
             $response = [
                 'spk' => $getSpk,
                 'product' => $getProduct,
-                'formula' => $getFormula
+                'target_semen' => $target_semen,
+                'fine_semen' => $fine_semen,
+                'target_kapur' => $target_kapur,
+                'fine_kapur' => $fine_kapur,
+                'target_pasir' => $target_pasir,
+                'fine_pasir' => $fine_pasir,
+                'target_additif' => $target_additif,
+                'fine_additif' => $fine_additif
             ];
 
             $this->output->set_output(json_encode($response));
