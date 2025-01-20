@@ -142,24 +142,24 @@ class Spk extends CI_Controller
             $kode_additif = '';
             foreach ($getFormula as $formula) {
                 if ($formula['kode_material'] == '1001') {
-                    $target_semen_grey = $formula['target_formula'];
-                    $fine_semen_grey = $formula['fine_formula'];
+                    $target_semen_grey = $formula['target_formula'] * 10;
+                    $fine_semen_grey = $formula['fine_formula'] * 10;
                     $kode_semen_grey = $formula['kode_material'];
                 } else if ($formula['kode_material'] == '1004') {
-                    $target_semen_putih = $formula['target_formula'];
-                    $fine_semen_putih = $formula['fine_formula'];
+                    $target_semen_putih = $formula['target_formula'] * 10;
+                    $fine_semen_putih = $formula['fine_formula'] * 10;
                     $kode_semen_putih = $formula['kode_material'];
                 } else if ($formula['kode_material'] == '1002') {
-                    $target_kapur = $formula['target_formula'];
-                    $fine_kapur = $formula['fine_formula'];
+                    $target_kapur = $formula['target_formula'] * 10;
+                    $fine_kapur = $formula['fine_formula'] * 10;
                     $kode_kapur = $formula['kode_material'];
                 } else if ($formula['kode_material'] == '1003') {
-                    $target_pasir = $formula['target_formula'];
-                    $fine_pasir = $formula['fine_formula'];
+                    $target_pasir = $formula['target_formula'] * 10;
+                    $fine_pasir = $formula['fine_formula'] * 10;
                     $kode_pasir = $formula['kode_material'];
                 } else if ($formula['kode_material'] == 'PREMIX-THINBED') {
-                    $target_additif = $formula['target_formula'];
-                    $fine_additif = $formula['fine_formula'];
+                    $target_additif = $formula['target_formula'] * 10;
+                    $fine_additif = $formula['fine_formula'] * 10;
                     $kode_additif = $formula['kode_material'];
                 }
             }
