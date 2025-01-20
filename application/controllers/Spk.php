@@ -123,18 +123,23 @@ class Spk extends CI_Controller
             // Semen Grey
             $target_semen_grey = 0;
             $fine_semen_grey = 0;
+            $kode_semen_grey = '';
             // Semen Putih
             $target_semen_putih = 0;
             $fine_semen_putih = 0;
+            $kode_semen_putih = '';
             // Kapur
             $target_kapur = 0;
             $fine_kapur = 0;
+            $kode_kapur = '';
             // Pasir
             $target_pasir = 0;
             $fine_pasir = 0;
+            $kode_pasir = '';
             // Additif
             $target_additif = 0;
             $fine_additif = 0;
+            $kode_additif = '';
             foreach ($getFormula as $formula) {
                 if ($formula['kode_material'] == '1001') {
                     $target_semen_grey = $formula['target_formula'];
