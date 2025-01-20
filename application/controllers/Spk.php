@@ -120,9 +120,12 @@ class Spk extends CI_Controller
         $getFormula = $this->MFormula->getByProductId($getSpk['id_product']);
 
         if ($getSpk) {
-            // Semen
-            $target_semen = 0;
-            $fine_semen = 0;
+            // Semen Grey
+            $target_semen_grey = 0;
+            $fine_semen_grey = 0;
+            // Semen Putih
+            $target_semen_putih = 0;
+            $fine_semen_putih = 0;
             // Kapur
             $target_kapur = 0;
             $fine_kapur = 0;
@@ -133,18 +136,26 @@ class Spk extends CI_Controller
             $target_additif = 0;
             $fine_additif = 0;
             foreach ($getFormula as $formula) {
-                if (str_contains(strtolower($formula['name_material']), 'semen')) {
-                    $target_semen = $formula['target_formula'];
-                    $fine_semen = $formula['fine_formula'];
-                } else if (str_contains(strtolower($formula['name_material']), 'kapur')) {
+                if ($formula['kode_material'] == '1001') {
+                    $target_semen_grey = $formula['target_formula'];
+                    $fine_semen_grey = $formula['fine_formula'];
+                    $kode_semen_grey = $formula['kode_material'];
+                } else if ($formula['kode_material'] == '1004') {
+                    $target_semen_putih = $formula['target_formula'];
+                    $fine_semen_putih = $formula['fine_formula'];
+                    $kode_semen_putih = $formula['kode_material'];
+                } else if ($formula['kode_material'] == '1002') {
                     $target_kapur = $formula['target_formula'];
                     $fine_kapur = $formula['fine_formula'];
-                } else if (str_contains(strtolower($formula['name_material']), 'pasir')) {
+                    $kode_kapur = $formula['kode_material'];
+                } else if ($formula['kode_material'] == '1003') {
                     $target_pasir = $formula['target_formula'];
                     $fine_pasir = $formula['fine_formula'];
-                } else if (str_contains(strtolower($formula['name_material']), 'additif')) {
+                    $kode_pasir = $formula['kode_material'];
+                } else if ($formula['kode_material'] == 'PREMIX-THINBED') {
                     $target_additif = $formula['target_formula'];
                     $fine_additif = $formula['fine_formula'];
+                    $kode_additif = $formula['kode_material'];
                 }
             }
 
@@ -152,14 +163,21 @@ class Spk extends CI_Controller
                 'spk' => $getSpk,
                 'product' => $getProduct,
                 'formula' => [
-                    'target_semen' => $target_semen,
-                    'fine_semen' => $fine_semen,
+                    'target_semen_grey' => $target_semen_grey,
+                    'fine_semen_grey' => $fine_semen_grey,
+                    'kode_semen_grey' => $kode_semen_grey,
+                    'target_semen_putih' => $target_semen_putih,
+                    'fine_semen_putih' => $fine_semen_putih,
+                    'kode_semen_putih' => $kode_semen_putih,
                     'target_kapur' => $target_kapur,
                     'fine_kapur' => $fine_kapur,
+                    'kode_kapur' => $kode_kapur,
                     'target_pasir' => $target_pasir,
                     'fine_pasir' => $fine_pasir,
+                    'kode_pasir' => $kode_pasir,
                     'target_additif' => $target_additif,
-                    'fine_additif' => $fine_additif
+                    'fine_additif' => $fine_additif,
+                    'kode_additif' => $kode_additif
                 ]
             ];
 
