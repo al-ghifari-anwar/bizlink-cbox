@@ -147,12 +147,16 @@ class Spk extends CI_Controller
 
         $getSpk = $this->MSpk->getToday();
 
-        $getProduct = $this->MProduct->getById($getSpk['id_product']);
-        // $query_p = $this->db->last_query();
-
-        $getFormula = $this->MFormula->getByProductId($getSpk['id_product']);
-
         if ($getSpk) {
+            $countBatch = $this->MEquipmentStatus->getMixerOn($getSpk['id_spk']);
+            $getProduct = $this->MProduct->getById($getSpk['id_product']);
+            $getFormula = $this->MFormula->getByProductId($getSpk['id_product']);
+
+            $hasilBatch = count($countBatch);
+
+            $getSpk['jml_batch'] = $getSpk['jml_batch'] - $hasilBatch;
+
+
             // Semen Grey
             $target_semen_grey = 0;
             $fine_semen_grey = 0;

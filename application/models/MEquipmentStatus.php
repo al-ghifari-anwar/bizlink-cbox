@@ -10,6 +10,14 @@ class MEquipmentStatus extends CI_Model
         return $result;
     }
 
+    public function getMixerOn($id_spk)
+    {
+        $this->db->group_by('tb_equipment_status.no_batch');
+        $result = $this->db->get_where('tb_equipment_status', ['status_equipment' => 'ON', 'name_equipment' => 'MIXER', 'id_spk' => $id_spk])->result_array();
+
+        return $result;
+    }
+
     public function getByName($name)
     {
         $this->db->order_by('tb_equipment_status.created_at', 'DESC');
