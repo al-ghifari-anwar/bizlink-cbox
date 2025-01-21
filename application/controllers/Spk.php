@@ -18,55 +18,10 @@ class Spk extends CI_Controller
         $this->output->set_content_type('application/json');
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            if (isset($_GET['source'])) {
-                $source = $_GET['source'];
+            $result = $this->MSpk->get();
 
-                $accurate = $this->MAccurate->get();
 
-                $token = $accurate['api_token'];
-                $signature_secret = $accurate['signature_secret'];
-                $timestamp = date("d/m/Y H:i:s");
-
-                $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
-
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/list.do?fields=id,name,no&filter.itemCategoryId.op=EQUAL&filter.itemCategoryId.val=150',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'GET',
-                    CURLOPT_HTTPHEADER => array(
-                        'Authorization: Bearer ' . $token,
-                        'X-Api-Timestamp: ' . $timestamp,
-                        'X-Api-Signature: ' . $hash,
-                        'Content-Type: application/json'
-                    ),
-                ));
-
-                $response = curl_exec($curl);
-
-                $responseArray = json_decode($response, true);
-
-                curl_close($curl);
-
-                $items = $responseArray['d'];
-
-                $result = [
-                    'code' => 200,
-                    'status' => 'ok',
-                    'msg' => 'Data found',
-                    'detail' => $items
-                ];
-
-                $this->output->set_output(json_encode($result));
-            } else {
-                $result = $this->MProduct->get();
-
+            if ($result) {
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
