@@ -52,11 +52,11 @@ class Notif extends CI_Controller
                         $difference = $actual_timbang - $target_formula;
                         // $errorMsg .= "- Material " . $name_material . " melebihi batas fine. Total penimbangan: " . $actual_timbang . "KG. Melebihi target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.\\\\n";
 
-                        $errorMsg .= "- Material " . $name_material . " melebihi batas fine.\\\\n" . "Aktual: " . $actual_timbang . "\\\\n" . "Selisih: " . $difference . "\\\\n" . "Target: " . $target_formula;
+                        $errorMsg .= "- Material " . $name_material . " melebihi batas fine." . " Aktual: " . $actual_timbang . "" . " Selisih: " . $difference . "" . " Target: " . $target_formula;
                     } else if ($actual_timbang < $min_formula) {
                         $difference = $target_formula - $actual_timbang;
                         // $errorMsg .= "- Material " . $name_material . " kurang dari batas fine. Total penimbangan: " . $actual_timbang . "KG. Lebih kecil target timbang sebesar " . $difference . "KG. Target: " . $target_formula . "KG.\\\\n";
-                        $errorMsg .= "- Material " . $name_material . " kurang dari batas fine.\\\\n" . "Aktual: " . $actual_timbang . "\\\\n" . "Selisih: " . $difference . "\\\\n" . "Target: " . $target_formula;
+                        $errorMsg .= "- Material " . $name_material . " kurang dari batas fine." . " Aktual: " . $actual_timbang . "" . " Selisih: " . $difference . "" . " Target: " . $target_formula;
                     }
                 }
 
