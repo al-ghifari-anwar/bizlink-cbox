@@ -18,10 +18,20 @@ class Spk extends CI_Controller
         $this->output->set_content_type('application/json');
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $result = $this->MSpk->get();
+            if (isset($_GET['date'])) {
+                $result = $this->MSpk->getByDate($_GET['date']);
 
+                $response = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Data fetched',
+                    'data' => $result
+                ];
 
-            if ($result) {
+                $this->output->set_output(json_encode($response));
+            } else {
+                $result = $this->MSpk->get();
+
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
@@ -32,7 +42,7 @@ class Spk extends CI_Controller
                 $this->output->set_output(json_encode($response));
             }
         } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $result = $this->MProduct->create();
+            $result = $this->MSpk->create();
 
             if ($result) {
                 $response = [
@@ -47,6 +57,74 @@ class Spk extends CI_Controller
                     'code' => 401,
                     'status' => 'ok',
                     'msg' => 'Data not created',
+                    'detail' => $this->db->error()
+                ];
+
+                $this->output->set_output(json_encode($response));
+            }
+        } else {
+            $response = [
+                'code' => 401,
+                'status' => 'ok',
+                'msg' => 'Method not found'
+            ];
+
+            $this->output->set_output(json_encode($response));
+        }
+    }
+
+    public function api_by_id($id_spk)
+    {
+        $this->output->set_content_type('application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $result = $this->MSpk->getById($id_spk);
+
+            $response = [
+                'code' => 200,
+                'status' => 'ok',
+                'msg' => 'Data fetched',
+                'data' => $result
+            ];
+
+            $this->output->set_output(json_encode($response));
+        } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $result = $this->MSpk->update($id_spk);
+
+            if ($result) {
+                $response = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Data updated'
+                ];
+
+                $this->output->set_output(json_encode($response));
+            } else {
+                $response = [
+                    'code' => 401,
+                    'status' => 'ok',
+                    'msg' => 'Data not updated',
+                    'detail' => $this->db->error()
+                ];
+
+                $this->output->set_output(json_encode($response));
+            }
+        } else if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            $result = $this->MSpk->destroy($id_spk);
+
+            if ($result) {
+                $response = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Data deleted'
+                ];
+
+                $this->output->set_output(json_encode($response));
+            } else {
+                $response = [
+                    'code' => 401,
+                    'status' => 'ok',
+                    'msg' => 'Data not deleted',
                     'detail' => $this->db->error()
                 ];
 
