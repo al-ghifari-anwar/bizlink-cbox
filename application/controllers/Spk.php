@@ -190,7 +190,7 @@ class Spk extends CI_Controller
                     $target_pasir = $formula['target_formula'] * 10;
                     $fine_pasir = $formula['fine_formula'] * 10;
                     $kode_pasir = $formula['kode_material'];
-                } else if ($formula['kode_material'] == 'PREMIX-THINBED') {
+                } else if ($formula['kode_material'] == 'PREMIX-THINBED' || $formula['kode_material'] == 'PREMIX-XPANDER-GROUT') {
                     $target_additif = $formula['target_formula'] * 10;
                     $fine_additif = $formula['fine_formula'] * 10;
                     $kode_additif = $formula['kode_material'];
