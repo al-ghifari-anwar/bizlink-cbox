@@ -30,7 +30,7 @@ class Notif extends CI_Controller
 
             if ($jmlFormula == $jmlTimbang) {
                 // Kalkulasi
-                $introMsg = "Penimbangan batch *" . $no_batch . "* mengalami masalah berikut:\\\\n";
+                $introMsg = "Penimbangan batch *" . $no_batch . "* mengalami masalah berikut:";
                 $errorMsg = "";
 
                 $getHasilTimbang = $this->MTimbang->getByKodeProductAndBatch($product['kode_product'], $no_batch);
