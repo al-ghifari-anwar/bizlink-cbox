@@ -92,6 +92,14 @@ class Finishgood extends CI_Controller
             ];
 
             $this->output->set_output(json_encode($result));
+        } else {
+            $result = [
+                'code' => 401,
+                'status' => 'ok',
+                'msg' => 'Data material belum lengkap'
+            ];
+
+            $this->output->set_output(json_encode($result));
         }
     }
 }
