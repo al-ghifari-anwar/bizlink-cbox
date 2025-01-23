@@ -19,7 +19,15 @@ class Batch extends CI_Controller
         // $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $result = $this->MEquipmentStatus->getAllBatch();
+            $batchs = $this->MEquipmentStatus->getAllBatch();
+
+            foreach ($batchs as $batch) {
+                $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
+                $product = $this->MProduct->getByKode($timbang['kode_product']);
+                $batchs['product'] = $product;
+            }
+
+            $result = $batchs;
 
             $response = [
                 'code' => 200,
