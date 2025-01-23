@@ -10,6 +10,7 @@ class MSpk extends CI_Model
 
     public function get()
     {
+        $this->db->order_by('created_at', 'DESC');
         $result = $this->db->get('tb_spk')->result_array();
 
         return $result;
@@ -31,6 +32,7 @@ class MSpk extends CI_Model
 
     public function getByDate($date_spk)
     {
+        $this->db->order_by('created_at', 'DESC');
         $result = $this->db->get_where('tb_spk', ['date_spk' => date('Y-m-d', strtotime($date_spk))])->row_array();
 
         return $result;
