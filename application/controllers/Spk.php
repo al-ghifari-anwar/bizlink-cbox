@@ -52,6 +52,17 @@ class Spk extends CI_Controller
                     ];
 
                     $this->output->set_output(json_encode($response));
+                } else if ($_GET['period'] == 'now') {
+                    $result = $this->MSpk->getPeriod($_GET['period']);
+
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Data fetched',
+                        'data' => $result
+                    ];
+
+                    $this->output->set_output(json_encode($response));
                 } else {
                     $response = [
                         'code' => 401,

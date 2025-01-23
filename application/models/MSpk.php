@@ -44,6 +44,8 @@ class MSpk extends CI_Model
             $this->db->where('date_spk <', date("Y-m-d"));
         } else if ($period == 'upcoming') {
             $this->db->where('date_spk >', date("Y-m-d"));
+        } else if ($period == 'now') {
+            $this->db->where('date_spk', date("Y-m-d"));
         }
         $this->db->order_by('created_at', 'DESC');
         $result = $this->db->get('tb_spk')->result_array();
