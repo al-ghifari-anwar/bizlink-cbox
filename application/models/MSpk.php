@@ -38,6 +38,19 @@ class MSpk extends CI_Model
         return $result;
     }
 
+    public function getPeriod($period)
+    {
+        if ($period == 'past') {
+            $this->db->where('date_spk <', date("Y-m-d"));
+        } else if ($period == 'upcoming') {
+            $this->db->where('date_spk >', date("Y-m-d"));
+        }
+        $this->db->order_by('created_at', 'DESC');
+        $result = $this->db->get('tb_spk')->result_array();
+
+        return $result;
+    }
+
     public function create()
     {
         $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();

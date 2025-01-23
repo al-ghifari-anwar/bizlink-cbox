@@ -29,6 +29,30 @@ class Spk extends CI_Controller
                 ];
 
                 $this->output->set_output(json_encode($response));
+            } else if (isset($_GET['period'])) {
+                if ($_GET['period'] == 'past') {
+                    $result = $this->MSpk->getPeriod($_GET['period']);
+
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Data fetched',
+                        'data' => $result
+                    ];
+
+                    $this->output->set_output(json_encode($response));
+                } else if ($_GET['period'] == 'upcoming') {
+                    $result = $this->MSpk->getPeriod($_GET['period']);
+
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Data fetched',
+                        'data' => $result
+                    ];
+
+                    $this->output->set_output(json_encode($response));
+                }
             } else {
                 $result = $this->MSpk->get();
 
