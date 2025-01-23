@@ -29,7 +29,7 @@ class MTimbang extends CI_Model
     {
         $this->db->select('kode_product');
         $this->db->group_by('tb_timbang.kode_product');
-        $result = $this->db->get_where('tb_timbang', ['no_batch' => $no_batch])->row_array();
+        $result = $this->db->get_where('tb_timbang', ['no_batch' => $no_batch, 'kode_product NOT NULL'])->row_array();
 
         return $result;
     }
