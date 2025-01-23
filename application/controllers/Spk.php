@@ -85,25 +85,41 @@ class Spk extends CI_Controller
                 $this->output->set_output(json_encode($response));
             }
         } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $result = $this->MSpk->create();
+            $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
 
-            if ($result) {
+            $date = date("Y-m-d", strtotime($post['date_spk']));
+
+            $spk = $this->MSpk->getByDate($date);
+
+            if ($spk != null) {
                 $response = [
-                    'code' => 200,
+                    'code' => 401,
                     'status' => 'ok',
-                    'msg' => 'Data created'
+                    'msg' => 'Sudah ada spk di tanggal tersebut'
                 ];
 
                 $this->output->set_output(json_encode($response));
             } else {
-                $response = [
-                    'code' => 401,
-                    'status' => 'ok',
-                    'msg' => 'Data not created',
-                    'detail' => $this->db->error()
-                ];
+                $result = $this->MSpk->create();
 
-                $this->output->set_output(json_encode($response));
+                if ($result) {
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Data created'
+                    ];
+
+                    $this->output->set_output(json_encode($response));
+                } else {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'ok',
+                        'msg' => 'Data not created',
+                        'detail' => $this->db->error()
+                    ];
+
+                    $this->output->set_output(json_encode($response));
+                }
             }
         } else {
             $response = [
