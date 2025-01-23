@@ -52,6 +52,14 @@ class Spk extends CI_Controller
                     ];
 
                     $this->output->set_output(json_encode($response));
+                } else {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'ok',
+                        'msg' => 'Invalid field period'
+                    ];
+
+                    $this->output->set_output(json_encode($response));
                 }
             } else {
                 $result = $this->MSpk->get();
