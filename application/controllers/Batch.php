@@ -22,9 +22,11 @@ class Batch extends CI_Controller
             $batchs = $this->MEquipmentStatus->getAllBatch();
 
             foreach ($batchs as $batch) {
-                $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
-                $product = $this->MProduct->getByKode($timbang['kode_product']);
-                $batchs['product'] = $product;
+                if ($batch['kode_product'] != null) {
+                    $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
+                    $product = $this->MProduct->getByKode($timbang['kode_product']);
+                    $batchs['product'] = $product;
+                }
             }
 
             $result = $batchs;
