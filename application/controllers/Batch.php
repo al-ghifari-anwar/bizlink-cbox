@@ -21,11 +21,11 @@ class Batch extends CI_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $batchs = $this->MEquipmentStatus->getAllBatch();
 
-            // foreach ($batchs as $batch) {
-            //     $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
-            //     $product = $this->MProduct->getByKode($timbang['kode_product']);
-            //     $batchs['product'] = $product;
-            // }
+            foreach ($batchs as $batch) {
+                $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
+                $product = $this->MProduct->getByKode($timbang['kode_product']);
+                $batch['product'] = $product;
+            }
 
             $result = $batchs;
 
