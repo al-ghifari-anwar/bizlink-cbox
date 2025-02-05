@@ -28,7 +28,7 @@ class Batch extends CI_Controller
                 // $product = $this->MProduct->getByKode($timbang['kode_product']);
                 // echo json_encode($timbang);
                 // die;
-                $batch['product'] = $timbang['kode_product'];
+                $batch['product'] = $timbang['kode_bahan'];
                 // Push to new array
                 $completeBatch[] = $batch;
             }
