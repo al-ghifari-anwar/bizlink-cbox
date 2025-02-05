@@ -26,7 +26,7 @@ class Batch extends CI_Controller
             foreach ($batchs as $batch) {
                 $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
                 // $product = $this->MProduct->getByKode($timbang['kode_product']);
-                $batch['product'] = $timbang;
+                $batch['product'] = $timbang['kode_product'];
                 // Push to new array
                 $completeBatch[] = $batch;
             }
