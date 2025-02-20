@@ -39,6 +39,7 @@ class MEquipmentStatus extends CI_Model
     public function getByFilter($batch = null, $date = null, $prd = null)
     {
         $this->db->select('no_batch, MAX(date_equipment) AS date_equipment');
+        $this->db->join('tb_timbang', 'tb_equipment_status.no_batch = tb_timbang.no_batch');
         $this->db->group_by('tb_equipment_status.no_batch');
         $this->db->order_by('tb_equipment_status.created_at', 'DESC');
         if ($batch) {
@@ -48,7 +49,7 @@ class MEquipmentStatus extends CI_Model
             $this->db->where('tb_equipment_status.date_equipment', $date);
         }
         if ($prd) {
-            $this->db->where('tb_equipment_status.kode_product', $prd);
+            $this->db->where('tb_timbang.kode_product', $prd);
         }
         $result = $this->db->get('tb_equipment_status')->result_array();
 
