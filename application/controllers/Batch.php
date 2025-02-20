@@ -43,7 +43,7 @@ class Batch extends CI_Controller
                 'data' => $result
             ];
 
-            $this->output->set_output(json_encode($response));
+            return $this->output->set_output(json_encode($response));
         } else {
             $response = [
                 'code' => 401,
@@ -51,7 +51,7 @@ class Batch extends CI_Controller
                 'msg' => 'Method not found',
             ];
 
-            $this->output->set_output(json_encode($response));
+            return $this->output->set_output(json_encode($response));
         }
     }
 
@@ -67,7 +67,27 @@ class Batch extends CI_Controller
 
                 $resultEquipment = $this->MEquipmentStatus->getEquipmentByBatch($no_batch);
 
+                if ($resultEquipment == null) {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'ok',
+                        'msg' => 'Data Equipment Tidak Ditemukan'
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
+
                 $getTimbang = $this->MTimbang->getByBatch($no_batch);
+
+                if ($getTimbang == null && $resultEquipment != null) {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'ok',
+                        'msg' => 'Batch ' . $no_batch . ' tidak memiliki data timbang, tetapi memiliki data equipment. Kemungkinan terjadi karna ketidakcocokan no batch'
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
 
                 $getKodeProduct = $this->MTimbang->getPrdByBatch($no_batch);
                 $kode_product = $getKodeProduct['kode_product'];
@@ -136,16 +156,15 @@ class Batch extends CI_Controller
                     'dataProduct' => $getProduct,
                 ];
 
-                $this->output->set_output(json_encode($response));
+                return $this->output->set_output(json_encode($response));
             } else {
-
                 $response = [
                     'code' => 401,
                     'status' => 'ok',
                     'msg' => 'No batch cannot be null'
                 ];
 
-                $this->output->set_output(json_encode($response));
+                return $this->output->set_output(json_encode($response));
             }
         } else {
             $response = [
@@ -154,7 +173,7 @@ class Batch extends CI_Controller
                 'msg' => 'Method not found',
             ];
 
-            $this->output->set_output(json_encode($response));
+            return $this->output->set_output(json_encode($response));
         }
     }
 
