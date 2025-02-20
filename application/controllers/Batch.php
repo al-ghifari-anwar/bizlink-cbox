@@ -94,6 +94,16 @@ class Batch extends CI_Controller
 
                 $getProduct = $this->MProduct->getByKode($kode_product);
 
+                if ($getProduct == null) {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'ok',
+                        'msg' => 'Produk dengan kode ' . $kode_product . ' tidak dapat ditemukan dalam database.'
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
+
                 $rekapEquipment = array();
 
                 $getTimbangWithResep = array();
