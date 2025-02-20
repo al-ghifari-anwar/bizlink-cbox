@@ -36,6 +36,25 @@ class MEquipmentStatus extends CI_Model
         return $result;
     }
 
+    public function getByFilter($batch = null, $date = null, $prd = null)
+    {
+        $this->db->select('no_batch, MAX(date_equipment) AS date_equipment');
+        $this->db->group_by('tb_equipment_status.no_batch');
+        $this->db->order_by('tb_equipment_status.created_at', 'DESC');
+        if ($batch) {
+            $this->db->where('tb_equipment_status.no_batch', $batch);
+        }
+        if ($date) {
+            $this->db->where('tb_equipment_status.date_equipment', $date);
+        }
+        if ($prd) {
+            $this->db->where('tb_equipment_status.kode_product', $prd);
+        }
+        $result = $this->db->get('tb_equipment_status')->result_array();
+
+        return $result;
+    }
+
     public function getByBatch($no_batch)
     {
         $this->db->select('no_batch');

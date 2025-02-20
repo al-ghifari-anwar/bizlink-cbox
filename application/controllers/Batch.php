@@ -19,9 +19,13 @@ class Batch extends CI_Controller
         // $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $batch = isset($_GET['batch']) ? $_GET['batch'] : null;
+            $date = isset($_GET['date']) ? $_GET['date'] : null;
+            $prd = isset($_GET['prd']) ? $_GET['prd'] : null;
+
             $completeBatch = array();
 
-            $batchs = $this->MEquipmentStatus->getAllBatch();
+            $batchs = $this->MEquipmentStatus->getByFilter($batch, $date, $prd);
 
             foreach ($batchs as $batch) {
                 $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
