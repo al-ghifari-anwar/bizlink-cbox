@@ -4,6 +4,7 @@ class MSpk extends CI_Model
 {
     public $id_product;
     public $jml_batch;
+    public $ordering_spk;
     public $date_spk;
     public $desc_spk;
     public $updated_at;
@@ -59,6 +60,7 @@ class MSpk extends CI_Model
 
         $this->id_product = $post['id_product'];
         $this->jml_batch = $post['jml_batch'];
+        $this->ordering_spk = $post['ordeting_spk'];
         $this->date_spk = $post['date_spk'];
         $this->desc_spk = $post['desc_spk'];
         $this->updated_at = date("Y-m-d H:i:s");
@@ -78,6 +80,7 @@ class MSpk extends CI_Model
 
         $this->id_product = $post['id_product'];
         $this->jml_batch = $post['jml_batch'];
+        $this->ordering_spk = $post['ordeting_spk'];
         $this->date_spk = $post['date_spk'];
         $this->desc_spk = $post['desc_spk'];
         $this->updated_at = date("Y-m-d H:i:s");
