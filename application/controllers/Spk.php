@@ -213,7 +213,7 @@ class Spk extends CI_Controller
 
             $hasilBatch = count($countBatch);
 
-            $getSpk['jml_batch'] = $getSpk['jml_batch'] - $hasilBatch;
+            $getSpk['jml_batch'] = $getSpk['jml_batch'];
 
 
             // Semen Grey
