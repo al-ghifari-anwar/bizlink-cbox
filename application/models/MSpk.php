@@ -42,6 +42,7 @@ class MSpk extends CI_Model
     public function getByFilter($date_spk, $status_spk)
     {
         $this->db->order_by('date_spk', 'DESC');
+        $this->db->where('DATE(date_spk)', $date_spk);
         if ($status_spk != 'all') {
             $this->db->where('status_spk', $status_spk);
         }
