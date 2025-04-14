@@ -39,6 +39,17 @@ class MSpk extends CI_Model
         return $result;
     }
 
+    public function getByFilter($date_spk, $status_spk)
+    {
+        $this->db->order_by('date_spk', 'DESC');
+        if ($status_spk != 'all') {
+            $this->db->where('status_spk', $status_spk);
+        }
+        $result = $this->db->get('tb_spk')->result_array();
+
+        return $result;
+    }
+
     public function getPeriod($period)
     {
         if ($period == 'past') {

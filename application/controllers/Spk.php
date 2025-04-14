@@ -18,68 +18,25 @@ class Spk extends CI_Controller
         $this->output->set_content_type('application/json');
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            if (isset($_GET['date'])) {
-                $result = $this->MSpk->getByDate($_GET['date']);
+            $date_spk = $_GET['date'];
+            $status_spk = $_GET['status'];
 
+            $result = $this->MSpk->getByFilter($date_spk, $status_spk);
+
+            if ($result != null) {
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
-                    'data' => $result
+                    'data' => $result,
                 ];
 
                 $this->output->set_output(json_encode($response));
-            } else if (isset($_GET['period'])) {
-                if ($_GET['period'] == 'past') {
-                    $result = $this->MSpk->getPeriod($_GET['period']);
-
-                    $response = [
-                        'code' => 200,
-                        'status' => 'ok',
-                        'msg' => 'Data fetched',
-                        'data' => $result
-                    ];
-
-                    $this->output->set_output(json_encode($response));
-                } else if ($_GET['period'] == 'upcoming') {
-                    $result = $this->MSpk->getPeriod($_GET['period']);
-
-                    $response = [
-                        'code' => 200,
-                        'status' => 'ok',
-                        'msg' => 'Data fetched',
-                        'data' => $result
-                    ];
-
-                    $this->output->set_output(json_encode($response));
-                } else if ($_GET['period'] == 'now') {
-                    $result = $this->MSpk->getPeriod($_GET['period']);
-
-                    $response = [
-                        'code' => 200,
-                        'status' => 'ok',
-                        'msg' => 'Data fetched',
-                        'data' => $result
-                    ];
-
-                    $this->output->set_output(json_encode($response));
-                } else {
-                    $response = [
-                        'code' => 401,
-                        'status' => 'ok',
-                        'msg' => 'Invalid field period'
-                    ];
-
-                    $this->output->set_output(json_encode($response));
-                }
             } else {
-                $result = $this->MSpk->get();
-
                 $response = [
-                    'code' => 200,
+                    'code' => 401,
                     'status' => 'ok',
-                    'msg' => 'Data fetched',
-                    'data' => $result
+                    'msg' => 'SPK empty'
                 ];
 
                 $this->output->set_output(json_encode($response));
