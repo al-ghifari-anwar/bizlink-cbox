@@ -86,3 +86,7 @@ $route['api/finishgood'] = 'Finishgood/get';
 $route['api/spk'] = 'Spk/api';
 $route['api/spk/(:num)'] = 'Spk/api_by_id/$1';
 $route['api/spk/today'] = 'Spk/getToday';
+$route['api/spk/available'] = 'Spk/getAvailable';
+// Transaction
+$route['api/transaction'] = 'Transaction/api';
+$route['api/transaction/(:num)'] = 'Transaction/api_by_id/$1';

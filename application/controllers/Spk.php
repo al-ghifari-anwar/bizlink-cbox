@@ -157,6 +157,47 @@ class Spk extends CI_Controller
         }
     }
 
+    public function getAvailable()
+    {
+        $this->output->set_content_type('application/json');
+
+        $spks = $this->MSpk->get();
+
+        $spkArray = array();
+
+        foreach ($spks as $spk) {
+            $id_spk = $spk['id_spk'];
+            $checkSpk = $this->db->get_where('tb_transaction_detail', ['id_spk' => $id_spk])->row_array();
+
+            if ($checkSpk != null) {
+                if ($spk['status_spk'] != 'DONE') {
+                    if ($checkSpk['status_transaction_detail'] != 'RUNNING' || $checkSpk['status_transaction_detail'] != 'PENDING') {
+                        array_push($spkArray, $spk);
+                    }
+                }
+            }
+        }
+
+        if ($spkArray) {
+            $response = [
+                'code' => 200,
+                'status' => 'ok',
+                'msg' => 'Data fetched',
+                'data' => $spkArray
+            ];
+
+            $this->output->set_output(json_encode($response));
+        } else {
+            $response = [
+                'code' => 401,
+                'status' => 'ok',
+                'msg' => 'Not found'
+            ];
+
+            $this->output->set_output(json_encode($response));
+        }
+    }
+
     public function getToday()
     {
         $this->output->set_content_type('application/json');
