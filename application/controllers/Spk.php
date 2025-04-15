@@ -204,102 +204,102 @@ class Spk extends CI_Controller
 
         $getSpk = $this->MSpk->getToday();
 
-        if ($getSpk) {
-            $countBatch = $this->MEquipmentStatus->getMixerOn($getSpk['id_spk']);
-            $getProduct = $this->MProduct->getById($getSpk['id_product']);
-            $getFormula = $this->MFormula->getByProductId($getSpk['id_product']);
+        // if ($getSpk) {
+        //     $countBatch = $this->MEquipmentStatus->getMixerOn($getSpk['id_spk']);
+        //     $getProduct = $this->MProduct->getById($getSpk['id_product']);
+        //     $getFormula = $this->MFormula->getByProductId($getSpk['id_product']);
 
-            $hasilBatch = count($countBatch);
+        //     $hasilBatch = count($countBatch);
 
-            $getSpk['jml_batch'] = $getSpk['status_spk'] == 'done' ? 0 : $getSpk['jml_batch'];
+        //     $getSpk['jml_batch'] = $getSpk['status_spk'] == 'done' ? 0 : $getSpk['jml_batch'];
 
 
-            // Semen Grey
-            $target_semen_grey = 0;
-            $fine_semen_grey = 0;
-            $kode_semen_grey = '';
-            // Semen Putih
-            $target_semen_putih = 0;
-            $fine_semen_putih = 0;
-            $kode_semen_putih = '';
-            // Kapur
-            $target_kapur = 0;
-            $fine_kapur = 0;
-            $kode_kapur = '';
-            // Pasir Halus
-            $target_pasir_halus = 0;
-            $fine_pasir_halus = 0;
-            $kode_pasir_halus = '';
-            // Pasir Kasar
-            $target_pasir_kasar = 0;
-            $fine_pasir_kasar = 0;
-            $kode_pasir_kasar = '';
-            // Additif
-            $target_additif = 0;
-            $fine_additif = 0;
-            $kode_additif = '';
-            foreach ($getFormula as $formula) {
-                if ($formula['kode_material'] == '1001') {
-                    $target_semen_grey = $formula['target_formula'] * 10;
-                    $fine_semen_grey = $formula['fine_formula'] * 10;
-                    $kode_semen_grey = $formula['kode_material'];
-                } else if ($formula['kode_material'] == '1004') {
-                    $target_semen_putih = $formula['target_formula'] * 10;
-                    $fine_semen_putih = $formula['fine_formula'] * 10;
-                    $kode_semen_putih = $formula['kode_material'];
-                } else if ($formula['kode_material'] == '1002') {
-                    $target_kapur = $formula['target_formula'] * 10;
-                    $fine_kapur = $formula['fine_formula'] * 10;
-                    $kode_kapur = $formula['kode_material'];
-                } else if ($formula['kode_material'] == '1003') {
-                    $target_pasir_halus = $formula['target_formula'] * 10;
-                    $fine_pasir_halus = $formula['fine_formula'] * 10;
-                    $kode_pasir_halus = $formula['kode_material'];
-                } else if ($formula['kode_material'] == '100007') {
-                    $target_pasir_kasar = $formula['target_formula'] * 10;
-                    $fine_pasir_kasar = $formula['fine_formula'] * 10;
-                    $kode_pasir_kasar = $formula['kode_material'];
-                } else if (str_contains($formula['name_material'], 'PREMIX') || str_contains($formula['name_material'], 'premix') || str_contains($formula['name_material'], 'Premix') || str_contains($formula['name_material'], 'ADTF') || str_contains($formula['name_material'], 'adtf')) {
-                    $target_additif = $formula['target_formula'] * 10;
-                    $fine_additif = $formula['fine_formula'] * 10;
-                    $kode_additif = $formula['kode_material'];
-                }
-            }
+        //     // Semen Grey
+        //     $target_semen_grey = 0;
+        //     $fine_semen_grey = 0;
+        //     $kode_semen_grey = '';
+        //     // Semen Putih
+        //     $target_semen_putih = 0;
+        //     $fine_semen_putih = 0;
+        //     $kode_semen_putih = '';
+        //     // Kapur
+        //     $target_kapur = 0;
+        //     $fine_kapur = 0;
+        //     $kode_kapur = '';
+        //     // Pasir Halus
+        //     $target_pasir_halus = 0;
+        //     $fine_pasir_halus = 0;
+        //     $kode_pasir_halus = '';
+        //     // Pasir Kasar
+        //     $target_pasir_kasar = 0;
+        //     $fine_pasir_kasar = 0;
+        //     $kode_pasir_kasar = '';
+        //     // Additif
+        //     $target_additif = 0;
+        //     $fine_additif = 0;
+        //     $kode_additif = '';
+        //     foreach ($getFormula as $formula) {
+        //         if ($formula['kode_material'] == '1001') {
+        //             $target_semen_grey = $formula['target_formula'] * 10;
+        //             $fine_semen_grey = $formula['fine_formula'] * 10;
+        //             $kode_semen_grey = $formula['kode_material'];
+        //         } else if ($formula['kode_material'] == '1004') {
+        //             $target_semen_putih = $formula['target_formula'] * 10;
+        //             $fine_semen_putih = $formula['fine_formula'] * 10;
+        //             $kode_semen_putih = $formula['kode_material'];
+        //         } else if ($formula['kode_material'] == '1002') {
+        //             $target_kapur = $formula['target_formula'] * 10;
+        //             $fine_kapur = $formula['fine_formula'] * 10;
+        //             $kode_kapur = $formula['kode_material'];
+        //         } else if ($formula['kode_material'] == '1003') {
+        //             $target_pasir_halus = $formula['target_formula'] * 10;
+        //             $fine_pasir_halus = $formula['fine_formula'] * 10;
+        //             $kode_pasir_halus = $formula['kode_material'];
+        //         } else if ($formula['kode_material'] == '100007') {
+        //             $target_pasir_kasar = $formula['target_formula'] * 10;
+        //             $fine_pasir_kasar = $formula['fine_formula'] * 10;
+        //             $kode_pasir_kasar = $formula['kode_material'];
+        //         } else if (str_contains($formula['name_material'], 'PREMIX') || str_contains($formula['name_material'], 'premix') || str_contains($formula['name_material'], 'Premix') || str_contains($formula['name_material'], 'ADTF') || str_contains($formula['name_material'], 'adtf')) {
+        //             $target_additif = $formula['target_formula'] * 10;
+        //             $fine_additif = $formula['fine_formula'] * 10;
+        //             $kode_additif = $formula['kode_material'];
+        //         }
+        //     }
 
-            $response = [
-                'spk' => $getSpk,
-                'product' => $getProduct,
-                'formula' => [
-                    'target_semen_grey' => $target_semen_grey,
-                    'fine_semen_grey' => $fine_semen_grey,
-                    'kode_semen_grey' => $kode_semen_grey,
-                    'target_semen_putih' => $target_semen_putih,
-                    'fine_semen_putih' => $fine_semen_putih,
-                    'kode_semen_putih' => $kode_semen_putih,
-                    'target_kapur' => $target_kapur,
-                    'fine_kapur' => $fine_kapur,
-                    'kode_kapur' => $kode_kapur,
-                    'target_pasir_kasar' => $target_pasir_kasar,
-                    'fine_pasir_kasar' => $fine_pasir_kasar,
-                    'kode_pasir_kasar' => $kode_pasir_kasar,
-                    'target_pasir_halus' => $target_pasir_halus,
-                    'fine_pasir_halus' => $fine_pasir_halus,
-                    'kode_pasir_halus' => $kode_pasir_halus,
-                    'target_additif' => $target_additif,
-                    'fine_additif' => $fine_additif,
-                    'kode_additif' => $kode_additif
-                ]
-            ];
+        //     $response = [
+        //         'spk' => $getSpk,
+        //         'product' => $getProduct,
+        //         'formula' => [
+        //             'target_semen_grey' => $target_semen_grey,
+        //             'fine_semen_grey' => $fine_semen_grey,
+        //             'kode_semen_grey' => $kode_semen_grey,
+        //             'target_semen_putih' => $target_semen_putih,
+        //             'fine_semen_putih' => $fine_semen_putih,
+        //             'kode_semen_putih' => $kode_semen_putih,
+        //             'target_kapur' => $target_kapur,
+        //             'fine_kapur' => $fine_kapur,
+        //             'kode_kapur' => $kode_kapur,
+        //             'target_pasir_kasar' => $target_pasir_kasar,
+        //             'fine_pasir_kasar' => $fine_pasir_kasar,
+        //             'kode_pasir_kasar' => $kode_pasir_kasar,
+        //             'target_pasir_halus' => $target_pasir_halus,
+        //             'fine_pasir_halus' => $fine_pasir_halus,
+        //             'kode_pasir_halus' => $kode_pasir_halus,
+        //             'target_additif' => $target_additif,
+        //             'fine_additif' => $fine_additif,
+        //             'kode_additif' => $kode_additif
+        //         ]
+        //     ];
 
-            $this->output->set_output(json_encode($response));
-        } else {
-            $response = [
-                'code' => 400,
-                'status' => 'ok',
-                'msg' => 'Spk tidak ditemukan'
-            ];
+        //     $this->output->set_output(json_encode($response));
+        // } else {
+        $response = [
+            'code' => 400,
+            'status' => 'ok',
+            'msg' => 'Spk tidak ditemukan'
+        ];
 
-            $this->output->set_output(json_encode($response));
-        }
+        $this->output->set_output(json_encode($response));
+        // }
     }
 }
