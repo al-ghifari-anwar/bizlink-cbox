@@ -171,7 +171,8 @@ class Spk extends CI_Controller
 
             if ($checkSpk != null) {
                 if ($spk['status_spk'] != 'done') {
-                    if ($checkSpk['status_transaction_detail'] != 'PENDING') {
+                    $condTransaction = array('RUNNING', 'PENDING');
+                    if (!in_array($checkSpk['status_transaction_detail'], $condTransaction)) {
                         $spk['status_transaction_detail'] = $checkSpk['status_transaction_detail'];
                         array_push($spkArray, $spk);
                     }
