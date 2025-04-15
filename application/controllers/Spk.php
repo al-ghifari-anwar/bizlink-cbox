@@ -170,13 +170,13 @@ class Spk extends CI_Controller
             $checkSpk = $this->db->get_where('tb_transaction_detail', ['id_spk' => $id_spk])->row_array();
 
             if ($checkSpk != null) {
-                if ($spk['status_spk'] != 'DONE') {
+                if ($spk['status_spk'] != 'done') {
                     if ($checkSpk['status_transaction_detail'] != 'RUNNING' || $checkSpk['status_transaction_detail'] != 'PENDING') {
                         array_push($spkArray, $spk);
                     }
                 }
             } else {
-                if ($spk['status_spk'] != 'DONE') {
+                if ($spk['status_spk'] != 'done') {
                     array_push($spkArray, $spk);
                 }
             }
