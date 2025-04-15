@@ -47,15 +47,8 @@ class Transaction extends CI_Controller
 
             $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
 
-            $transactionData = [
-                'date_transaction' => date("Y-m-d H:i:s"),
-                'status_transaction' => 'PENDING',
-            ];
-
-            $save = $this->MTransaction->createFromArray($transactionData);
-
-            if ($save) {
-                $id_transaction = $this->db->insert_id();
+            if (isset($post['id_transaction'])) {
+                $id_transaction = $post['id_transaction'];
 
                 foreach (json_decode($post['list_spk'], true) as $listSpk) {
                     $transactionDetailData = [
@@ -70,21 +63,49 @@ class Transaction extends CI_Controller
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
-                    'msg' => 'Success transaction'
+                    'msg' => 'Success adding spk to transaction'
                 ];
 
                 return $this->output->set_output(json_encode($response));
             } else {
-                $response = [
-                    'code' => 401,
-                    'status' => 'ok',
-                    'msg' => 'Failed creating transaction'
+
+                $transactionData = [
+                    'date_transaction' => date("Y-m-d H:i:s"),
+                    'status_transaction' => 'PENDING',
                 ];
 
-                return $this->output->set_output(json_encode($response));
+                $save = $this->MTransaction->createFromArray($transactionData);
+
+                if ($save) {
+                    $id_transaction = $this->db->insert_id();
+
+                    foreach (json_decode($post['list_spk'], true) as $listSpk) {
+                        $transactionDetailData = [
+                            'id_transaction' => $id_transaction,
+                            'id_spk' => $listSpk,
+                            'status_transaction_detail' => 'PENDING',
+                        ];
+
+                        $save = $this->MTransactiondetail->createFromArray($transactionDetailData);
+                    }
+
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Success transaction'
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                } else {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'ok',
+                        'msg' => 'Failed creating transaction'
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
             }
-
-
             // $this->output->set_output(json_encode($arraySpk));
         }
     }
