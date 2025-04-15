@@ -175,6 +175,10 @@ class Spk extends CI_Controller
                         array_push($spkArray, $spk);
                     }
                 }
+            } else {
+                if ($spk['status_spk'] != 'DONE') {
+                    array_push($spkArray, $spk);
+                }
             }
         }
 
