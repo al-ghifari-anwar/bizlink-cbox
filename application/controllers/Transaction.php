@@ -116,6 +116,17 @@ class Transaction extends CI_Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $transaction = $this->MTransaction->getById($id_transaction);
+
+            if ($transaction == null) {
+                $response = [
+                    'code' => 401,
+                    'status' => 'ok',
+                    'msg' => 'Tansaction not found',
+                ];
+
+                return $this->output->set_output(json_encode($response));
+            }
+
             $id_transaction = $transaction['id_transaction'];
 
             $transactionDetails = $this->MTransactiondetail->getByFilter($id_transaction, 'all');
@@ -140,6 +151,128 @@ class Transaction extends CI_Controller
             ];
 
             return $this->output->set_output(json_encode($response));
+        }
+    }
+
+    public function start()
+    {
+        $this->output->set_content_type('application/json');
+
+        $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
+
+        $id_transaction = $post['id_transaction'];
+
+        $checkRunningTrans = $this->MTransaction->getRowByStatus('RUNNING');
+
+        if ($checkRunningTrans == null) {
+            $transData = [
+                'status_transaction' => 'RUNNING',
+                'updated_at' => date("Y-m-d H:i:s"),
+            ];
+
+            $save = $this->MTransaction->updateFromArray($id_transaction, $transData);
+
+            if ($save) {
+                $getDetail = $this->MTransactiondetail->getRowByStatus($id_transaction, 'PENDING');
+
+                if ($getDetail) {
+                    $id_transaction_detail = $getDetail['id_transaction_detail'];
+
+                    $detailTransData = [
+                        'status_transaction_detail' => 'RUNNING',
+                        'updated_at' => date("Y-m-d H:i:s"),
+                    ];
+
+                    $save = $this->MTransactiondetail->updateFromArray($id_transaction_detail, $detailTransData);
+
+                    if ($save) {
+                        $response = [
+                            'code' => 200,
+                            'status' => 'ok',
+                            'msg' => 'Success running first item',
+                        ];
+
+                        return $this->output->set_output(json_encode($response));
+                    } else {
+                        $response = [
+                            'code' => 401,
+                            'status' => 'ok',
+                            'msg' => 'Fail start running transaction detail',
+                        ];
+
+                        return $this->output->set_output(json_encode($response));
+                    }
+                } else {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'ok',
+                        'msg' => 'No item left, transaction complete',
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
+            } else {
+                $response = [
+                    'code' => 401,
+                    'status' => 'ok',
+                    'msg' => 'Fail start running transaction',
+                ];
+
+                return $this->output->set_output(json_encode($response));
+            }
+        } else {
+            $response = [
+                'code' => 401,
+                'status' => 'ok',
+                'msg' => 'Other transaction still running',
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        }
+    }
+
+    public function deleteDetail($id_transaction_detail)
+    {
+        $this->output->set_content_type('application/json');
+
+        $checkTransDetail = $this->MTransactiondetail->getById($id_transaction_detail);
+
+        if ($checkTransDetail['status_transaction_detail'] == 'RUNNING') {
+            $response = [
+                'code' => 401,
+                'status' => 'ok',
+                'msg' => 'Cannot delete running transaction',
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        } else if ($checkTransDetail['status_transaction_detail'] == 'DONE') {
+            $response = [
+                'code' => 401,
+                'status' => 'ok',
+                'msg' => 'Cannot delete finished transaction',
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        } else {
+            $delete = $this->MTransactiondetail->delete($id_transaction_detail);
+
+            if ($delete) {
+                $response = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Success delete detail'
+                ];
+
+                return $this->output->set_output(json_encode($response));
+            } else {
+                $response = [
+                    'code' => 401,
+                    'status' => 'ok',
+                    'msg' => 'Fail delete detail'
+                ];
+
+                return $this->output->set_output(json_encode($response));
+            }
         }
     }
 }

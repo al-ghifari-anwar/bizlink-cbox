@@ -22,6 +22,28 @@ class MTransaction extends CI_Model
         return $result;
     }
 
+    public function getListByStatus($status_transaction)
+    {
+        $this->db->order_by('date_transaction', 'DESC');
+        if ($status_transaction != 'all') {
+            $this->db->where('status_transaction', $status_transaction);
+        }
+        $result = $this->db->get('tb_transaction')->result_array();
+
+        return $result;
+    }
+
+    public function getRowByStatus($status_transaction)
+    {
+        $this->db->order_by('date_transaction', 'DESC');
+        if ($status_transaction != 'all') {
+            $this->db->where('status_transaction', $status_transaction);
+        }
+        $result = $this->db->get('tb_transaction')->row_array();
+
+        return $result;
+    }
+
     public function createFromArray($transactionData)
     {
         $save = $this->db->insert('tb_transaction', $transactionData);

@@ -90,3 +90,5 @@ $route['api/spk/available'] = 'Spk/getAvailable';
 // Transaction
 $route['api/transaction'] = 'Transaction/api';
 $route['api/transaction/(:num)'] = 'Transaction/api_by_id/$1';
+$route['api/transaction-detail/delete/(:num)'] = 'Transaction/deleteDetail/$1';
+$route['api/transaction/start'] = 'Transaction/start';
