@@ -173,12 +173,7 @@ class Transaction extends CI_Controller
 
             return $this->output->set_output(json_encode($response));
         } else {
-            $transData = [
-                'status_transaction' => 'RUNNING',
-                'updated_at' => date("Y-m-d H:i:s"),
-            ];
-
-            $save = $this->MTransaction->updateFromArray($id_transaction, $transData);
+            $save = true;
 
             if ($save) {
                 $getDetail = $this->MTransactiondetail->getRowByStatus($id_transaction, 'PENDING');
@@ -186,6 +181,13 @@ class Transaction extends CI_Controller
                 if ($getDetail) {
                     $id_transaction_detail = $getDetail['id_transaction_detail'];
                     $id_spk = $getDetail['id_spk'];
+
+                    $transData = [
+                        'status_transaction' => 'RUNNING',
+                        'updated_at' => date("Y-m-d H:i:s"),
+                    ];
+
+                    $save = $this->MTransaction->updateFromArray($id_transaction, $transData);
 
                     $detailTransData = [
                         'status_transaction_detail' => 'RUNNING',
@@ -218,6 +220,7 @@ class Transaction extends CI_Controller
                         return $this->output->set_output(json_encode($response));
                     }
                 } else {
+
                     $response = [
                         'code' => 401,
                         'status' => 'failed',
