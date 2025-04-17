@@ -18,11 +18,11 @@ class MEquipmentStatus extends CI_Model
         return $result;
     }
 
-    public function getMixerOnForBatchingNumber($id_spk, $date)
+    public function getMixerOnForBatchingNumber($id_product, $date)
     {
         $this->db->order_by('tb_equipment_status.created_at', 'DESC');
         // $this->db->group_by('tb_equipment_status.no_batch');
-        $result = $this->db->get_where('tb_equipment_status', ['status_equipment' => 'ON', 'name_equipment' => 'MIXING TIME', 'id_spk' => $id_spk, 'date_equipment' => $date])->row_array();
+        $result = $this->db->get_where('tb_equipment_status', ['status_equipment' => 'ON', 'name_equipment' => 'MIXING TIME', 'id_product' => $id_product, 'date_equipment' => $date])->row_array();
 
         return $result;
     }
