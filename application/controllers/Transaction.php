@@ -418,6 +418,144 @@ class Transaction extends CI_Controller
         }
     }
 
+    public function done()
+    {
+        $this->output->set_content_type('application/json');
+
+        $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
+
+        $id_spk = $post['id_spk'];
+        $status = $post['DONE'];
+        $id_transaction_detail = $post['id_trans'];
+
+        $getTransDetail = $this->MTransactiondetail->getById($id_transaction_detail);
+
+        if (!$getTransDetail) {
+            $response = [
+                'code' => 401,
+                'status' => 'failed',
+                'msg' => 'Transaction not found',
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        } else {
+            $getSpk = $this->MSpk->getById($id_spk);
+
+            if (!$getSpk) {
+                $response = [
+                    'code' => 401,
+                    'status' => 'failed',
+                    'msg' => 'SPK not found',
+                ];
+
+                return $this->output->set_output(json_encode($response));
+            } else {
+                $transDetailData = [
+                    'status_transaction_detail' => 'DONE',
+                    'updated_at' => date("Y-m-d H:i:s"),
+                ];
+
+                $this->MTransactiondetail->updateFromArray($id_transaction_detail, $transDetailData);
+
+                $spkData = [
+                    'status_spk' => 'done',
+                ];
+
+                $this->MSpk->updateFromArray($id_spk, $spkData);
+
+                $jml_batch = $getSpk['jml_batch'];
+                $countBatch = $this->MEquipmentStatus->getMixerOn($id_spk);
+
+                if ($countBatch == $jml_batch) {
+                    $id_transaction = $getTransDetail['id_transaction'];
+
+                    $getPendingTrans = $this->MTransactiondetail->getRowByStatus($id_transaction, 'PENDING');
+
+                    if (!$getPendingTrans) {
+                        $getTrans = $this->MTransaction->getById($id_transaction);
+
+                        $getCountDetail = $this->MTransactiondetail->getByFilter($id_transaction, 'all');
+                        $countDetail = count($getCountDetail);
+
+                        $getDoneDetail = $this->MTransactiondetail->getByFilter($id_transaction, 'DONE');
+                        $countDone = count($getDoneDetail);
+
+                        if ($countDone == $countDetail) {
+                            $transData = [
+                                'status_transaction' => 'COMPLETE',
+                                'updated_at' => date('Y-m-d H:i:s'),
+                            ];
+
+                            $save = $this->MTransaction->updateFromArray($id_transaction, $transData);
+
+                            $response = [
+                                'code' => 200,
+                                'status' => 'ok',
+                                'msg' => 'Transaction success, complete',
+                            ];
+
+                            return $this->output->set_output(json_encode($response));
+                        } else {
+                            $transData = [
+                                'status_transaction' => 'NOT_COMPLETE',
+                                'updated_at' => date('Y-m-d H:i:s'),
+                            ];
+
+                            $save = $this->MTransaction->updateFromArray($id_transaction, $transData);
+
+                            $response = [
+                                'code' => 200,
+                                'status' => 'ok',
+                                'msg' => 'Transaction success, not_complete',
+                            ];
+
+                            return $this->output->set_output(json_encode($response));
+                        }
+                    } else {
+                        $transDetailData = [
+                            'status_transaction_detail' => 'RUNNING',
+                            'updated_at' => date("Y-m-d H:i:s"),
+                        ];
+
+                        $save = $this->MTransactiondetail->updateFromArray($getPendingTrans['id_transaction_detail'], $transDetailData);
+
+                        if (!$save) {
+                            $response = [
+                                'code' => 401,
+                                'status' => 'failed',
+                                'msg' => 'Transaction stopped, but failed to run another item',
+                            ];
+
+                            return $this->output->set_output(json_encode($response));
+                        } else {
+                            $spkData = [
+                                'status_spk' => 'running'
+                            ];
+
+                            $save = $this->MSpk->updateFromArray($getPendingTrans['id_spk'], $spkData);
+
+                            $response = [
+                                'code' => 200,
+                                'status' => 'ok',
+                                'msg' => 'Success continue to other item',
+                            ];
+
+                            return $this->output->set_output(json_encode($response));
+                        }
+                    }
+                } else if ($countBatch < $jml_batch) {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'failed',
+                        'msg' => 'Batch not complete',
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
+            }
+        }
+    }
+
 
     public function deleteDetail($id_transaction_detail)
     {

@@ -9,6 +9,7 @@ class MTransactiondetail extends CI_Model
         return $result;
     }
 
+
     public function getByFilter($id_transaction, $status_transaction)
     {
         $this->db->order_by('updated_at', 'DESC');
