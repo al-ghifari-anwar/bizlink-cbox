@@ -221,7 +221,7 @@ class Spk extends CI_Controller
 
                     $getSpk['jml_batch'] = $getSpk['status_spk'] == 'done' ? 0 : $getSpk['jml_batch'];
 
-                    $getLastBatch = $this->MEquipmentStatus->getMixerOnForBatchingNumber($getSpk['id_product'], date("Y-m-d"));
+                    $getLastBatch = $this->MEquipmentStatus->getMixerOnForBatchingNumber($getProduct['id_product'], date("Y-m-d"));
 
                     if (!$getLastBatch) {
                         // Kode barang, tanggal, plant, bulan, tahun, nomor
