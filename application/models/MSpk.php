@@ -106,6 +106,17 @@ class MSpk extends CI_Model
         }
     }
 
+    public function updateFromArray($id_spk, $spkData)
+    {
+        $query = $this->db->update('tb_spk', $spkData, ['id_spk' => $id_spk]);
+
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function destroy($id_spk)
     {
         $query = $this->db->delete('tb_spk', ['id_spk' => $id_spk]);

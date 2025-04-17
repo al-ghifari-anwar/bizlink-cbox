@@ -4,7 +4,7 @@ class MTransactiondetail extends CI_Model
 {
     public function getById($id_transaction_detail)
     {
-        $result = $this->db->get_where('tb_transaction_detail', ['id_transaction_detail' => $id_transaction_detail])->result_array();
+        $result = $this->db->get_where('tb_transaction_detail', ['id_transaction_detail' => $id_transaction_detail])->row_array();
 
         return $result;
     }
