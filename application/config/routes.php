@@ -93,3 +93,4 @@ $route['api/transaction/(:num)'] = 'Transaction/api_by_id/$1';
 $route['api/transaction-detail/delete/(:num)'] = 'Transaction/deleteDetail/$1';
 $route['api/transaction/start'] = 'Transaction/start';
 $route['api/transaction/stop'] = 'Transaction/stop';
+$route['api/transaction/done'] = 'Transaction/done';
