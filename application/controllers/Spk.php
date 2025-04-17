@@ -46,40 +46,36 @@ class Spk extends CI_Controller
         } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
 
-            $date = date("Y-m-d", strtotime($post['date_spk']));
+            // if ($spk != null) {
+            //     $response = [
+            //         'code' => 401,
+            //         'status' => 'ok',
+            //         'msg' => 'Sudah ada spk di tanggal tersebut'
+            //     ];
 
-            $spk = $this->MSpk->getByDate($date);
+            //     $this->output->set_output(json_encode($response));
+            // } else {
+            $result = $this->MSpk->create();
 
-            if ($spk != null) {
+            if ($result) {
                 $response = [
-                    'code' => 401,
+                    'code' => 200,
                     'status' => 'ok',
-                    'msg' => 'Sudah ada spk di tanggal tersebut'
+                    'msg' => 'Data created'
                 ];
 
                 $this->output->set_output(json_encode($response));
             } else {
-                $result = $this->MSpk->create();
+                $response = [
+                    'code' => 401,
+                    'status' => 'ok',
+                    'msg' => 'Data not created',
+                    'detail' => $this->db->error()
+                ];
 
-                if ($result) {
-                    $response = [
-                        'code' => 200,
-                        'status' => 'ok',
-                        'msg' => 'Data created'
-                    ];
-
-                    $this->output->set_output(json_encode($response));
-                } else {
-                    $response = [
-                        'code' => 401,
-                        'status' => 'ok',
-                        'msg' => 'Data not created',
-                        'detail' => $this->db->error()
-                    ];
-
-                    $this->output->set_output(json_encode($response));
-                }
+                $this->output->set_output(json_encode($response));
             }
+            // }
         } else {
             $response = [
                 'code' => 401,
@@ -225,8 +221,16 @@ class Spk extends CI_Controller
 
                     $getSpk['jml_batch'] = $getSpk['status_spk'] == 'done' ? 0 : $getSpk['jml_batch'];
 
-                    // Kode barang, tanggal, plant, bulan, tahun, nomor
-                    $noBatchAwal = $getProduct['code_batch'] . date('d') . '02' . date('mY') . str_pad('1', 6, '0', STR_PAD_LEFT);
+                    $getLastBatch = $this->MEquipmentStatus->getMixerOnForBatchingNumber($getSpk['id_spk'], date("Y-m-d"));
+
+                    if (!$getLastBatch) {
+                        // Kode barang, tanggal, plant, bulan, tahun, nomor
+                        $noBatchAwal = $getProduct['code_batch'] . date('d') . '02' . date('mY') . str_pad('1', 6, '0', STR_PAD_LEFT);
+                    } else {
+                        $lastBatch = $getLastBatch['no_batch'];
+                        $lastNumber = ltrim(substr($lastBatch, -6), '0') + 1;
+                        $noBatchAwal = $getProduct['code_batch'] . date('d') . '02' . date('mY') . str_pad($lastNumber, 6, '0', STR_PAD_LEFT);
+                    }
 
                     $getSpk['batchAwal'] = $noBatchAwal;
                     $getSpk['id_trans'] = $getTransDetail['id_transaction_detail'];
