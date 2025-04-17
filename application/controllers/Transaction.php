@@ -428,7 +428,7 @@ class Transaction extends CI_Controller
         $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
 
         $id_spk = $post['id_spk'];
-        $status = $post['DONE'];
+        $status = $post['status'];
         $id_transaction_detail = $post['id_trans'];
 
         $getTransDetail = $this->MTransactiondetail->getById($id_transaction_detail);
@@ -467,21 +467,28 @@ class Transaction extends CI_Controller
                 $this->MSpk->updateFromArray($id_spk, $spkData);
 
                 $jml_batch = $getSpk['jml_batch'];
-                $countBatch = $this->MEquipmentStatus->getMixerOn($id_spk);
+                $getBatch = $this->MEquipmentStatus->getMixerOn($id_spk);
+                $countBatch = count($getBatch);
+
+                // echo $countBatch;
+                // die;
 
                 if ($countBatch == $jml_batch) {
                     $id_transaction = $getTransDetail['id_transaction'];
 
                     $getPendingTrans = $this->MTransactiondetail->getRowByStatus($id_transaction, 'PENDING');
 
+                    $getCountDetail = $this->MTransactiondetail->getByFilter($id_transaction, 'all');
+                    $countDetail = count($getCountDetail);
+
+                    $getDoneDetail = $this->MTransactiondetail->getByFilter($id_transaction, 'DONE');
+                    $countDone = count($getDoneDetail);
+
+                    // echo $countDetail;
+                    // die;
+
                     if (!$getPendingTrans) {
                         $getTrans = $this->MTransaction->getById($id_transaction);
-
-                        $getCountDetail = $this->MTransactiondetail->getByFilter($id_transaction, 'all');
-                        $countDetail = count($getCountDetail);
-
-                        $getDoneDetail = $this->MTransactiondetail->getByFilter($id_transaction, 'DONE');
-                        $countDone = count($getDoneDetail);
 
                         if ($countDone == $countDetail) {
                             $transData = [
