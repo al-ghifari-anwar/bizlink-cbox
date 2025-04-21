@@ -119,6 +119,8 @@ class Batch extends CI_Controller
                     $getTimbangWithResep[] = $timbang;
                 }
 
+                $totalEquipmentTime = new DateTime('00:00');
+                $cloneTotalEquipmentTime = clone $totalEquipmentTime;
                 foreach ($resultEquipment as $equipment) {
                     $name_equipment = $equipment['name_equipment'];
 
@@ -142,8 +144,14 @@ class Batch extends CI_Controller
                         $date1 = new DateTime($timeOn);
                         $date2 = new DateTime($timeOff);
                         $diference  = $date2->diff($date1);
-
                         $interval = $this->format_interval($diference);
+
+                        if ($equipment['name_equipment'] != 'MIXING TIME') {
+                            $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                            $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                            $timeDiff = $time1->diff($time2);
+                            $totalEquipmentTime->add($timeDiff);
+                        }
 
                         $dataEquipment = [
                             'no_batch' => $equipment['no_batch'],
@@ -169,10 +177,14 @@ class Batch extends CI_Controller
                     }
                 }
 
+
+                $intervalTotalEquipment = $cloneTotalEquipmentTime->diff($totalEquipmentTime)->format("%H:%i:%s");
+
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
+                    'totalTime' => $intervalTotalEquipment,
                     'product' => $kode_product,
                     'dataEquipment' => $rekapEquipment,
                     'dataTimbang' => $getTimbangWithResep,
