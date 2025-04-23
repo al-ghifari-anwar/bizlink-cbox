@@ -453,19 +453,6 @@ class Transaction extends CI_Controller
 
                 return $this->output->set_output(json_encode($response));
             } else {
-                $transDetailData = [
-                    'status_transaction_detail' => 'DONE',
-                    'updated_at' => date("Y-m-d H:i:s"),
-                ];
-
-                $this->MTransactiondetail->updateFromArray($id_transaction_detail, $transDetailData);
-
-                $spkData = [
-                    'status_spk' => 'done',
-                ];
-
-                $this->MSpk->updateFromArray($id_spk, $spkData);
-
                 $jml_batch = $getSpk['jml_batch'];
                 $getBatch = $this->MEquipmentStatus->getMixerOn($id_spk);
                 $countBatch = count($getBatch);
@@ -474,6 +461,19 @@ class Transaction extends CI_Controller
                 // die;
 
                 if ($countBatch == $jml_batch) {
+                    $transDetailData = [
+                        'status_transaction_detail' => 'DONE',
+                        'updated_at' => date("Y-m-d H:i:s"),
+                    ];
+
+                    $this->MTransactiondetail->updateFromArray($id_transaction_detail, $transDetailData);
+
+                    $spkData = [
+                        'status_spk' => 'done',
+                    ];
+
+                    $this->MSpk->updateFromArray($id_spk, $spkData);
+
                     $id_transaction = $getTransDetail['id_transaction'];
 
                     $getPendingTrans = $this->MTransactiondetail->getRowByStatus($id_transaction, 'PENDING');
