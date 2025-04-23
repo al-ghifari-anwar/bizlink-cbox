@@ -48,7 +48,7 @@ class MEquipmentStatus extends CI_Model
 
     public function getByFilter($batch = null, $date = null, $prd = null)
     {
-        $this->db->select('tb_equipment_status.no_batch, MAX(date_equipment) AS date_equipment');
+        $this->db->select('tb_equipment_status.no_batch, date_equipment');
         $this->db->join('tb_timbang', 'tb_equipment_status.no_batch = tb_timbang.no_batch');
         $this->db->group_by('tb_equipment_status.no_batch');
         $this->db->order_by('tb_equipment_status.created_at', 'DESC');
