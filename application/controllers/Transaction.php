@@ -136,6 +136,10 @@ class Transaction extends CI_Controller
             foreach ($transactionDetails as $transactionDetail) {
                 $spk = $this->MSpk->getById($transactionDetail['id_spk']);
 
+                $excecutedBatch = $this->MEquipmentStatus->getBySpk($spk['id_spk']);
+
+                $spk['excecuted_batch'] = count($excecutedBatch);
+
                 $transactionDetail['spk'] = $spk;
 
                 array_push($transactionDetailArray, $transactionDetail);
