@@ -48,7 +48,7 @@ class MEquipmentStatus extends CI_Model
 
     public function getBySpk($id_spk)
     {
-        $this->db->order_by('tb_equipment_status.no_batch');
+        $this->db->order_by('tb_equipment_status.no_batch', 'DESC');
         $this->db->group_by('tb_equipment_status.no_batch');
         $result = $this->db->get_where('tb_equipment_status', ['id_spk' => $id_spk])->result_array();
 
