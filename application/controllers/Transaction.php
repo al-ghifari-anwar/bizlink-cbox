@@ -138,7 +138,7 @@ class Transaction extends CI_Controller
 
                 $excecutedBatch = $this->MEquipmentStatus->getBySpk($spk['id_spk']);
 
-                $spk['excecuted_batch'] = count($excecutedBatch);
+                $spk['excecuted_batch'] = count($excecutedBatch) . "";
 
                 $transactionDetail['spk'] = $spk;
 
