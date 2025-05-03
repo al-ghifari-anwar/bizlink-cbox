@@ -118,41 +118,45 @@ class Batch extends CI_Controller
                     // Data Timbang
                     $kode_material = $timbang['kode_bahan'];
                     $formulaMaterial = $this->MFormula->getByProductIdAndMaterial($getProduct['id_product'], $kode_material);
-                    // Time Timbang
-                    $name_equipment = "";
-                    if ($timbang['kode_bahan'] == '1001') {
-                        $name_equipment = 'PENIMBANGAN SEMEN';
-                    } else if ($timbang['kode_bahan'] == '1004') {
-                        $name_equipment = 'PENIMBANGAN SEMEN PUTIH';
-                    } else if ($timbang['kode_bahan'] == '1002') {
-                        $name_equipment = 'PENIMBANGAN KAPUR';
-                    } else if ($timbang['kode_bahan'] == '1003') {
-                        $name_equipment = 'PENIMBANGAN PASIR HALUS';
-                    } else if ($timbang['kode_bahan'] == '100007') {
-                        $name_equipment = 'PENIMBANGAN PASIR';
-                    } else if (str_contains($formulaMaterial['name_material'], 'PREMIX') || str_contains($formulaMaterial['name_material'], 'premix') || str_contains($formulaMaterial['name_material'], 'Premix') || str_contains($formulaMaterial['name_material'], 'ADTF') || str_contains($formulaMaterial['name_material'], 'adtf')) {
-                        $name_equipment = 'PENIMBANGAN ADDITIF';
+
+                    if ($formulaMaterial != null) {
+
+                        // Time Timbang
+                        $name_equipment = "";
+                        if ($timbang['kode_bahan'] == '1001') {
+                            $name_equipment = 'PENIMBANGAN SEMEN';
+                        } else if ($timbang['kode_bahan'] == '1004') {
+                            $name_equipment = 'PENIMBANGAN SEMEN PUTIH';
+                        } else if ($timbang['kode_bahan'] == '1002') {
+                            $name_equipment = 'PENIMBANGAN KAPUR';
+                        } else if ($timbang['kode_bahan'] == '1003') {
+                            $name_equipment = 'PENIMBANGAN PASIR HALUS';
+                        } else if ($timbang['kode_bahan'] == '100007') {
+                            $name_equipment = 'PENIMBANGAN PASIR';
+                        } else if (str_contains($formulaMaterial['name_material'], 'PREMIX') || str_contains($formulaMaterial['name_material'], 'premix') || str_contains($formulaMaterial['name_material'], 'Premix') || str_contains($formulaMaterial['name_material'], 'ADTF') || str_contains($formulaMaterial['name_material'], 'adtf')) {
+                            $name_equipment = 'PENIMBANGAN ADDITIF';
+                        }
+                        $getEquipmentTimbangOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
+                        $getEquipmentTimbangOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
+                        $timeOn = $getEquipmentTimbangOn['date_equipment'] . " " . $getEquipmentTimbangOn['time_equipment'];
+                        $timeOff = $getEquipmentTimbangOff['date_equipment'] . " " . $getEquipmentTimbangOff['time_equipment'];
+
+                        $date1 = new DateTime($timeOn);
+                        $date2 = new DateTime($timeOff);
+                        $diference  = $date2->diff($date1);
+                        $interval = $this->format_interval($diference);
+
+                        $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                        $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                        $timeDiff = $time1->diff($time2);
+                        $totalMaterialTime->add($timeDiff);
+                        $intervalTotalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime)->format("%H:%i:%s");
+
+                        // Set Response Timbang
+                        $timbang['materialTime'] = $interval;
+                        $timbang['formula'] = $formulaMaterial;
+                        $getTimbangWithResep[] = $timbang;
                     }
-                    $getEquipmentTimbangOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
-                    $getEquipmentTimbangOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
-                    $timeOn = $getEquipmentTimbangOn['date_equipment'] . " " . $getEquipmentTimbangOn['time_equipment'];
-                    $timeOff = $getEquipmentTimbangOff['date_equipment'] . " " . $getEquipmentTimbangOff['time_equipment'];
-
-                    $date1 = new DateTime($timeOn);
-                    $date2 = new DateTime($timeOff);
-                    $diference  = $date2->diff($date1);
-                    $interval = $this->format_interval($diference);
-
-                    $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
-                    $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
-                    $timeDiff = $time1->diff($time2);
-                    $totalMaterialTime->add($timeDiff);
-                    $intervalTotalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime)->format("%H:%i:%s");
-
-                    // Set Response Timbang
-                    $timbang['materialTime'] = $interval;
-                    $timbang['formula'] = $formulaMaterial;
-                    $getTimbangWithResep[] = $timbang;
                 }
 
                 $totalEquipmentTime = new DateTime('00:00:00');
