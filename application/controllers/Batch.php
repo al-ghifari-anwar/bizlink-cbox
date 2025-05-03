@@ -138,24 +138,27 @@ class Batch extends CI_Controller
                         }
                         $getEquipmentTimbangOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
                         $getEquipmentTimbangOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
-                        $timeOn = $getEquipmentTimbangOn['date_equipment'] . " " . $getEquipmentTimbangOn['time_equipment'];
-                        $timeOff = $getEquipmentTimbangOff['date_equipment'] . " " . $getEquipmentTimbangOff['time_equipment'];
 
-                        $date1 = new DateTime($timeOn);
-                        $date2 = new DateTime($timeOff);
-                        $diference  = $date2->diff($date1);
-                        $interval = $this->format_interval($diference);
+                        if ($getEquipmentTimbangOn != null) {
+                            $timeOn = $getEquipmentTimbangOn['date_equipment'] . " " . $getEquipmentTimbangOn['time_equipment'];
+                            $timeOff = $getEquipmentTimbangOff['date_equipment'] . " " . $getEquipmentTimbangOff['time_equipment'];
 
-                        $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
-                        $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
-                        $timeDiff = $time1->diff($time2);
-                        $totalMaterialTime->add($timeDiff);
-                        $intervalTotalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime)->format("%H:%i:%s");
+                            $date1 = new DateTime($timeOn);
+                            $date2 = new DateTime($timeOff);
+                            $diference  = $date2->diff($date1);
+                            $interval = $this->format_interval($diference);
 
-                        // Set Response Timbang
-                        $timbang['materialTime'] = $interval;
-                        $timbang['formula'] = $formulaMaterial;
-                        $getTimbangWithResep[] = $timbang;
+                            $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                            $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                            $timeDiff = $time1->diff($time2);
+                            $totalMaterialTime->add($timeDiff);
+                            $intervalTotalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime)->format("%H:%i:%s");
+
+                            // Set Response Timbang
+                            $timbang['materialTime'] = $interval;
+                            $timbang['formula'] = $formulaMaterial;
+                            $getTimbangWithResep[] = $timbang;
+                        }
                     }
                 }
 
