@@ -75,6 +75,19 @@ class MEquipmentStatus extends CI_Model
         return $result;
     }
 
+    public function getByDaterange($dateFrom, $dateTo)
+    {
+        $this->db->select('tb_equipment_status.no_batch, date_equipment');
+        $this->db->join('tb_timbang', 'tb_equipment_status.no_batch = tb_timbang.no_batch');
+        $this->db->group_by('tb_equipment_status.no_batch');
+        $this->db->order_by('tb_equipment_status.created_at', 'DESC');
+        $this->db->where('DATE(date_equipment) >= ', $dateFrom);
+        $this->db->where('DATE(date_equipment) <= ', $dateTo);
+        $result = $this->db->get('tb_equipment_status')->result_array();
+
+        return $result;
+    }
+
     public function getByBatch($no_batch)
     {
         $this->db->select('no_batch');
@@ -87,6 +100,17 @@ class MEquipmentStatus extends CI_Model
     public function getEquipmentByBatch($no_batch)
     {
         $this->db->select('no_batch, name_equipment');
+        $this->db->group_by('tb_equipment_status.name_equipment');
+        $this->db->order_by('tb_equipment_status.created_at', 'DESC');
+        $result = $this->db->get_where('tb_equipment_status', ['no_batch' => $no_batch])->result_array();
+
+        return $result;
+    }
+
+    public function getEquipmentNoBahan($no_batch, $exceptName)
+    {
+        $this->db->select('no_batch, name_equipment');
+        $this->db->where_not_in('name_equipment', $exceptName);
         $this->db->group_by('tb_equipment_status.name_equipment');
         $this->db->order_by('tb_equipment_status.created_at', 'DESC');
         $result = $this->db->get_where('tb_equipment_status', ['no_batch' => $no_batch])->result_array();

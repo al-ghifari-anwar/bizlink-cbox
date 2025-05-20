@@ -12,6 +12,163 @@ class Batch extends CI_Controller
         $this->load->model('MFormula');
     }
 
+    public function index()
+    {
+        // $this->output->set_content_type('application/json');
+        $daterange = $this->input->post();
+        $dateFrom = date("Y-m-d");
+        $dateTo = date("Y-m-d");
+
+        if ($daterange) {
+            $dates = explode('-', $daterange);
+            $dateFrom = date("Y-m-d", strtotime($dates[0]));
+            $dateTo = date("Y-m-d", strtotime($dates[1]));
+        }
+
+        $data['title'] = 'Rekap Produksi';
+
+        $batchs = $this->MEquipmentStatus->getByDaterange($dateFrom, $dateTo);
+
+        $batchArray = array();
+
+        foreach ($batchs as $batch) {
+            $equipmentArray = array();
+            $timbangArray = array();
+
+            $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
+            $kode_product = $timbang != null ? $timbang['kode_product'] : '';
+            $product = $this->MProduct->getByKode($kode_product);
+
+            $no_batch = $batch['no_batch'];
+            $timbang = $this->MTimbang->getPrdByBatch($batch['no_batch']);
+            $kode_product = $timbang != null ? $timbang['kode_product'] : '';
+            $product = $this->MProduct->getByKode($kode_product);
+
+            // Timbang
+            $timbangs = $this->MTimbang->getByBatch($no_batch);
+
+            $totalMaterialTime = new DateTime("00:00:00");
+            $cloneTotalMaterialTime = clone $totalMaterialTime;
+            foreach ($timbangs as $timbang) {
+                // Data Timbang
+                $kode_material = $timbang['kode_bahan'];
+                $formulaMaterial = $this->MFormula->getByProductIdAndMaterial($product['id_product'], $kode_material);
+
+                if ($formulaMaterial != null) {
+
+                    // Time Timbang
+                    $name_equipment = "";
+                    if ($timbang['kode_bahan'] == '1001') {
+                        $name_equipment = 'PENIMBANGAN SEMEN';
+                    } else if ($timbang['kode_bahan'] == '1004') {
+                        $name_equipment = 'PENIMBANGAN SEMEN PUTIH';
+                    } else if ($timbang['kode_bahan'] == '1002') {
+                        $name_equipment = 'PENIMBANGAN KAPUR';
+                    } else if ($timbang['kode_bahan'] == '1003') {
+                        $name_equipment = 'PENIMBANGAN PASIR HALUS';
+                    } else if ($timbang['kode_bahan'] == '100007') {
+                        $name_equipment = 'PENIMBANGAN PASIR KASAR';
+                    } else if (str_contains($formulaMaterial['name_material'], 'PREMIX') || str_contains($formulaMaterial['name_material'], 'premix') || str_contains($formulaMaterial['name_material'], 'Premix') || str_contains($formulaMaterial['name_material'], 'ADTF') || str_contains($formulaMaterial['name_material'], 'adtf')) {
+                        $name_equipment = 'PENIMBANGAN ADDITIF';
+                    }
+                    $getEquipmentTimbangOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
+                    $getEquipmentTimbangOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
+
+                    if ($getEquipmentTimbangOn != null) {
+                        $timeOn = $getEquipmentTimbangOn['date_equipment'] . " " . $getEquipmentTimbangOn['time_equipment'];
+                        $timeOff = $getEquipmentTimbangOff['date_equipment'] . " " . $getEquipmentTimbangOff['time_equipment'];
+
+                        $date1 = new DateTime($timeOn);
+                        $date2 = new DateTime($timeOff);
+                        $diference  = $date2->diff($date1);
+                        $interval = $this->format_interval($diference);
+
+                        $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                        $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                        $timeDiff = $time1->diff($time2);
+                        $totalMaterialTime->add($timeDiff);
+                        $intervalTotalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime)->format("%H:%i:%s");
+
+                        // Set Response Timbang
+                        $timbang['materialTime'] = $interval;
+                        $timbang['formula'] = $formulaMaterial;
+                        $getTimbangWithResep[] = $timbang;
+
+                        $response = [
+                            'no_batch' => $no_batch,
+                            'name_equipment' => $name_equipment,
+                            'name_bahan' => $timbang['name_bahan'],
+                            'date' => $batch['date_equipment'],
+                            'timeOn' => $timeOn,
+                            'timeOff' => $timeOff,
+                            'time' => $interval,
+                            'actual' => $timbang['actual_timbang'],
+                        ];
+
+                        array_push($batchArray, $response);
+                    }
+                }
+            }
+
+            $exceptName = ['PENIMBANGAN SEMEN', 'PENIMBANGAN SEMEN PUTIH', 'PENIMBANGAN KAPUR', 'PENIMBANGAN PASIR HALUS', 'PENIMBANGAN PASIR KASAR', 'PENIMBANGAN ADDITIF'];
+
+            $equipments = $this->MEquipmentStatus->getEquipmentNoBahan($no_batch, $exceptName);
+
+            $totalEquipmentTime = new DateTime('00:00:00');
+            $cloneTotalEquipmentTime = clone $totalEquipmentTime;
+            foreach ($equipments as $equipment) {
+                $name_equipment = $equipment['name_equipment'];
+
+                $getEquipmentOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
+
+                if ($getEquipmentOn) {
+                    $getEquipmentOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
+                    $timeOn = $getEquipmentOn['date_equipment'] . " " . $getEquipmentOn['time_equipment'];
+
+
+                    if ($getEquipmentOff != null) {
+                        $timeOff = $getEquipmentOff['date_equipment'] . " " . $getEquipmentOff['time_equipment'];
+
+                        $date1 = new DateTime($timeOn);
+                        $date2 = new DateTime($timeOff);
+                        $diference  = $date2->diff($date1);
+                        $interval = $this->format_interval($diference);
+
+                        if ($equipment['name_equipment'] != 'MIXING TIME') {
+                            $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                            $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                            $timeDiff = $time1->diff($time2);
+                            $totalEquipmentTime->add($timeDiff);
+                        }
+
+                        $response = [
+                            'no_batch' => $no_batch,
+                            'name_equipment' => $name_equipment,
+                            'date' => $batch['date_equipment'],
+                            'name_bahan' => '-',
+                            'timeOn' => $timeOn,
+                            'timeOff' => $timeOff,
+                            'time' => $interval,
+                            'actual' => '-',
+                        ];
+
+                        array_push($batchArray, $response);
+                    }
+                }
+            }
+        }
+
+        $data['batchs'] = $batchArray;
+
+        // return $this->output->set_output(json_encode($batchArray));
+
+        $this->load->view('Theme/Header', $data);
+        $this->load->view('Theme/Menu');
+        $this->load->view('Batch/Index');
+        $this->load->view('Theme/Footer');
+        $this->load->view('Theme/Scripts');
+    }
+
     public function get()
     {
         $this->output->set_content_type('application/json');
