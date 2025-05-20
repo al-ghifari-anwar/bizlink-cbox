@@ -15,7 +15,7 @@ class Batch extends CI_Controller
     public function index()
     {
         // $this->output->set_content_type('application/json');
-        $daterange = $this->input->post();
+        $daterange = $this->input->post('date_range');
         $dateFrom = date("Y-m-d");
         $dateTo = date("Y-m-d");
 
