@@ -436,6 +436,7 @@ class Transaction extends CI_Controller
 
         $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
 
+        $no_batch = $post['no_batch'];
         $id_spk = $post['id_spk'];
         $status = $post['status'];
         $id_transaction_detail = $post['id_trans'];
@@ -462,6 +463,14 @@ class Transaction extends CI_Controller
 
                 return $this->output->set_output(json_encode($response));
             } else {
+                $resetBatchData = [
+                    'no_batch' => $no_batch,
+                    'id_spk' => $id_spk,
+                    'id_transaction_detail' => $id_transaction_detail,
+                ];
+
+                $this->db->insert('tb_reset_batch', $resetBatchData);
+
                 $jml_batch = $getSpk['jml_batch'];
                 $getBatch = $this->MEquipmentStatus->getMixerOn($id_spk);
                 $countBatch = count($getBatch);

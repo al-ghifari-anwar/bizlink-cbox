@@ -223,14 +223,14 @@ class Spk extends CI_Controller
 
                     $getLastBatch = $this->MEquipmentStatus->getMixerOnForBatchingNumber($getProduct['id_product'], date("Y-m-d"));
 
-                    if (!$getLastBatch) {
-                        // Kode barang, tanggal, plant, bulan, tahun, nomor
-                        $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad('1', 6, '0', STR_PAD_LEFT);
-                    } else {
-                        $lastBatch = $getLastBatch['no_batch'];
-                        $lastNumber = ltrim(substr($lastBatch, -6), '0') + 1;
-                        $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad($lastNumber, 6, '0', STR_PAD_LEFT);
-                    }
+                    // if (!$getLastBatch) {
+                    // Kode barang, tanggal, plant, bulan, tahun, nomor
+                    //     $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad('1', 6, '0', STR_PAD_LEFT);
+                    // } else {
+                    $lastBatch = $getLastBatch['no_batch'];
+                    $lastNumber = ltrim(substr($lastBatch, -6), '0') + 1;
+                    $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad($lastNumber, 6, '0', STR_PAD_LEFT);
+                    // }
 
                     $getSpk['batchAwal'] = $noBatchAwal;
                     $getSpk['id_trans'] = $getTransDetail['id_transaction_detail'];
@@ -287,32 +287,48 @@ class Spk extends CI_Controller
                         }
                     }
 
-                    $response = [
-                        'spk' => $getSpk,
-                        'product' => $getProduct,
-                        'formula' => [
-                            'target_semen_grey' => $target_semen_grey,
-                            'fine_semen_grey' => $fine_semen_grey,
-                            'kode_semen_grey' => $kode_semen_grey,
-                            'target_semen_putih' => $target_semen_putih,
-                            'fine_semen_putih' => $fine_semen_putih,
-                            'kode_semen_putih' => $kode_semen_putih,
-                            'target_kapur' => $target_kapur,
-                            'fine_kapur' => $fine_kapur,
-                            'kode_kapur' => $kode_kapur,
-                            'target_pasir_kasar' => $target_pasir_kasar,
-                            'fine_pasir_kasar' => $fine_pasir_kasar,
-                            'kode_pasir_kasar' => $kode_pasir_kasar,
-                            'target_pasir_halus' => $target_pasir_halus,
-                            'fine_pasir_halus' => $fine_pasir_halus,
-                            'kode_pasir_halus' => $kode_pasir_halus,
-                            'target_additif' => $target_additif,
-                            'fine_additif' => $fine_additif,
-                            'kode_additif' => $kode_additif
-                        ]
-                    ];
+                    $this->db->order_by('created_at', 'DESC');
+                    $resetBatch = $this->db->get('tb_reset_batch', 1)->row_array();
 
-                    $this->output->set_output(json_encode($response));
+                    $dateReset = date("Y-m-d H:i:s", strtotime("+5 seconds", strtotime($resetBatch['created_at'])));
+                    $dateNow = date("Y-m-d H:i:s");
+
+                    if ($dateReset <= $dateNow) {
+                        $response = [
+                            'spk' => $getSpk,
+                            'product' => $getProduct,
+                            'formula' => [
+                                'target_semen_grey' => $target_semen_grey,
+                                'fine_semen_grey' => $fine_semen_grey,
+                                'kode_semen_grey' => $kode_semen_grey,
+                                'target_semen_putih' => $target_semen_putih,
+                                'fine_semen_putih' => $fine_semen_putih,
+                                'kode_semen_putih' => $kode_semen_putih,
+                                'target_kapur' => $target_kapur,
+                                'fine_kapur' => $fine_kapur,
+                                'kode_kapur' => $kode_kapur,
+                                'target_pasir_kasar' => $target_pasir_kasar,
+                                'fine_pasir_kasar' => $fine_pasir_kasar,
+                                'kode_pasir_kasar' => $kode_pasir_kasar,
+                                'target_pasir_halus' => $target_pasir_halus,
+                                'fine_pasir_halus' => $fine_pasir_halus,
+                                'kode_pasir_halus' => $kode_pasir_halus,
+                                'target_additif' => $target_additif,
+                                'fine_additif' => $fine_additif,
+                                'kode_additif' => $kode_additif
+                            ]
+                        ];
+
+                        $this->output->set_output(json_encode($response));
+                    } else {
+                        $response = [
+                            'code' => 400,
+                            'status' => 'failed',
+                            'msg' => 'RESET'
+                        ];
+
+                        $this->output->set_output(json_encode($response));
+                    }
                 } else {
                     $response = [
                         'code' => 400,
