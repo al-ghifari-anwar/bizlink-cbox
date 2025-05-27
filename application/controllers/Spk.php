@@ -280,7 +280,7 @@ class Spk extends CI_Controller
                             $target_pasir_kasar = $formula['target_formula'] * 10;
                             $fine_pasir_kasar = $formula['fine_formula'] * 10;
                             $kode_pasir_kasar = $formula['kode_material'];
-                        } else if (str_contains($formula['name_material'], 'PREMIX') || str_contains($formula['name_material'], 'premix') || str_contains($formula['name_material'], 'Premix') || str_contains($formula['name_material'], 'ADTF') || str_contains($formula['name_material'], 'adtf')) {
+                        } else if (str_contains($formula['name_material'], 'PREMIX') || str_contains($formula['name_material'], 'premix') || str_contains($formula['name_material'], 'Premix') || str_contains($formula['name_material'], 'ADTF') || str_contains($formula['name_material'], 'adtf') || str_contains($formula['name_material'], 'Aluminium Powder') || str_contains($formula['name_material'], 'TRIPERSE')) {
                             $target_additif = $formula['target_formula'] * 10;
                             $fine_additif = $formula['fine_formula'] * 10;
                             $kode_additif = $formula['kode_material'];
