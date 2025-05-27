@@ -223,14 +223,14 @@ class Spk extends CI_Controller
 
                     $getLastBatch = $this->MEquipmentStatus->getMixerOnForBatchingNumber($getProduct['id_product'], date("Y-m-d"));
 
-                    // if (!$getLastBatch) {
-                    // Kode barang, tanggal, plant, bulan, tahun, nomor
-                    //     $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad('1', 6, '0', STR_PAD_LEFT);
-                    // } else {
-                    $lastBatch = $getLastBatch['no_batch'];
-                    $lastNumber = ltrim(substr($lastBatch, -6), '0') + 1;
-                    $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad($lastNumber, 6, '0', STR_PAD_LEFT);
-                    // }
+                    if (!$getLastBatch) {
+                        // Kode barang, tanggal, plant, bulan, tahun, nomor
+                        $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad('1', 6, '0', STR_PAD_LEFT);
+                    } else {
+                        $lastBatch = $getLastBatch['no_batch'];
+                        $lastNumber = ltrim(substr($lastBatch, -6), '0') + 1;
+                        $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad($lastNumber, 6, '0', STR_PAD_LEFT);
+                    }
 
                     $getSpk['batchAwal'] = $noBatchAwal;
                     $getSpk['id_trans'] = $getTransDetail['id_transaction_detail'];
