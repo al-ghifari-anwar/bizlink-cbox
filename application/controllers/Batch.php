@@ -289,7 +289,7 @@ class Batch extends CI_Controller
                         } else if ($timbang['kode_bahan'] == '1003') {
                             $name_equipment = 'PENIMBANGAN PASIR HALUS';
                         } else if ($timbang['kode_bahan'] == '100007') {
-                            $name_equipment = 'PENIMBANGAN PASIR';
+                            $name_equipment = 'PENIMBANGAN PASIR KASAR';
                         } else if (str_contains($formulaMaterial['name_material'], 'PREMIX') || str_contains($formulaMaterial['name_material'], 'premix') || str_contains($formulaMaterial['name_material'], 'Premix') || str_contains($formulaMaterial['name_material'], 'ADTF') || str_contains($formulaMaterial['name_material'], 'adtf')) {
                             $name_equipment = 'PENIMBANGAN ADDITIF';
                         }
