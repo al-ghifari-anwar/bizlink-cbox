@@ -142,7 +142,7 @@ class Transaction extends CI_Controller
 
                 $currentBatch = $excecutedBatch == null ? $emptyBatch : $excecutedBatch[0];
 
-                $spk['excecuted_batch'] = count($excecutedBatch) . "";
+                $spk['excecuted_batch'] = $excecutedBatch >= $spk['jml_batch'] ? $spk['jml_batch'] : count($excecutedBatch) . "";
                 $spk['current_batch'] = $currentBatch['no_batch'];
 
                 $transactionDetail['spk'] = $spk;

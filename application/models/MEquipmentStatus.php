@@ -139,6 +139,13 @@ class MEquipmentStatus extends CI_Model
         return $result;
     }
 
+    public function checkEquipmentIfExistBatchOnly($no_batch, $status_equipment, $name_equipment)
+    {
+        $result = $this->db->get_where('tb_equipment_status', ['no_batch' => $no_batch, 'status_equipment' => $status_equipment, 'name_equipment' => $name_equipment])->row_array();
+
+        return $result;
+    }
+
     public function createFromArray($arrayEquipmentStatus)
     {
         $query = $this->db->insert('tb_equipment_status', $arrayEquipmentStatus);
