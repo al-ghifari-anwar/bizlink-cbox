@@ -88,6 +88,20 @@ class MEquipmentStatus extends CI_Model
         return $result;
     }
 
+    public function getByIdProduct($id_product)
+    {
+        $this->db->select('tb_equipment_status.no_batch, date_equipment');
+        $this->db->join('tb_timbang', 'tb_equipment_status.no_batch = tb_timbang.no_batch');
+        $this->db->join('tb_spk', 'tb_spk.id_spk = tb_equipment_status.id_spk');
+        $this->db->group_by('tb_equipment_status.no_batch');
+        $this->db->order_by('tb_equipment_status.created_at', 'DESC');
+        $this->db->where('tb_spk.id_product', $id_product);
+        $this->db->where('tb_equipment_status.is_estop', 0);
+        $result = $this->db->get('tb_equipment_status')->result_array();
+
+        return $result;
+    }
+
     public function getByBatch($no_batch)
     {
         $this->db->select('no_batch');

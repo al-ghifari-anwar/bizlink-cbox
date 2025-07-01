@@ -96,7 +96,7 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= $product['kode_product'] ?></td>
-                                                    <td><?= $batch['no_batch'] ?></td>
+                                                    <td><?= $no_batch ?></td>
                                                     <td><?= date("d F Y", strtotime($batch['date'])) ?></td>
                                                     <td><?= $batch['name_equipment'] ?></td>
                                                     <td><?= $batch['name_bahan'] ?></td>
