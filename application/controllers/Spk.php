@@ -233,6 +233,7 @@ class Spk extends CI_Controller
                     }
 
                     $getSpk['batchAwal'] = $noBatchAwal;
+                    $getSpk['batchSebelumnya'] = $getLastBatch == null ? $noBatchAwal : $getLastBatch['no_batch'];
                     $getSpk['id_trans'] = $getTransDetail['id_transaction_detail'];
 
                     // Semen Grey
