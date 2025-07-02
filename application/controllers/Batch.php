@@ -624,7 +624,7 @@ class Batch extends CI_Controller
                 $cloneTotalMixingTime = clone $totalMixingTime;
 
                 $getMixingTimeOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, 'MIXING TIME');
-                if ($getEquipmentOn) {
+                if ($getMixingTimeOn) {
                     $mixingTimeimeOn = $getMixingTimeOn['date_equipment'] . " " . $getMixingTimeOn['time_equipment'];
                     $getMixingTimeOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, 'MIXING TIME');
                     if ($getMixingTimeOff) {
