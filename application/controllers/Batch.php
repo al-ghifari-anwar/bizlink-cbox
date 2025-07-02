@@ -607,13 +607,54 @@ class Batch extends CI_Controller
                 }
 
 
-                $intervalTotalEquipment = $cloneTotalEquipmentTime->diff($totalEquipmentTime)->format("%H:%i:%s");
+                // $intervalTotalEquipment = $cloneTotalEquipmentTime->diff($totalEquipmentTime)->format("%H:%i:%s");
+
+                $intervalEquipment = $cloneTotalEquipmentTime->diff($totalEquipmentTime);
+
+                $intervalTotalEquipment = sprintf(
+                    "%02d:%02d:%02d",
+                    $intervalEquipment->h + ($intervalEquipment->d * 24), // jika interval lebih dari 1 hari, jam harus ditambah
+                    $intervalEquipment->i,
+                    $intervalEquipment->s
+                );
+
+                // Mixing Time Only
+
+                $totalMixingTime = new DateTime('00:00:00');
+                $cloneTotalMixingTime = clone $totalMixingTime;
+
+                $getMixingTimeOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, 'MIXING TIME');
+                $mixingTimeimeOn = $getMixingTimeOn['date_equipment'] . " " . $getMixingTimeOn['time_equipment'];
+                $getMixingTimeOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, 'MIXING TIME');
+                $mixingTimeimeOff = $getMixingTimeOff['date_equipment'] . " " . $getMixingTimeOff['time_equipment'];
+
+                $mixingTime1 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOn)));
+                $mixingTime2 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOff)));
+                $mixingTimeimeDiff = $mixingTime1->diff($mixingTime2);
+                $totalMixingTime->add($mixingTimeimeDiff);
+
+                $intervalMixingTime = $cloneTotalMixingTime->diff($totalMixingTime);
+
+                $intervalTotalMixingTime = sprintf(
+                    "%02d:%02d:%02d",
+                    $intervalMixingTime->h + ($intervalMixingTime->d * 24), // jika interval lebih dari 1 hari, jam harus ditambah
+                    $intervalMixingTime->i,
+                    $intervalMixingTime->s
+                );
+
+                // Kurangi Mixing Time
+                $resEquipmentTime = strtotime("1970-01-01 " . $intervalTotalEquipment);
+                $resMixingTime = strtotime("1970-01-01 " . $intervalTotalMixingTime);
+
+                $resultTotalTime = $resEquipmentTime - $resMixingTime;
+
+                $resultTimeFormat = gmdate("H:i:s", abs($resultTotalTime));
 
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
-                    'totalEquipmentTime' => $intervalTotalEquipment,
+                    'totalEquipmentTime' => $resultTimeFormat,
                     'totalMaterialTime' => $intervalTotalMaterial,
                     'product' => $kode_product,
                     'dataEquipment' => $rekapEquipment,

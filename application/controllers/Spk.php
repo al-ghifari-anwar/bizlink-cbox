@@ -232,6 +232,14 @@ class Spk extends CI_Controller
                         $noBatchAwal = $getProduct['code_batch'] . date('d') . '2' . date('my') . str_pad($lastNumber, 6, '0', STR_PAD_LEFT);
                     }
 
+                    // $batchSebelumnya = "";
+
+                    // $getMixerOff = $this->MEquipmentStatus->getEquipmentOff($lastBatch, 'MIXER');
+
+                    // if ($getMixerOff) {
+                    //     $batchSebelumnya = $noBatchAwal;
+                    // }
+
                     $getSpk['batchAwal'] = $noBatchAwal;
                     $getSpk['batchSebelumnya'] = $getLastBatch == null ? $noBatchAwal : $getLastBatch['no_batch'];
                     $getSpk['id_trans'] = $getTransDetail['id_transaction_detail'];
