@@ -624,31 +624,39 @@ class Batch extends CI_Controller
                 $cloneTotalMixingTime = clone $totalMixingTime;
 
                 $getMixingTimeOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, 'MIXING TIME');
-                $mixingTimeimeOn = $getMixingTimeOn['date_equipment'] . " " . $getMixingTimeOn['time_equipment'];
-                $getMixingTimeOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, 'MIXING TIME');
-                $mixingTimeimeOff = $getMixingTimeOff['date_equipment'] . " " . $getMixingTimeOff['time_equipment'];
+                if ($getEquipmentOn) {
+                    $mixingTimeimeOn = $getMixingTimeOn['date_equipment'] . " " . $getMixingTimeOn['time_equipment'];
+                    $getMixingTimeOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, 'MIXING TIME');
+                    if ($getMixingTimeOff) {
+                        $mixingTimeimeOff = $getMixingTimeOff['date_equipment'] . " " . $getMixingTimeOff['time_equipment'];
 
-                $mixingTime1 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOn)));
-                $mixingTime2 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOff)));
-                $mixingTimeimeDiff = $mixingTime1->diff($mixingTime2);
-                $totalMixingTime->add($mixingTimeimeDiff);
+                        $mixingTime1 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOn)));
+                        $mixingTime2 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOff)));
+                        $mixingTimeimeDiff = $mixingTime1->diff($mixingTime2);
+                        $totalMixingTime->add($mixingTimeimeDiff);
 
-                $intervalMixingTime = $cloneTotalMixingTime->diff($totalMixingTime);
+                        $intervalMixingTime = $cloneTotalMixingTime->diff($totalMixingTime);
 
-                $intervalTotalMixingTime = sprintf(
-                    "%02d:%02d:%02d",
-                    $intervalMixingTime->h + ($intervalMixingTime->d * 24), // jika interval lebih dari 1 hari, jam harus ditambah
-                    $intervalMixingTime->i,
-                    $intervalMixingTime->s
-                );
+                        $intervalTotalMixingTime = sprintf(
+                            "%02d:%02d:%02d",
+                            $intervalMixingTime->h + ($intervalMixingTime->d * 24), // jika interval lebih dari 1 hari, jam harus ditambah
+                            $intervalMixingTime->i,
+                            $intervalMixingTime->s
+                        );
 
-                // Kurangi Mixing Time
-                $resEquipmentTime = strtotime("1970-01-01 " . $intervalTotalEquipment);
-                $resMixingTime = strtotime("1970-01-01 " . $intervalTotalMixingTime);
+                        // Kurangi Mixing Time
+                        $resEquipmentTime = strtotime("1970-01-01 " . $intervalTotalEquipment);
+                        $resMixingTime = strtotime("1970-01-01 " . $intervalTotalMixingTime);
 
-                $resultTotalTime = $resEquipmentTime - $resMixingTime;
+                        $resultTotalTime = $resEquipmentTime - $resMixingTime;
 
-                $resultTimeFormat = gmdate("H:i:s", abs($resultTotalTime));
+                        $resultTimeFormat = gmdate("H:i:s", abs($resultTotalTime));
+                    } else {
+                        $resultTimeFormat = $totalEquipmentTime;
+                    }
+                } else {
+                    $resultTimeFormat = $totalEquipmentTime;
+                }
 
                 $response = [
                     'code' => 200,
