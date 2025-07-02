@@ -652,10 +652,10 @@ class Batch extends CI_Controller
 
                         $resultTimeFormat = gmdate("H:i:s", abs($resultTotalTime));
                     } else {
-                        $resultTimeFormat = $totalEquipmentTime;
+                        $resultTimeFormat = $intervalTotalEquipment;
                     }
                 } else {
-                    $resultTimeFormat = $totalEquipmentTime;
+                    $resultTimeFormat = $intervalTotalEquipment;
                 }
 
                 $response = [
