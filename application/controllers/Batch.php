@@ -356,9 +356,17 @@ class Batch extends CI_Controller
                     $interval->s
                 );
 
+                // $timbang = $this->MTimbang->getPrdByBatch($no_batch);
+                $kode_product = $kode_product;
+                // echo json_encode($timbang);
+                // die;
+                // Push to new array
+
                 $resultCalculate = [
                     'no_batch' => $no_batch,
+                    'date_equipment' => $batch['date_equipment'],
                     'totalEquipmentTime' => $intervalTotalEquipment,
+                    'product' => $getProduct,
                 ];
 
                 array_push($resultArray, $resultCalculate);
