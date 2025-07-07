@@ -361,12 +361,14 @@ class Batch extends CI_Controller
                 // echo json_encode($timbang);
                 // die;
                 // Push to new array
+                $spk = $this->MSpk->getById($batch['id_spk']);
 
                 $resultCalculate = [
                     'no_batch' => $no_batch,
                     'date_equipment' => $batch['date_equipment'],
                     'totalEquipmentTime' => $intervalTotalEquipment,
                     'product' => $getProduct,
+                    'spk' => $spk != null ? $spk : array(),
                 ];
 
                 array_push($resultArray, $resultCalculate);
@@ -426,7 +428,9 @@ class Batch extends CI_Controller
                 $product = $this->MProduct->getByKode($kode_product);
                 // echo json_encode($timbang);
                 // die;
+                $spk = $this->MSpk->getById($batch['id_spk']);
                 $batch['product'] = $product;
+                $batch['spk'] = $spk != null ? $spk : array();
                 // Push to new array
                 $completeBatch[] = $batch;
             }
