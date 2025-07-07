@@ -10,6 +10,7 @@ class Batch extends CI_Controller
         $this->load->model('MTimbang');
         $this->load->model('MProduct');
         $this->load->model('MFormula');
+        $this->load->model('MSpk');
     }
 
     public function index()
