@@ -299,7 +299,7 @@ class Batch extends CI_Controller
                         $response = [
                             'code' => 401,
                             'status' => 'ok',
-                            'msg' => 'Equipment ' . $name_equipment . ' tidak memiliki data ON atau status ketika euipment start'
+                            'msg' => 'Equipment ' . $name_equipment . 'Batch: ' . $no_batch . ' tidak memiliki data ON atau status ketika euipment start'
                         ];
 
                         return $this->output->set_output(json_encode($response));
