@@ -668,7 +668,7 @@ class Batch extends CI_Controller
                                 'name_equipment' => $equipment['name_equipment'],
                                 'time_on' => $timeOn,
                                 'time_off' => $timeOff,
-                                'time_elapsed' => $resultDischareTime,
+                                'time_elapsed' => $this->formatWaktuToSingkat($resultDischareTime),
                                 'desc' => 'finished'
                             ];
 
@@ -795,5 +795,28 @@ class Batch extends CI_Controller
         }
 
         return $result;
+    }
+
+    function formatWaktuToSingkat($timeString)
+    {
+        list($jam, $menit, $detik) = explode(":", $timeString);
+        $jam = (int)$jam;
+        $menit = (int)$menit;
+        $detik = (int)$detik;
+
+        // Ubah semua ke menit & detik saja
+        $totalMenit = ($jam * 60) + $menit;
+
+        $result = [];
+
+        if ($totalMenit > 0) {
+            $result[] = $totalMenit . " mnt";
+        }
+
+        if ($detik > 0 || empty($result)) {
+            $result[] = $detik . " scnd";
+        }
+
+        return implode(" ", $result);
     }
 }
