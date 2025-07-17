@@ -595,16 +595,85 @@ class Batch extends CI_Controller
                             $totalEquipmentTime->add($timeDiff);
                         }
 
-                        $dataEquipment = [
-                            'no_batch' => $equipment['no_batch'],
-                            'name_equipment' => $equipment['name_equipment'],
-                            'time_on' => $timeOn,
-                            'time_off' => $timeOff,
-                            'time_elapsed' => $interval,
-                            'desc' => 'finished'
-                        ];
+                        if ($equipment['name_equipment'] != 'MIXER') {
+                            $dataEquipment = [
+                                'no_batch' => $equipment['no_batch'],
+                                'name_equipment' => $equipment['name_equipment'],
+                                'time_on' => $timeOn,
+                                'time_off' => $timeOff,
+                                'time_elapsed' => $interval,
+                                'desc' => 'finished'
+                            ];
 
-                        $rekapEquipment[] = $dataEquipment;
+                            $rekapEquipment[] = $dataEquipment;
+                        } else {
+                            $totalMixerTime = new DateTime('00:00:00');
+                            $cloneTotalMixerTime = clone $totalMixerTime;
+
+                            $time1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                            $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                            $timeDiff = $time1->diff($time2);
+                            $totalMixerTime->add($timeDiff);
+
+                            $intervalMixer = $cloneTotalMixerTime->diff($totalMixerTime);
+
+                            $intervalTotalMixer = sprintf(
+                                "%02d:%02d:%02d",
+                                $intervalMixer->h + ($intervalMixer->d * 24), // jika inter$intervalMixer lebih dari 1 hari, jam harus ditambah
+                                $intervalMixer->i,
+                                $intervalMixer->s
+                            );
+                            // Kurangi Mixer dengan Mixing Time
+                            // Mixing Time Only
+                            $totalMixingTime = new DateTime('00:00:00');
+                            $cloneTotalMixingTime = clone $totalMixingTime;
+
+                            $getMixingTimeOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, 'MIXING TIME');
+                            if ($getMixingTimeOn) {
+                                $mixingTimeimeOn = $getMixingTimeOn['date_equipment'] . " " . $getMixingTimeOn['time_equipment'];
+                                $getMixingTimeOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, 'MIXING TIME');
+                                if ($getMixingTimeOff) {
+                                    $mixingTimeimeOff = $getMixingTimeOff['date_equipment'] . " " . $getMixingTimeOff['time_equipment'];
+
+                                    $mixingTime1 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOn)));
+                                    $mixingTime2 = new DateTime(date("H:i:s", strtotime($mixingTimeimeOff)));
+                                    $mixingTimeimeDiff = $mixingTime1->diff($mixingTime2);
+                                    $totalMixingTime->add($mixingTimeimeDiff);
+
+                                    $intervalMixingTime = $cloneTotalMixingTime->diff($totalMixingTime);
+
+                                    $intervalTotalMixingTime = sprintf(
+                                        "%02d:%02d:%02d",
+                                        $intervalMixingTime->h + ($intervalMixingTime->d * 24), // jika interval lebih dari 1 hari, jam harus ditambah
+                                        $intervalMixingTime->i,
+                                        $intervalMixingTime->s
+                                    );
+
+                                    // Kurangi Mixing Time
+                                    $resMixerTime = strtotime("1970-01-01 " . $intervalTotalMixer);
+                                    $resMixingTime = strtotime("1970-01-01 " . $intervalTotalMixingTime);
+
+                                    $resultTotalDischarge = $resMixerTime - $resMixingTime;
+
+                                    $resultDischareTime = gmdate("H:i:s", abs($resultTotalDischarge));
+                                } else {
+                                    $resultDischareTime = $intervalTotalMixer;
+                                }
+                            } else {
+                                $resultDischareTime = $intervalTotalMixer;
+                            }
+
+                            $dataEquipment = [
+                                'no_batch' => $equipment['no_batch'],
+                                'name_equipment' => $equipment['name_equipment'],
+                                'time_on' => $timeOn,
+                                'time_off' => $timeOff,
+                                'time_elapsed' => $resultDischareTime,
+                                'desc' => 'finished'
+                            ];
+
+                            $rekapEquipment[] = $dataEquipment;
+                        }
                     } else {
                         $dataEquipment = [
                             'no_batch' => $equipment['no_batch'],
@@ -632,7 +701,6 @@ class Batch extends CI_Controller
                 );
 
                 // Mixing Time Only
-
                 $totalMixingTime = new DateTime('00:00:00');
                 $cloneTotalMixingTime = clone $totalMixingTime;
 
