@@ -10,6 +10,13 @@ class MEquipmentStatus extends CI_Model
         return $result;
     }
 
+    public function getById($id_equipment_status)
+    {
+        $result = $this->db->get_where('tb_equipment_status', ['id_equipment_status' => $id_equipment_status])->row_array();
+
+        return $result;
+    }
+
     public function getMixerOn($id_spk)
     {
         $this->db->group_by('tb_equipment_status.no_batch');
@@ -135,6 +142,27 @@ class MEquipmentStatus extends CI_Model
     public function getEquipmentOn($no_batch, $name)
     {
         $result = $this->db->get_where('tb_equipment_status', ['no_batch' => $no_batch, 'name_equipment' => $name, 'status_equipment' => 'ON'])->row_array();
+
+        return $result;
+    }
+
+    public function getFirstPenimbanganOn($no_batch)
+    {
+        $this->db->select('MIN(id_equipment_status) AS id_equipment_status');
+        $this->db->where('no_batch', $no_batch);
+        $this->db->where('status_equipment', 'ON');
+        $this->db->like('name_equipment', 'PENIMBANGAN');
+        $result = $this->db->get('tb_equipment_status')->row_array();
+
+        return $result;
+    }
+
+    public function getLastPenimbanganOff($no_batch)
+    {
+        $this->db->select('MAX(id_equipment_status) AS id_equipment_status');
+        $this->db->where('no_batch', $no_batch);
+        $this->db->like('name_equipment', 'PENIMBANGAN');
+        $result = $this->db->get('tb_equipment_status')->row_array();
 
         return $result;
     }

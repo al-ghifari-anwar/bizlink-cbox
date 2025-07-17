@@ -550,7 +550,16 @@ class Batch extends CI_Controller
                             $time2 = new DateTime(date("H:i:s", strtotime($timeOff)));
                             $timeDiff = $time1->diff($time2);
                             $totalMaterialTime->add($timeDiff);
-                            $intervalTotalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime)->format("%H:%i:%s");
+                            // $intervalTotalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime)->format("%H:%i:%s");
+
+                            $intervalMaterial = $cloneTotalMaterialTime->diff($totalMaterialTime);
+
+                            $intervalTotalMaterial = sprintf(
+                                "%02d:%02d:%02d",
+                                $intervalMaterial->h + ($intervalMaterial->d * 24), // jika inter$intervalMaterial lebih dari 1 hari, jam harus ditambah
+                                $intervalMaterial->i,
+                                $intervalMaterial->s
+                            );
 
                             // Set Response Timbang
                             $timbang['materialTime'] = $interval;
@@ -739,12 +748,48 @@ class Batch extends CI_Controller
                     $resultTimeFormat = $intervalTotalEquipment;
                 }
 
+                // DelayTime
+                $totalFeedingTime = new DateTime('00:00:00');
+                $cloneTotalFeedingTime = clone $totalFeedingTime;
+
+                $getFirstPenimbanganOn = $this->MEquipmentStatus->getFirstPenimbanganOn($no_batch);
+                $penimbanganOn = $this->MEquipmentStatus->getById($getFirstPenimbanganOn['id_equipment_status']);
+                $timeOn = $penimbanganOn['date_equipment'] . " " . $penimbanganOn['time_equipment'];
+
+                $getLastPenimbanganOff = $this->MEquipmentStatus->getLastPenimbanganOff($no_batch);
+                $penimbanganOff = $this->MEquipmentStatus->getById($getLastPenimbanganOff['id_equipment_status']);
+                $timeOff = $penimbanganOff['date_equipment'] . " " . $penimbanganOff['time_equipment'];
+
+                $feedingTime1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                $feedingTime2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                $feedingTimeDiff = $feedingTime1->diff($feedingTime2);
+                $totalFeedingTime->add($feedingTimeDiff);
+
+                $intervalFeedingTime = $cloneTotalFeedingTime->diff($totalFeedingTime);
+
+                $intervalTotalFeedingTime = sprintf(
+                    "%02d:%02d:%02d",
+                    $intervalFeedingTime->h + ($intervalFeedingTime->d * 24), // jika interval lebih dari 1 hari, jam harus ditambah
+                    $intervalFeedingTime->i,
+                    $intervalFeedingTime->s
+                );
+
+                // Kurangi Mixing Time
+                $resFeedingTime = strtotime("1970-01-01 " . $intervalTotalFeedingTime);
+                $resMaterialTime = strtotime("1970-01-01 " . $intervalTotalMaterial);
+
+                $delayTime = $resFeedingTime - $resMaterialTime;
+                $resultDelayTime = gmdate("H:i:s", abs($delayTime));
+                // End of delay time
+
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
                     'totalEquipmentTime' => $resultTimeFormat,
                     'totalMaterialTime' => $intervalTotalMaterial,
+                    'totalFeedingTime' => $intervalTotalFeedingTime,
+                    'totalDelayTime' => $resultDelayTime,
                     'product' => $kode_product,
                     'dataEquipment' => $rekapEquipment,
                     'dataTimbang' => $getTimbangWithResep,
