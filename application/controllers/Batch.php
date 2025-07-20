@@ -821,11 +821,24 @@ class Batch extends CI_Controller
                 $resultDelayTime = gmdate("H:i:s", abs($delayTime));
                 // End of delay time
 
+                // Cycle Time
+                // Konversi ke detik
+                list($h1, $m1, $s1) = explode(":", $resultTimeFormat);
+                list($h2, $m2, $s2) = explode(":", $resultDelayTime);
+
+                $scndEquipmentTime = $h1 * 3600 + $m1 * 60 + $s1;
+                $scndDelayTime = $h2 * 3600 + $m2 * 60 + $s2;
+
+                // Jumlahkan
+                $cycleTime = $scndEquipmentTime + $scndDelayTime;
+
+                $resultCycleTime = gmdate("H:i:s", abs($cycleTime));
+
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data fetched',
-                    'totalEquipmentTime' => $resultTimeFormat,
+                    'totalEquipmentTime' => $resultCycleTime,
                     'totalMaterialTime' => $intervalTotalMaterial,
                     'totalFeedingTime' => $intervalTotalFeedingTime,
                     'totalDelayTime' => $resultDelayTime,
