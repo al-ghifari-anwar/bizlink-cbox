@@ -396,6 +396,53 @@ class Batch extends CI_Controller
                     $resultTimeFormat = $intervalTotalEquipment;
                 }
 
+                // DelayTime
+                $totalFeedingTime = new DateTime('00:00:00');
+                $cloneTotalFeedingTime = clone $totalFeedingTime;
+
+                $getFirstPenimbanganOn = $this->MEquipmentStatus->getFirstPenimbanganOn($no_batch);
+                $penimbanganOn = $this->MEquipmentStatus->getById($getFirstPenimbanganOn['id_equipment_status']);
+                $timeOn = $penimbanganOn['date_equipment'] . " " . $penimbanganOn['time_equipment'];
+
+                $getLastPenimbanganOff = $this->MEquipmentStatus->getLastPenimbanganOff($no_batch);
+                $penimbanganOff = $this->MEquipmentStatus->getById($getLastPenimbanganOff['id_equipment_status']);
+                $timeOff = $penimbanganOff['date_equipment'] . " " . $penimbanganOff['time_equipment'];
+
+                $feedingTime1 = new DateTime(date("H:i:s", strtotime($timeOn)));
+                $feedingTime2 = new DateTime(date("H:i:s", strtotime($timeOff)));
+                $feedingTimeDiff = $feedingTime1->diff($feedingTime2);
+                $totalFeedingTime->add($feedingTimeDiff);
+
+                $intervalFeedingTime = $cloneTotalFeedingTime->diff($totalFeedingTime);
+
+                $intervalTotalFeedingTime = sprintf(
+                    "%02d:%02d:%02d",
+                    $intervalFeedingTime->h + ($intervalFeedingTime->d * 24), // jika interval lebih dari 1 hari, jam harus ditambah
+                    $intervalFeedingTime->i,
+                    $intervalFeedingTime->s
+                );
+
+                // Kurangi Mixing Time
+                $resFeedingTime = strtotime("1970-01-01 " . $intervalTotalFeedingTime);
+                $resMaterialTime = strtotime("1970-01-01 " . $intervalTotalMaterial);
+
+                $delayTime = $resFeedingTime - $resMaterialTime;
+                $resultDelayTime = gmdate("H:i:s", abs($delayTime));
+                // End of delay time
+
+                // Cycle Time
+                // Konversi ke detik
+                list($h1, $m1, $s1) = explode(":", $resultTimeFormat);
+                list($h2, $m2, $s2) = explode(":", $resultDelayTime);
+
+                $scndEquipmentTime = $h1 * 3600 + $m1 * 60 + $s1;
+                $scndDelayTime = $h2 * 3600 + $m2 * 60 + $s2;
+
+                // Jumlahkan
+                $cycleTime = $scndEquipmentTime + $scndDelayTime;
+
+                $resultCycleTime = gmdate("H:i:s", abs($cycleTime));
+
                 // $timbang = $this->MTimbang->getPrdByBatch($no_batch);
                 $kode_product = $kode_product;
                 // echo json_encode($timbang);
@@ -406,7 +453,7 @@ class Batch extends CI_Controller
                 $resultCalculate = [
                     'no_batch' => $no_batch,
                     'date_equipment' => $batch['date_equipment'],
-                    'totalEquipmentTime' => $resultTimeFormat,
+                    'totalEquipmentTime' => $resultCycleTime,
                     'product' => $getProduct,
                     'spk' => $spk != null ? $spk : array(),
                 ];
