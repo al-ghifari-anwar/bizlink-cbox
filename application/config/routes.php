@@ -95,6 +95,9 @@ $route['api/transaction-detail/delete/(:num)'] = 'Transaction/deleteDetail/$1';
 $route['api/transaction/start'] = 'Transaction/start';
 $route['api/transaction/stop'] = 'Transaction/stop';
 $route['api/transaction/done'] = 'Transaction/done';
+// Frequency
+$route['api/frequency'] = 'Frequency/get';
+$route['api/frequency/save'] = 'Frequency/save';
 
 // Web
 // Batch
