@@ -37,7 +37,7 @@ class Frequency extends CI_Controller
                 'code' => 200,
                 'status' => 'ok',
                 'msg' => 'Success',
-                'data' => $frequencyData
+                'data' => $frequencys
             ];
 
             return $this->output->set_output(json_encode($response));
