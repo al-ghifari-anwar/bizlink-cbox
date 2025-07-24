@@ -30,7 +30,7 @@ class Product extends CI_Controller
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/list.do?fields=id,name,no&filter.itemCategoryId.op=EQUAL&filter.itemCategoryId.val[0]=150&filter.itemCategoryId.val[1]=250',
+                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/list.do?fields=id,name,no&filter.itemCategoryId.op=EQUAL&filter.itemCategoryId.val[0]=150&filter.itemCategoryId.val[1]=250&sp.pageSize=100',
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
@@ -58,7 +58,8 @@ class Product extends CI_Controller
                     'code' => 200,
                     'status' => 'ok',
                     'msg' => 'Data found',
-                    'detail' => $items
+                    'detail' => $items,
+                    'raw' => $responseArray
                 ];
 
                 $this->output->set_output(json_encode($result));
