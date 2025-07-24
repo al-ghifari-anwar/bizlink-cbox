@@ -16,14 +16,24 @@ class Frequency extends CI_Controller
             $this->db->order_by('id_frequency', 'DESC');
             $frequencys = $this->db->get('tb_frequency')->row_array();
 
-            $frequencyData = array();
-
+            $frequencyData = [
+                'semen_high' => $frequencys['semen_high'] * 100,
+                'semen_low' => $frequencys['semen_low'] * 100,
+                'kapur_high' => $frequencys['kapur_high'] * 100,
+                'kapur_low' => $frequencys['kapur_low'] * 100,
+                'pasir_kasar_high' => $frequencys['pasir_kasar_high'] * 100,
+                'pasir_kasar_low' => $frequencys['pasir_kasar_low'] * 100,
+                'pasir_halus_high' => $frequencys['pasir_halus_high'] * 100,
+                'pasir_halus_low' => $frequencys['pasir_halus_low'] * 100,
+                'semen_putih_high' => $frequencys['semen_putih_high'] * 100,
+                'semen_putih_low' => $frequencys['semen_putih_low'] * 100,
+            ];
 
             $response = [
                 'code' => 200,
                 'status' => 'ok',
                 'msg' => 'Success',
-                'data' => $frequencys
+                'data' => $frequencyData
             ];
 
             return $this->output->set_output(json_encode($response));
