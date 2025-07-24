@@ -16,6 +16,34 @@ class Frequency extends CI_Controller
             $this->db->order_by('id_frequency', 'DESC');
             $frequencys = $this->db->get('tb_frequency')->row_array();
 
+            $response = [
+                'code' => 200,
+                'status' => 'ok',
+                'msg' => 'Success',
+                'data' => $frequencys
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        } else {
+            $response = [
+                'code' => 401,
+                'status' => 'failed',
+                'msg' => 'Method not found',
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        }
+    }
+
+    public function getForCbox()
+    {
+        $this->output->set_content_type('application/json');
+
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            // 
+            $this->db->order_by('id_frequency', 'DESC');
+            $frequencys = $this->db->get('tb_frequency')->row_array();
+
             $frequencyData = [
                 'semen_high' => $frequencys['semen_high'] * 100,
                 'semen_low' => $frequencys['semen_low'] * 100,
