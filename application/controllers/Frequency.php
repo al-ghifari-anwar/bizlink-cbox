@@ -18,20 +18,6 @@ class Frequency extends CI_Controller
 
             $frequencyData = array();
 
-            foreach ($frequencys as $frequency) {
-                array_push($frequencyData, [
-                    'semen_high' => $frequency['semen_high'] * 100,
-                    'semen_low' => $frequency['semen_low'] * 100,
-                    'kapur_high' => $frequency['kapur_high'] * 100,
-                    'kapur_low' => $frequency['kapur_low'] * 100,
-                    'pasir_kasar_high' => $frequency['pasir_kasar_high'] * 100,
-                    'pasir_kasar_low' => $frequency['pasir_kasar_low'] * 100,
-                    'pasir_halus_high' => $frequency['pasir_halus_high'] * 100,
-                    'pasir_halus_low' => $frequency['pasir_halus_low'] * 100,
-                    'semen_putih_high' => $frequency['semen_putih_high'] * 100,
-                    'semen_putih_low' => $frequency['semen_putih_low'] * 100,
-                ]);
-            }
 
             $response = [
                 'code' => 200,
