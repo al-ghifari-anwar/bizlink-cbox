@@ -99,6 +99,8 @@ $route['api/transaction/done'] = 'Transaction/done';
 $route['api/frequency'] = 'Frequency/get';
 $route['api/frequency/cbox'] = 'Frequency/getForCbox';
 $route['api/frequency/save'] = 'Frequency/save';
+// Emergency
+$route['api/emergency/save'] = 'Emergency/save';
 
 // Web
 // Batch
