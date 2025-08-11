@@ -11,6 +11,92 @@ class Timbang extends CI_Controller
         $this->load->model('MQontak');
     }
 
+    public function saveTimbang()
+    {
+        $this->output->set_content_type('application/json');
+
+        $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
+
+        $kode_bahan = $post['kode_bahan'];
+        $no_batch = $post['no_batch'];
+        $nama_bahan = $post['nama_bahan'];
+        $actual_timbang = $post['actual_timbang'];
+        $status_timbang = $post['status_timbang'];
+        $date_timbang = $post['date_timbang'];
+        $time_timbang = $post['time_timbang'];
+        $kode_product = $post['kode_product'];
+
+        $getInsertedTimbang = $this->MTimbang->getInsertedTimbang($no_batch, $nama_bahan, $kode_product);
+
+        if ($getInsertedTimbang) {
+            $id_timbang = $getInsertedTimbang['id_timbang'];
+
+            $timbangData = [
+                'kode_bahan' => $kode_bahan,
+                'no_batch' => $no_batch,
+                'name_bahan' => $nama_bahan,
+                'actual_timbang' => $actual_timbang,
+                'status_timbang' => $status_timbang,
+                'date_timbang' => $date_timbang,
+                'time_timbang' => $time_timbang,
+                'created_at' => date('Y-m-d H:i:s'),
+                'kode_product' => $kode_product,
+            ];
+
+            $save = $this->MTimbang->update($id_timbang, $timbangData);
+
+            if ($save) {
+                $result = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Data found',
+                ];
+
+                return $this->output->set_output(json_encode($result));
+            } else {
+                $result = [
+                    'code' => 400,
+                    'status' => 'failed',
+                    'msg' => 'Data not found',
+                ];
+
+                return $this->output->set_output(json_encode($result));
+            }
+        } else {
+            $timbangData = [
+                'kode_bahan' => $kode_bahan,
+                'no_batch' => $no_batch,
+                'name_bahan' => $nama_bahan,
+                'actual_timbang' => $actual_timbang,
+                'status_timbang' => $status_timbang,
+                'date_timbang' => $date_timbang,
+                'time_timbang' => $time_timbang,
+                'created_at' => date('Y-m-d H:i:s'),
+                'kode_product' => $kode_product,
+            ];
+
+            $save = $this->MTimbang->create($timbangData);
+
+            if ($save) {
+                $result = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Data found',
+                ];
+
+                return $this->output->set_output(json_encode($result));
+            } else {
+                $result = [
+                    'code' => 400,
+                    'status' => 'failed',
+                    'msg' => 'Data not found',
+                ];
+
+                return $this->output->set_output(json_encode($result));
+            }
+        }
+    }
+
     public function get()
     {
         $this->output->set_content_type('application/json');

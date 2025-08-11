@@ -39,4 +39,33 @@ class MTimbang extends CI_Model
 
         return $result;
     }
+
+    public function getInsertedTimbang($no_batch, $nama_bahan, $kode_product)
+    {
+        $result = $this->db->get_where('tb_timbang', ['no_batch' => $no_batch, 'nama_bahan' => $nama_bahan, 'kode_product' => $kode_product])->row_array();
+
+        return $result;
+    }
+
+    public function create($timbangData)
+    {
+        $query = $this->db->insert('tb_timbang', $timbangData);
+
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function update($id_timbang, $timbangData)
+    {
+        $query = $this->db->update('tb_timbang', $timbangData, ['id_timbang' => $id_timbang]);
+
+        if ($query) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
