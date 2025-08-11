@@ -125,19 +125,23 @@ class Notif extends CI_Controller
                             ]
                         ];
 
-                        $send = $this->MaxchatHelper->sendMsg('https://app.maxchat.id/api/messages/push', $messageRequest);
+                        $cekMsg = $this->MLogMsg->getInsertedLog($nama, $nomor_hp, 'timbang', $message);
 
-                        // LOG 1
-                        $dataLog1 = [
-                            'to_name' => $nama,
-                            'to_number' => $nomor_hp,
-                            'message' => $message,
-                            'date_msg' => date("Y-m-d H:i:s"),
-                            'status_msg' => isset($send['content']) ? 'success' : 'failed',
-                            'response_msg' => '',
-                            'updated_at' => date("Y-m-d H:i:s")
-                        ];
-                        $log1 = $this->MLogMsg->createFromArray($dataLog1);
+                        if (!$cekMsg) {
+                            $send = $this->MaxchatHelper->sendMsg('https://app.maxchat.id/api/messages/push', $messageRequest);
+
+                            // LOG 1
+                            $dataLog1 = [
+                                'to_name' => $nama,
+                                'to_number' => $nomor_hp,
+                                'message' => $message,
+                                'date_msg' => date("Y-m-d H:i:s"),
+                                'status_msg' => isset($send['content']) ? 'success' : 'failed',
+                                'response_msg' => '',
+                                'updated_at' => date("Y-m-d H:i:s")
+                            ];
+                            $log1 = $this->MLogMsg->createFromArray($dataLog1);
+                        }
                     }
 
                     $result = [
