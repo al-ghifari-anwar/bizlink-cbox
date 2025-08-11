@@ -9,6 +9,7 @@ class Timbang extends CI_Controller
         $this->load->model('MFormula');
         $this->load->model('MProduct');
         $this->load->model('MQontak');
+        $this->load->model('MTimbang');
     }
 
     public function saveTimbang()
