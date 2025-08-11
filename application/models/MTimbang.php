@@ -42,7 +42,7 @@ class MTimbang extends CI_Model
 
     public function getInsertedTimbang($no_batch, $nama_bahan, $kode_product)
     {
-        $result = $this->db->get_where('tb_timbang', ['no_batch' => $no_batch, 'nama_bahan' => $nama_bahan, 'kode_product' => $kode_product])->row_array();
+        $result = $this->db->get_where('tb_timbang', ['no_batch' => $no_batch, 'name_bahan' => $nama_bahan, 'kode_product' => $kode_product])->row_array();
 
         return $result;
     }
