@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['server'] = array(
 	'dsn'	=> '',
-	'hostname' => '185.201.8.148',
-	'username' => 'user_bintang',
-	'password' => '123123!',
-	'database' => 'db_bizlink',
+	'hostname' => '103.217.144.31',
+	'username' => 'remote',
+	'password' => 'Remote123+',
+	'database' => 'admin2_bizlink',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
