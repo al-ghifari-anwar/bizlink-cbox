@@ -99,4 +99,48 @@ class Equipmentstatus extends CI_Controller
             return $this->output->set_output(json_encode($response));
         }
     }
+
+    public function save()
+    {
+        $this->output->set_content_type('application/json');
+
+        $post = json_decode(file_get_contents('php://input'), true) != null ? json_decode(file_get_contents('php://input'), true) : $this->input->post();
+
+        $no_batch = $post['no_batch'];
+        $status_equipment = $post['status_equipment'];
+        $name_equipment = $post['name_equipment'];
+        $date_equipment = $post['date_equipment'];
+        $time_equipment = $post['time_equipment'];
+        $id_spk = $post['id_spk'];
+
+        $equipmentData = [
+            'no_batch' => $no_batch,
+            'status_equipment' => $status_equipment,
+            'name_equipment' => $name_equipment,
+            'date_equipment' => $date_equipment,
+            'time_equipment' => $time_equipment,
+            'id_spk' => $id_spk,
+            'is_estop' => 0,
+        ];
+
+        $save = $this->db->insert('tb_equipment_status', $equipmentData);
+
+        if ($save) {
+            $response = [
+                'code' => 200,
+                'status' => 'ok',
+                'msg' => 'Equipment saved',
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        } else {
+            $response = [
+                'code' => 401,
+                'status' => 'failed',
+                'msg' => 'Equipment saved',
+            ];
+
+            return $this->output->set_output(json_encode($response));
+        }
+    }
 }

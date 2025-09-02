@@ -63,6 +63,7 @@ $route['api/timbang/save'] = 'Timbang/saveTimbang';
 $route['api/timbang'] = 'Timbang/get';
 // Equipment Status
 $route['api/equipment-status'] = 'Equipmentstatus/get';
+$route['api/equipment-status/save'] = 'Equipmentstatus/save';
 // Batch
 $route['api/batch'] = 'Batch/get';
 $route['api/batch/detail/(:any)'] = 'Batch/detail/$1';
