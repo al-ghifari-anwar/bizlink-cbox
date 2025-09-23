@@ -219,7 +219,7 @@ class Equipmentstatus extends CI_Controller
                 $response = [
                     'code' => 200,
                     'status' => 'ok',
-                    'msg' => 'Equipment saved',
+                    'msg' => 'Equipment saved: ' . $name_equipment . " / " . $status_equipment,
                 ];
 
                 return $this->output->set_output(json_encode($response));
@@ -227,7 +227,7 @@ class Equipmentstatus extends CI_Controller
                 $response = [
                     'code' => 401,
                     'status' => 'failed',
-                    'msg' => 'Equipment saved',
+                    'msg' => 'Equipment not saved',
                 ];
 
                 return $this->output->set_output(json_encode($response));
