@@ -158,6 +158,14 @@ class Equipmentstatus extends CI_Controller
 
                     return $this->output->set_output(json_encode($response));
                 }
+            } else {
+                $response = [
+                    'code' => 401,
+                    'status' => 'failed',
+                    'msg' => 'Data timbang belum selesai ' . $countTimbang . '/' . $countFormula,
+                ];
+
+                return $this->output->set_output(json_encode($response));
             }
         } else if ($name_equipment == 'MIXER' && $status_equipment == 'ON') {
             $productTimbang = $this->MTimbang->getPrdByBatch($no_batch);
@@ -201,6 +209,14 @@ class Equipmentstatus extends CI_Controller
 
                     return $this->output->set_output(json_encode($response));
                 }
+            } else {
+                $response = [
+                    'code' => 401,
+                    'status' => 'failed',
+                    'msg' => 'Data timbang belum selesai ' . $countTimbang . '/' . $countFormula,
+                ];
+
+                return $this->output->set_output(json_encode($response));
             }
         } else {
             $equipmentData = [
