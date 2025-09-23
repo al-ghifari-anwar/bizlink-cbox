@@ -7,6 +7,9 @@ class Equipmentstatus extends CI_Controller
         parent::__construct();
         $this->load->model('MAccurate');
         $this->load->model('MEquipmentStatus');
+        $this->load->model('MTimbang');
+        $this->load->model('MProduct');
+        $this->load->model('MFormula');
     }
 
     public function get()
@@ -113,37 +116,122 @@ class Equipmentstatus extends CI_Controller
         $time_equipment = $post['time_equipment'];
         $id_spk = $post['id_spk'];
 
-        // if ($name_equipment == 'MIXING TIME') {
-        // } else {
-        $equipmentData = [
-            'no_batch' => $no_batch,
-            'status_equipment' => $status_equipment,
-            'name_equipment' => $name_equipment,
-            'date_equipment' => $date_equipment,
-            'time_equipment' => $time_equipment,
-            'id_spk' => $id_spk,
-            'is_estop' => 0,
-        ];
+        if ($name_equipment == 'MIXING TIME' && $status_equipment == 'ON') {
+            $productTimbang = $this->MTimbang->getPrdByBatch($no_batch);
 
-        $save = $this->db->insert('tb_equipment_status', $equipmentData);
+            $product = $this->MProduct->getByKode($productTimbang['kode_product']);
 
-        if ($save) {
-            $response = [
-                'code' => 200,
-                'status' => 'ok',
-                'msg' => 'Equipment saved',
-            ];
+            $formula = $this->MFormula->getByProductId($product['id_product']);
 
-            return $this->output->set_output(json_encode($response));
+            $dataTimbang = $this->MTimbang->getByBatch($no_batch);
+
+            $countTimbang = count($dataTimbang);
+            $countFormula = count($formula);
+
+            if ($countTimbang >= $countFormula) {
+                $equipmentData = [
+                    'no_batch' => $no_batch,
+                    'status_equipment' => $status_equipment,
+                    'name_equipment' => $name_equipment,
+                    'date_equipment' => $date_equipment,
+                    'time_equipment' => $time_equipment,
+                    'id_spk' => $id_spk,
+                    'is_estop' => 0,
+                ];
+
+                $save = $this->db->insert('tb_equipment_status', $equipmentData);
+
+                if ($save) {
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Mixing Time saved',
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                } else {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'failed',
+                        'msg' => 'Mixing Time not saved',
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
+            }
+        } else if ($name_equipment == 'MIXER' && $status_equipment == 'ON') {
+            $productTimbang = $this->MTimbang->getPrdByBatch($no_batch);
+
+            $product = $this->MProduct->getByKode($productTimbang['kode_product']);
+
+            $formula = $this->MFormula->getByProductId($product['id_product']);
+
+            $dataTimbang = $this->MTimbang->getByBatch($no_batch);
+
+            $countTimbang = count($dataTimbang);
+            $countFormula = count($formula);
+
+            if ($countTimbang >= $countFormula) {
+                $equipmentData = [
+                    'no_batch' => $no_batch,
+                    'status_equipment' => $status_equipment,
+                    'name_equipment' => $name_equipment,
+                    'date_equipment' => $date_equipment,
+                    'time_equipment' => $time_equipment,
+                    'id_spk' => $id_spk,
+                    'is_estop' => 0,
+                ];
+
+                $save = $this->db->insert('tb_equipment_status', $equipmentData);
+
+                if ($save) {
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Mixer saved',
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                } else {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'failed',
+                        'msg' => 'Mixer not saved',
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
+            }
         } else {
-            $response = [
-                'code' => 401,
-                'status' => 'failed',
-                'msg' => 'Equipment saved',
+            $equipmentData = [
+                'no_batch' => $no_batch,
+                'status_equipment' => $status_equipment,
+                'name_equipment' => $name_equipment,
+                'date_equipment' => $date_equipment,
+                'time_equipment' => $time_equipment,
+                'id_spk' => $id_spk,
+                'is_estop' => 0,
             ];
 
-            return $this->output->set_output(json_encode($response));
+            $save = $this->db->insert('tb_equipment_status', $equipmentData);
+
+            if ($save) {
+                $response = [
+                    'code' => 200,
+                    'status' => 'ok',
+                    'msg' => 'Equipment saved',
+                ];
+
+                return $this->output->set_output(json_encode($response));
+            } else {
+                $response = [
+                    'code' => 401,
+                    'status' => 'failed',
+                    'msg' => 'Equipment saved',
+                ];
+
+                return $this->output->set_output(json_encode($response));
+            }
         }
-        // }
     }
 }
