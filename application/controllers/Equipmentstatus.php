@@ -113,6 +113,8 @@ class Equipmentstatus extends CI_Controller
         $time_equipment = $post['time_equipment'];
         $id_spk = $post['id_spk'];
 
+        // if ($name_equipment == 'MIXING TIME') {
+        // } else {
         $equipmentData = [
             'no_batch' => $no_batch,
             'status_equipment' => $status_equipment,
@@ -142,5 +144,6 @@ class Equipmentstatus extends CI_Controller
 
             return $this->output->set_output(json_encode($response));
         }
+        // }
     }
 }
