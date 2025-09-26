@@ -129,6 +129,8 @@ class Equipmentstatus extends CI_Controller
             $countFormula = count($formula);
 
             if ($countTimbang >= $countFormula) {
+                $existingEquipment = $this->MEquipmentStatus->getExisting($no_batch, $status_equipment, $name_equipment);
+
                 $equipmentData = [
                     'no_batch' => $no_batch,
                     'status_equipment' => $status_equipment,
@@ -139,21 +141,31 @@ class Equipmentstatus extends CI_Controller
                     'is_estop' => 0,
                 ];
 
-                $save = $this->db->insert('tb_equipment_status', $equipmentData);
+                if ($existingEquipment == null) {
+                    $save = $this->db->insert('tb_equipment_status', $equipmentData);
 
-                if ($save) {
-                    $response = [
-                        'code' => 200,
-                        'status' => 'ok',
-                        'msg' => 'Mixing Time saved',
-                    ];
+                    if ($save) {
+                        $response = [
+                            'code' => 200,
+                            'status' => 'ok',
+                            'msg' => 'Mixing Time saved',
+                        ];
 
-                    return $this->output->set_output(json_encode($response));
+                        return $this->output->set_output(json_encode($response));
+                    } else {
+                        $response = [
+                            'code' => 401,
+                            'status' => 'failed',
+                            'msg' => 'Mixing Time not saved',
+                        ];
+
+                        return $this->output->set_output(json_encode($response));
+                    }
                 } else {
                     $response = [
                         'code' => 401,
                         'status' => 'failed',
-                        'msg' => 'Mixing Time not saved',
+                        'msg' => 'Mixing Time exist',
                     ];
 
                     return $this->output->set_output(json_encode($response));
@@ -180,6 +192,8 @@ class Equipmentstatus extends CI_Controller
             $countFormula = count($formula);
 
             if ($countTimbang >= $countFormula) {
+                $existingEquipment = $this->MEquipmentStatus->getExisting($no_batch, $status_equipment, $name_equipment);
+
                 $equipmentData = [
                     'no_batch' => $no_batch,
                     'status_equipment' => $status_equipment,
@@ -190,21 +204,31 @@ class Equipmentstatus extends CI_Controller
                     'is_estop' => 0,
                 ];
 
-                $save = $this->db->insert('tb_equipment_status', $equipmentData);
+                if ($existingEquipment == null) {
+                    $save = $this->db->insert('tb_equipment_status', $equipmentData);
 
-                if ($save) {
-                    $response = [
-                        'code' => 200,
-                        'status' => 'ok',
-                        'msg' => 'Mixer saved',
-                    ];
+                    if ($save) {
+                        $response = [
+                            'code' => 200,
+                            'status' => 'ok',
+                            'msg' => 'Mixer saved',
+                        ];
 
-                    return $this->output->set_output(json_encode($response));
+                        return $this->output->set_output(json_encode($response));
+                    } else {
+                        $response = [
+                            'code' => 401,
+                            'status' => 'failed',
+                            'msg' => 'Mixer not saved',
+                        ];
+
+                        return $this->output->set_output(json_encode($response));
+                    }
                 } else {
                     $response = [
                         'code' => 401,
                         'status' => 'failed',
-                        'msg' => 'Mixer not saved',
+                        'msg' => 'Mixer exist',
                     ];
 
                     return $this->output->set_output(json_encode($response));
@@ -219,6 +243,9 @@ class Equipmentstatus extends CI_Controller
                 return $this->output->set_output(json_encode($response));
             }
         } else {
+            $existingEquipment = $this->MEquipmentStatus->getExisting($no_batch, $status_equipment, $name_equipment);
+
+
             $equipmentData = [
                 'no_batch' => $no_batch,
                 'status_equipment' => $status_equipment,
@@ -229,21 +256,31 @@ class Equipmentstatus extends CI_Controller
                 'is_estop' => 0,
             ];
 
-            $save = $this->db->insert('tb_equipment_status', $equipmentData);
+            if ($existingEquipment == null) {
+                $save = $this->db->insert('tb_equipment_status', $equipmentData);
 
-            if ($save) {
-                $response = [
-                    'code' => 200,
-                    'status' => 'ok',
-                    'msg' => 'Equipment saved: ' . $name_equipment . " / " . $status_equipment,
-                ];
+                if ($save) {
+                    $response = [
+                        'code' => 200,
+                        'status' => 'ok',
+                        'msg' => 'Equipment saved: ' . $name_equipment . " / " . $status_equipment,
+                    ];
 
-                return $this->output->set_output(json_encode($response));
+                    return $this->output->set_output(json_encode($response));
+                } else {
+                    $response = [
+                        'code' => 401,
+                        'status' => 'failed',
+                        'msg' => 'Equipment not saved',
+                    ];
+
+                    return $this->output->set_output(json_encode($response));
+                }
             } else {
                 $response = [
                     'code' => 401,
                     'status' => 'failed',
-                    'msg' => 'Equipment not saved',
+                    'msg' => 'Equipment EXIST: ' . $name_equipment . " / " . $status_equipment,
                 ];
 
                 return $this->output->set_output(json_encode($response));
