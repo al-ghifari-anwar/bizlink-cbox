@@ -118,7 +118,7 @@ class Equipmentstatus extends CI_Controller
 
         if ($id_spk != 0 || !empty($id_spk)) {
 
-            $existingEquipment = $this->MEquipmentStatus->getExisting($no_batch, $status_equipment, $name_equipment);
+            $existingEquipment = $this->MEquipmentStatus->getExistingMixingTime($no_batch, $status_equipment, $name_equipment);
 
             $equipmentData = [
                 'no_batch' => $no_batch,
