@@ -155,6 +155,7 @@ class Equipmentstatus extends CI_Controller
                         'code' => 401,
                         'status' => 'failed',
                         'msg' => 'Single Mixing Time Exist!',
+                        'detail' => $existingEquipment,
                     ];
 
                     return $this->output->set_output(json_encode($response));
