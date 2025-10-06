@@ -58,6 +58,7 @@ class MFormula extends CI_Model
         $this->kode_material = $post['kode_material'];
         $this->name_material = $post['name_material'];
         $this->time_target = $post['time_target'];
+        $this->urutan_formula = isset($post['urutan_formula']) ? $post['urutan_formula'] : 0;
         $this->updated_at = date("Y-m-d H:i:s");
 
         $query = $this->db->insert('tb_formula', $this);
