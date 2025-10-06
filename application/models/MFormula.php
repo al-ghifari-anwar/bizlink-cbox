@@ -5,9 +5,11 @@ class MFormula extends CI_Model
     public $id_product;
     public $target_formula;
     public $fine_formula;
+    public $coarse_formula;
     public $kode_material;
     public $name_material;
     public $time_target;
+    public $urutan_formula;
     public $updated_at;
 
     public function get()
@@ -52,6 +54,7 @@ class MFormula extends CI_Model
         $this->id_product = $post['id_product'];
         $this->target_formula = $post['target_formula'];
         $this->fine_formula = $post['fine_formula'];
+        $this->coarse_formula = isset($post['coarse_formula']) ? $post['coarse_formula'] : 0;
         $this->kode_material = $post['kode_material'];
         $this->name_material = $post['name_material'];
         $this->time_target = $post['time_target'];
@@ -73,9 +76,11 @@ class MFormula extends CI_Model
         $this->id_product = $post['id_product'];
         $this->target_formula = $post['target_formula'];
         $this->fine_formula = $post['fine_formula'];
+        $this->coarse_formula = isset($post['coarse_formula']) ? $post['coarse_formula'] : 0;
         $this->kode_material = $post['kode_material'];
         $this->name_material = $post['name_material'];
         $this->time_target = $post['time_target'];
+        $this->urutan_formula = isset($post['urutan_formula']) ? $post['urutan_formula'] : 0;
         $this->updated_at = date("Y-m-d H:i:s");
 
         $query = $this->db->update('tb_formula', $this, ['id_formula' => $id]);

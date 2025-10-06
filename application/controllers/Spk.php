@@ -247,52 +247,76 @@ class Spk extends CI_Controller
                     // Semen Grey
                     $target_semen_grey = 0;
                     $fine_semen_grey = 0;
+                    $coarse_semen_grey = 0;
                     $kode_semen_grey = '';
+                    $urutan_semen_grey = 0;
                     // Semen Putih
                     $target_semen_putih = 0;
                     $fine_semen_putih = 0;
+                    $coarse_semen_putih = 0;
                     $kode_semen_putih = '';
+                    $urutan_semen_putih = 0;
                     // Kapur
                     $target_kapur = 0;
                     $fine_kapur = 0;
+                    $coarse_kapur = 0;
                     $kode_kapur = '';
+                    $urutan_kapur = 0;
                     // Pasir Halus
                     $target_pasir_halus = 0;
                     $fine_pasir_halus = 0;
+                    $coarse_pasir_halus = 0;
                     $kode_pasir_halus = '';
+                    $urutan_pasir_halus = 0;
                     // Pasir Kasar
                     $target_pasir_kasar = 0;
                     $fine_pasir_kasar = 0;
+                    $coarse_pasir_kasar = 0;
                     $kode_pasir_kasar = '';
+                    $urutan_pasir_kasar = 0;
                     // Additif
                     $target_additif = 0;
                     $fine_additif = 0;
+                    $coarse_additif = 0;
                     $kode_additif = '';
+                    $urutan_additif = 0;
                     foreach ($getFormula as $formula) {
                         if ($formula['kode_material'] == '1001') {
                             $target_semen_grey = $formula['target_formula'] * 10;
                             $fine_semen_grey = $formula['fine_formula'] * 10;
                             $kode_semen_grey = $formula['kode_material'];
+                            $coarse_semen_grey = $formula['coarse_formula'] * 10;
+                            $urutan_semen_grey = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '1004') {
                             $target_semen_putih = $formula['target_formula'] * 10;
                             $fine_semen_putih = $formula['fine_formula'] * 10;
+                            $coarse_semen_putih = $formula['coarse_formula'] * 10;
                             $kode_semen_putih = $formula['kode_material'];
+                            $urutan_semen_putih = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '1002') {
                             $target_kapur = $formula['target_formula'] * 10;
                             $fine_kapur = $formula['fine_formula'] * 10;
+                            $coarse_kapur = $formula['coarse_formula'] * 10;
                             $kode_kapur = $formula['kode_material'];
+                            $urutan_kapur = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '1003') {
                             $target_pasir_halus = $formula['target_formula'] * 10;
                             $fine_pasir_halus = $formula['fine_formula'] * 10;
+                            $coarse_pasir_halus = $formula['coarse_formula'] * 10;
                             $kode_pasir_halus = $formula['kode_material'];
+                            $urutan_pasir_halus = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '100007') {
                             $target_pasir_kasar = $formula['target_formula'] * 10;
                             $fine_pasir_kasar = $formula['fine_formula'] * 10;
+                            $coarse_pasir_kasar = $formula['coarse_formula'] * 10;
                             $kode_pasir_kasar = $formula['kode_material'];
+                            $urutan_pasir_kasar = $formula['urutan_formula'];
                         } else if (str_contains($formula['name_material'], 'PREMIX') || str_contains($formula['name_material'], 'premix') || str_contains($formula['name_material'], 'Premix') || str_contains($formula['name_material'], 'ADTF') || str_contains($formula['name_material'], 'adtf') || str_contains($formula['name_material'], 'Aluminium Powder') || str_contains($formula['name_material'], 'TRIPERSE') || str_contains($formula['name_material'], 'ADDITIVE')) {
                             $target_additif = $formula['target_formula'] * 10;
                             $fine_additif = $formula['fine_formula'] * 10;
+                            $coarse_additif = $formula['coarse_formula'] * 10;
                             $kode_additif = $formula['kode_material'];
+                            $urutan_additif = $formula['urutan_formula'];
                         }
                     }
 
@@ -309,22 +333,34 @@ class Spk extends CI_Controller
                             'formula' => [
                                 'target_semen_grey' => $target_semen_grey,
                                 'fine_semen_grey' => $fine_semen_grey,
+                                'coarse_semen_grey' => $coarse_semen_grey,
                                 'kode_semen_grey' => $kode_semen_grey,
+                                'urutan_semen_grey' => $urutan_semen_grey,
                                 'target_semen_putih' => $target_semen_putih,
                                 'fine_semen_putih' => $fine_semen_putih,
+                                'coarse_semen_putih' => $coarse_semen_putih,
                                 'kode_semen_putih' => $kode_semen_putih,
+                                'urutan_semen_putih' => $urutan_semen_putih,
                                 'target_kapur' => $target_kapur,
                                 'fine_kapur' => $fine_kapur,
+                                'coarse_kapur' => $coarse_kapur,
                                 'kode_kapur' => $kode_kapur,
+                                'urutan_kapur' => $urutan_kapur,
                                 'target_pasir_kasar' => $target_pasir_kasar,
                                 'fine_pasir_kasar' => $fine_pasir_kasar,
+                                'coarse_pasir_kasar' => $coarse_pasir_kasar,
                                 'kode_pasir_kasar' => $kode_pasir_kasar,
+                                'urutan_pasir_kasar' => $urutan_pasir_kasar,
                                 'target_pasir_halus' => $target_pasir_halus,
                                 'fine_pasir_halus' => $fine_pasir_halus,
+                                'coarse_pasir_halus' => $coarse_pasir_halus,
                                 'kode_pasir_halus' => $kode_pasir_halus,
+                                'urutan_pasir_halus' => $urutan_pasir_halus,
                                 'target_additif' => $target_additif,
                                 'fine_additif' => $fine_additif,
-                                'kode_additif' => $kode_additif
+                                'coarse_additif' => $coarse_additif,
+                                'kode_additif' => $kode_additif,
+                                'urutan_additif' => $urutan_additif,
                             ]
                         ];
 
