@@ -116,7 +116,7 @@ class Equipmentstatus extends CI_Controller
         $time_equipment = $post['time_equipment'];
         $id_spk = $post['id_spk'];
 
-        if ($id_spk != 0 || !empty($id_spk)) {
+        if ($id_spk != "") {
 
             $existingEquipment = $this->MEquipmentStatus->getExistingMixingTime($no_batch, $status_equipment, $name_equipment);
 
@@ -185,7 +185,7 @@ class Equipmentstatus extends CI_Controller
         $time_equipment = $post['time_equipment'];
         $id_spk = $post['id_spk'];
 
-        if ($id_spk != 0 || !empty($id_spk)) {
+        if ($id_spk != "") {
 
             if ($name_equipment == 'MIXING TIME' && $status_equipment == 'ON') {
                 $productTimbang = $this->MTimbang->getPrdByBatch($no_batch);
