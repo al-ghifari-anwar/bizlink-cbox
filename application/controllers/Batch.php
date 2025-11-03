@@ -295,17 +295,19 @@ class Batch extends CI_Controller
 
                     $getEquipmentOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
 
-                    if ($getEquipmentOn == null) {
-                        $response = [
-                            'code' => 401,
-                            'status' => 'ok',
-                            'msg' => 'Equipment ' . $name_equipment . 'Batch: ' . $no_batch . ' tidak memiliki data ON atau status ketika euipment start'
-                        ];
 
-                        return $this->output->set_output(json_encode($response));
+                    $timeOn = date('Y-m-d') . " " . "H:i:s";
+                    if ($getEquipmentOn != null) {
+                        $timeOn = $getEquipmentOn['date_equipment'] . " " . $getEquipmentOn['time_equipment'];
+                        // $response = [
+                        //     'code' => 401,
+                        //     'status' => 'ok',
+                        //     'msg' => 'Equipment ' . $name_equipment . 'Batch: ' . $no_batch . ' tidak memiliki data ON atau status ketika euipment start'
+                        // ];
+
+                        // return $this->output->set_output(json_encode($response));
                     }
                     $getEquipmentOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
-                    $timeOn = $getEquipmentOn['date_equipment'] . " " . $getEquipmentOn['time_equipment'];
 
 
                     if ($getEquipmentOff != null) {
