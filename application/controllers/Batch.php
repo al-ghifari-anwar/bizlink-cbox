@@ -843,11 +843,20 @@ class Batch extends CI_Controller
 
                 $getFirstPenimbanganOn = $this->MEquipmentStatus->getFirstPenimbanganOn($no_batch);
                 $penimbanganOn = $this->MEquipmentStatus->getById($getFirstPenimbanganOn['id_equipment_status']);
-                $timeOn = $penimbanganOn['date_equipment'] . " " . $penimbanganOn['time_equipment'];
+                $timeOn = date('Y-m-d') . ' ' . '00:00:00';
+
+                if ($penimbanganOn) {
+                    $timeOn = $penimbanganOn['date_equipment'] . " " . $penimbanganOn['time_equipment'];
+                }
 
                 $getLastPenimbanganOff = $this->MEquipmentStatus->getLastPenimbanganOff($no_batch);
                 $penimbanganOff = $this->MEquipmentStatus->getById($getLastPenimbanganOff['id_equipment_status']);
-                $timeOff = $penimbanganOff['date_equipment'] . " " . $penimbanganOff['time_equipment'];
+
+                $timeOff = date('Y-m-d') . ' ' . '00:00:00';
+
+                if ($penimbanganOff) {
+                    $timeOff = $penimbanganOff['date_equipment'] . " " . $penimbanganOff['time_equipment'];
+                }
 
                 $feedingTime1 = new DateTime(date("H:i:s", strtotime($timeOn)));
                 $feedingTime2 = new DateTime(date("H:i:s", strtotime($timeOff)));
