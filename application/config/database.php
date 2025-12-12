@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['server'] = array(
 	'dsn'	=> '',
-	'hostname' => '103.250.11.231',
+	'hostname' => 'localhost',
 	'username' => 'admin2_bizlink',
 	'password' => 'Bizlink123+',
 	'database' => 'admin2_bizlink',
