@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['server'] = array(
 	'dsn'	=> '',
-	'hostname' => '103.217.144.31',
+	'hostname' => '103.250.11.231',
 	'username' => 'remote',
-	'password' => 'Remote123+',
+	'password' => 'Bizlink123+',
 	'database' => 'admin2_bizlink',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
