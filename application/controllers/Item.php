@@ -187,6 +187,11 @@ class Item extends CI_Controller
                 'no' => 'PREMIX-THINBED',
                 'name' => 'PREMIX-THINBED',
             ],
+            [
+                'id' => 1,
+                'no' => 'PREMIX-TA-ULTRA',
+                'name' => 'PREMIX-TA-ULTRA',
+            ],
         ];
 
         return $items;
