@@ -282,39 +282,39 @@ class Spk extends CI_Controller
                     $urutan_additif = 0;
                     foreach ($getFormula as $formula) {
                         if ($formula['kode_material'] == '1001') {
-                            $target_semen_grey = $formula['target_formula'];
-                            $fine_semen_grey = $formula['fine_formula'];
+                            $target_semen_grey = $formula['target_formula'] * 10;
+                            $fine_semen_grey = $formula['fine_formula'] * 10;
                             $kode_semen_grey = $formula['kode_material'];
-                            $coarse_semen_grey = $formula['coarse_formula'];
+                            $coarse_semen_grey = $formula['coarse_formula'] * 10;
                             $urutan_semen_grey = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '1004') {
-                            $target_semen_putih = $formula['target_formula'];
-                            $fine_semen_putih = $formula['fine_formula'];
-                            $coarse_semen_putih = $formula['coarse_formula'];
+                            $target_semen_putih = $formula['target_formula'] * 10;
+                            $fine_semen_putih = $formula['fine_formula'] * 10;
+                            $coarse_semen_putih = $formula['coarse_formula'] * 10;
                             $kode_semen_putih = $formula['kode_material'];
                             $urutan_semen_putih = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '1002') {
-                            $target_kapur = $formula['target_formula'];
-                            $fine_kapur = $formula['fine_formula'];
-                            $coarse_kapur = $formula['coarse_formula'];
+                            $target_kapur = $formula['target_formula'] * 10;
+                            $fine_kapur = $formula['fine_formula'] * 10;
+                            $coarse_kapur = $formula['coarse_formula'] * 10;
                             $kode_kapur = $formula['kode_material'];
                             $urutan_kapur = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '1003') {
-                            $target_pasir_halus = $formula['target_formula'];
-                            $fine_pasir_halus = $formula['fine_formula'];
-                            $coarse_pasir_halus = $formula['coarse_formula'];
+                            $target_pasir_halus = $formula['target_formula'] * 10;
+                            $fine_pasir_halus = $formula['fine_formula'] * 10;
+                            $coarse_pasir_halus = $formula['coarse_formula'] * 10;
                             $kode_pasir_halus = $formula['kode_material'];
                             $urutan_pasir_halus = $formula['urutan_formula'];
                         } else if ($formula['kode_material'] == '100007') {
-                            $target_pasir_kasar = $formula['target_formula'];
-                            $fine_pasir_kasar = $formula['fine_formula'];
-                            $coarse_pasir_kasar = $formula['coarse_formula'];
+                            $target_pasir_kasar = $formula['target_formula'] * 10;
+                            $fine_pasir_kasar = $formula['fine_formula'] * 10;
+                            $coarse_pasir_kasar = $formula['coarse_formula'] * 10;
                             $kode_pasir_kasar = $formula['kode_material'];
                             $urutan_pasir_kasar = $formula['urutan_formula'];
                         } else if (str_contains($formula['name_material'], 'PREMIX') || str_contains($formula['name_material'], 'premix') || str_contains($formula['name_material'], 'Premix') || str_contains($formula['name_material'], 'ADTF') || str_contains($formula['name_material'], 'adtf') || str_contains($formula['name_material'], 'Aluminium Powder') || str_contains($formula['name_material'], 'TRIPERSE') || str_contains($formula['name_material'], 'ADDITIVE')) {
-                            $target_additif = $formula['target_formula'];
-                            $fine_additif = $formula['fine_formula'];
-                            $coarse_additif = $formula['coarse_formula'];
+                            $target_additif = $formula['target_formula'] * 10;
+                            $fine_additif = $formula['fine_formula'] * 10;
+                            $coarse_additif = $formula['coarse_formula'] * 10;
                             $kode_additif = $formula['kode_material'];
                             $urutan_additif = $formula['urutan_formula'];
                         }
