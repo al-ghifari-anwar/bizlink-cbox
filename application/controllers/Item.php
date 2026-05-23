@@ -158,32 +158,32 @@ class Item extends CI_Controller
     {
         $items = [
             [
-                'id' => -1,
+                'id' => 1,
                 'no' => '1001',
                 'name' => 'SEMEN GREY',
             ],
             [
-                'id' => -1,
+                'id' => 1,
                 'no' => '1004',
                 'name' => 'SEMEN PUTIH',
             ],
             [
-                'id' => -1,
+                'id' => 1,
                 'no' => '1002',
                 'name' => 'KAPUR',
             ],
             [
-                'id' => -1,
+                'id' => 1,
                 'no' => '1003',
                 'name' => 'PASIR HALUS',
             ],
             [
-                'id' => -1,
+                'id' => 1,
                 'no' => '100007',
                 'name' => 'PASIR KASAR',
             ],
             [
-                'id' => -1,
+                'id' => 1,
                 'no' => 'PREMIX-THINBED',
                 'name' => 'PREMIX-THINBED',
             ],
