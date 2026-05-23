@@ -105,40 +105,42 @@ class Item extends CI_Controller
 
                 echo $response;
             } else {
-                $accurate = $this->MAccurate->get();
+                // $accurate = $this->MAccurate->get();
 
-                $token = $accurate['api_token'];
-                $signature_secret = $accurate['signature_secret'];
-                $timestamp = date("d/m/Y H:i:s");
+                // $token = $accurate['api_token'];
+                // $signature_secret = $accurate['signature_secret'];
+                // $timestamp = date("d/m/Y H:i:s");
 
-                $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
+                // $hash = base64_encode(hash_hmac('sha256', $timestamp, $signature_secret, true));
 
-                $curl = curl_init();
+                // $curl = curl_init();
 
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/list.do?fields=id,name,no&filter.itemCategoryId.op=EQUAL&filter.itemCategoryId.val[0]=100&filter.itemCategoryId.val[1]=250&sp.pageSize=100',
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'GET',
-                    CURLOPT_HTTPHEADER => array(
-                        'Authorization: Bearer ' . $token,
-                        'X-Api-Timestamp: ' . $timestamp,
-                        'X-Api-Signature: ' . $hash,
-                        'Content-Type: application/json'
-                    ),
-                ));
+                // curl_setopt_array($curl, array(
+                //     CURLOPT_URL => 'https://zeus.accurate.id/accurate/api/item/list.do?fields=id,name,no&filter.itemCategoryId.op=EQUAL&filter.itemCategoryId.val[0]=100&filter.itemCategoryId.val[1]=250&sp.pageSize=100',
+                //     CURLOPT_RETURNTRANSFER => true,
+                //     CURLOPT_ENCODING => '',
+                //     CURLOPT_MAXREDIRS => 10,
+                //     CURLOPT_TIMEOUT => 0,
+                //     CURLOPT_FOLLOWLOCATION => true,
+                //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                //     CURLOPT_CUSTOMREQUEST => 'GET',
+                //     CURLOPT_HTTPHEADER => array(
+                //         'Authorization: Bearer ' . $token,
+                //         'X-Api-Timestamp: ' . $timestamp,
+                //         'X-Api-Signature: ' . $hash,
+                //         'Content-Type: application/json'
+                //     ),
+                // ));
 
-                $response = curl_exec($curl);
+                // $response = curl_exec($curl);
 
-                $responseArray = json_decode($response, true);
+                // $responseArray = json_decode($response, true);
 
-                curl_close($curl);
+                // curl_close($curl);
 
-                $items = $responseArray['d'];
+                // $items = $responseArray['d'];
+
+                $items = $this->getItems();
 
                 $result = [
                     'code' => 200,
@@ -150,5 +152,43 @@ class Item extends CI_Controller
                 $this->output->set_output(json_encode($result));
             }
         }
+    }
+
+    public function getItems()
+    {
+        $items = [
+            [
+                'id' => -1,
+                'no' => '1001',
+                'name' => 'SEMEN GREY',
+            ],
+            [
+                'id' => -1,
+                'no' => '1004',
+                'name' => 'SEMEN PUTIH',
+            ],
+            [
+                'id' => -1,
+                'no' => '1002',
+                'name' => 'KAPUR',
+            ],
+            [
+                'id' => -1,
+                'no' => '1003',
+                'name' => 'PASIR HALUS',
+            ],
+            [
+                'id' => -1,
+                'no' => '100007',
+                'name' => 'PASIR KASAR',
+            ],
+            [
+                'id' => -1,
+                'no' => 'PREMIX-THINBED',
+                'name' => 'PREMIX-THINBED',
+            ],
+        ];
+
+        return $items;
     }
 }
