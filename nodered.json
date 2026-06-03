@@ -1,0 +1,711 @@
+[
+    {
+        "id": "2debf536a9679f3b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "419c76e5f3f27fe1",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Accurate/PasirUp",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 260,
+        "wires": [
+            [
+                "bdd85c922128d263",
+                "cc70810926b1dad1"
+            ]
+        ]
+    },
+    {
+        "id": "a14eaa606aebcf54",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Accurate/Additif",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 320,
+        "wires": [
+            [
+                "bdd85c922128d263",
+                "cc70810926b1dad1"
+            ]
+        ]
+    },
+    {
+        "id": "3e72defa9e251816",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Accurate/PasirKasar",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 380,
+        "wires": [
+            [
+                "bdd85c922128d263",
+                "cc70810926b1dad1"
+            ]
+        ]
+    },
+    {
+        "id": "6da782904fdc42dc",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Accurate/Semen",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 440,
+        "wires": [
+            [
+                "bdd85c922128d263",
+                "cc70810926b1dad1"
+            ]
+        ]
+    },
+    {
+        "id": "1e34f01c0653611e",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Accurate/Kapur",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 500,
+        "wires": [
+            [
+                "bdd85c922128d263",
+                "cc70810926b1dad1"
+            ]
+        ]
+    },
+    {
+        "id": "d3a0d985ae818dbd",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Accurate/SemenPutih",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 560,
+        "wires": [
+            [
+                "bdd85c922128d263",
+                "cc70810926b1dad1"
+            ]
+        ]
+    },
+    {
+        "id": "5103d0191afa2d02",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Report/Equipment",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 1020,
+        "wires": [
+            [
+                "c03227b966aab7d2"
+            ]
+        ]
+    },
+    {
+        "id": "bdd85c922128d263",
+        "type": "function",
+        "z": "2debf536a9679f3b",
+        "name": "Data Timbang to Array POST",
+        "func": "msg.payload = {\n    \"kode_bahan\": msg.payload.Kode,\n    \"no_batch\": msg.payload.Nobatch,\n    \"nama_bahan\": msg.payload.Nama,\n    \"actual_timbang\": (msg.payload.Actual/10),\n    \"status_timbang\": msg.payload.Status,\n    \"date_timbang\": msg.payload.Tanggal,\n    \"time_timbang\": msg.payload.Jam,\n    \"kode_product\": msg.payload.KodeProduk,\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 320,
+        "wires": [
+            [
+                "18107c1984627176",
+                "661b4753680b8610"
+            ]
+        ]
+    },
+    {
+        "id": "cc70810926b1dad1",
+        "type": "function",
+        "z": "2debf536a9679f3b",
+        "name": "Data Timbang to Array Accurate",
+        "func": "msg.payload = {\n    \"itemNo\": msg.payload.Kode,\n    \"no_batch\": msg.payload.Nobatch,\n    \"qty\": (msg.payload.Actual / 10),\n    \"kode_product\": msg.payload.KodeProduk,\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 480,
+        "wires": [
+            [
+                "4d14031b8c4ff5f5"
+            ]
+        ]
+    },
+    {
+        "id": "18107c1984627176",
+        "type": "http request",
+        "z": "2debf536a9679f3b",
+        "name": "Save Timbang",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://bizlink.miraswift.com/api/timbang/save",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 960,
+        "y": 320,
+        "wires": [
+            [
+                "2c2cb6d4fda71f84"
+            ]
+        ]
+    },
+    {
+        "id": "4d14031b8c4ff5f5",
+        "type": "http request",
+        "z": "2debf536a9679f3b",
+        "name": "Save Accurate & Notif",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://bizlink.miraswift.com/api/timbang",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 980,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "30d431e7382a5d20",
+        "type": "inject",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 780,
+        "wires": [
+            [
+                "0b858c7469235c04"
+            ]
+        ]
+    },
+    {
+        "id": "0b858c7469235c04",
+        "type": "http request",
+        "z": "2debf536a9679f3b",
+        "name": "Get SPK Today",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://bizlink.miraswift.com/api/spk/today",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 460,
+        "y": 780,
+        "wires": [
+            [
+                "7e8bb38944f39bd4"
+            ]
+        ]
+    },
+    {
+        "id": "7e8bb38944f39bd4",
+        "type": "mqtt out",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Spk/Today",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "5c8425ee23c5aa2e",
+        "x": 760,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "64cc2020f3d86e4c",
+        "type": "debug",
+        "z": "2debf536a9679f3b",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "a21909b645a58bae",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Report/Indikator",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a48c4795ced2478e",
+        "type": "inject",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0.5",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 860,
+        "wires": [
+            [
+                "1ce955aa7b3b5785"
+            ]
+        ]
+    },
+    {
+        "id": "1ce955aa7b3b5785",
+        "type": "http request",
+        "z": "2debf536a9679f3b",
+        "name": "Get Frequency",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://bizlink.miraswift.com/api/frequency/cbox",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 460,
+        "y": 860,
+        "wires": [
+            [
+                "c7217971b36186c4"
+            ]
+        ]
+    },
+    {
+        "id": "c7217971b36186c4",
+        "type": "mqtt out",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Report/Frequency",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "5c8425ee23c5aa2e",
+        "x": 790,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "2c2cb6d4fda71f84",
+        "type": "debug",
+        "z": "2debf536a9679f3b",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "44618413ab8d2f67",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Report/Emergency",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c03227b966aab7d2",
+        "type": "function",
+        "z": "2debf536a9679f3b",
+        "name": "Data Equipment Save",
+        "func": "msg.payload = {\n    \"no_batch\": msg.payload.Nobatch,\n    \"status_equipment\": msg.payload.Status,\n    \"name_equipment\": msg.payload.Nama,\n    \"date_equipment\": msg.payload.Tanggal,\n    \"time_equipment\":msg.payload.Jam,\n    \"id_spk\": msg.payload.id_spk,\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 1020,
+        "wires": [
+            [
+                "9874ea1cb992d6c8",
+                "18ea34146c69cffe"
+            ]
+        ]
+    },
+    {
+        "id": "9874ea1cb992d6c8",
+        "type": "http request",
+        "z": "2debf536a9679f3b",
+        "name": "Save Equipment",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://bizlink.miraswift.com/api/equipment-status/save",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 820,
+        "y": 1020,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "610b770c6771131d",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Mixer/Emergency",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 1200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5cf729bc08c1f4d7",
+        "type": "debug",
+        "z": "2debf536a9679f3b",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1080,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "fb6499bd9fe14cf8",
+        "type": "mqtt in",
+        "z": "2debf536a9679f3b",
+        "name": "",
+        "topic": "Data/Mixer/Done",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "5c8425ee23c5aa2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 1280,
+        "wires": [
+            [
+                "6fb9ebdabe462fd9",
+                "64cc2020f3d86e4c"
+            ]
+        ]
+    },
+    {
+        "id": "6fb9ebdabe462fd9",
+        "type": "function",
+        "z": "2debf536a9679f3b",
+        "name": "Data Mixer Done to Array",
+        "func": "msg.payload = {\n    \"no_batch\": msg.payload.Nobatch,\n    \"id_spk\": msg.payload.id_spk,\n    \"status\": msg.payload.Status,\n    \"id_trans\": msg.payload.id_trans,\n    \"kode_produk\": msg.payload.KodeProduk,\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 1280,
+        "wires": [
+            [
+                "1dd51b144385888d",
+                "f1a4fa6cb1c63cb2"
+            ]
+        ]
+    },
+    {
+        "id": "1dd51b144385888d",
+        "type": "http request",
+        "z": "2debf536a9679f3b",
+        "name": "Save Mixer Done",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://bizlink.miraswift.com/api/transaction/done",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 830,
+        "y": 1280,
+        "wires": [
+            [
+                "5cf729bc08c1f4d7"
+            ]
+        ]
+    },
+    {
+        "id": "f1a4fa6cb1c63cb2",
+        "type": "debug",
+        "z": "2debf536a9679f3b",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "661b4753680b8610",
+        "type": "debug",
+        "z": "2debf536a9679f3b",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "18ea34146c69cffe",
+        "type": "http request",
+        "z": "2debf536a9679f3b",
+        "name": "Save Mixing Time",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://bizlink.miraswift.com/api/equipment-status/mixing/save",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 830,
+        "y": 1080,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "91e6d84b693c0c1f",
+        "type": "debug",
+        "z": "2debf536a9679f3b",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "5c8425ee23c5aa2e",
+        "type": "mqtt-broker",
+        "name": "MqttNew",
+        "broker": "103.13.207.7",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
