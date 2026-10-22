@@ -653,6 +653,11 @@ class Batch extends CI_Controller
                             $timbang['materialTime'] = $interval;
                             $timbang['formula'] = $formulaMaterial;
                             $getTimbangWithResep[] = $timbang;
+                        } else {
+                            // Set Response Timbang
+                            $timbang['materialTime'] = null;
+                            $timbang['formula'] = $formulaMaterial;
+                            $getTimbangWithResep[] = $timbang;
                         }
                     }
                 }
