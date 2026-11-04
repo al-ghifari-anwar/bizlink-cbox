@@ -625,7 +625,7 @@ class Batch extends CI_Controller
                         $getEquipmentTimbangOn = $this->MEquipmentStatus->getEquipmentOn($no_batch, $name_equipment);
                         $getEquipmentTimbangOff = $this->MEquipmentStatus->getEquipmentOff($no_batch, $name_equipment);
 
-                        if ($getEquipmentTimbangOn != null) {
+                        if ($getEquipmentTimbangOn != null && $getEquipmentTimbangOff != null) {
                             $timeOn = $getEquipmentTimbangOn['date_equipment'] . " " . $getEquipmentTimbangOn['time_equipment'];
                             $timeOff = $getEquipmentTimbangOff['date_equipment'] . " " . $getEquipmentTimbangOff['time_equipment'];
 
